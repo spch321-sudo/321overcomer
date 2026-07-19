@@ -1,7 +1,7 @@
 /* 得勝者 · 五重之地 — Service Worker（離線快取）
    國度321空中團契
    更新內容時，把下面的版本號 +1（例如 v1 -> v2），使用者下次開啟就會自動更新。 */
-var CACHE = 'overcomer321-v2';
+var CACHE = 'overcomer321-v3';
 var ASSETS = [
   './',
   'index.html',
