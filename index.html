@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0B0821">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="得勝者">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>得勝者 · 無己覺醒 · 觀念之城</title>
+<style>
+:root{
+  --void:#0B0821; --night:#151033; --royal:#2A1F5C; --royal2:#43307F;
+  --gold:#F5C33B; --gold-b:#FFE08A; --gold-d:#B8862B;
+  --ember:#E24A3B; --ember-d:#8E2318;
+  --holy:#59E3D6; --holy2:#7CC5F0;
+  --parch:#ECE3CC; --ink:#241B3E; --muted:#9A93C4;
+  --font-display:"Songti TC","Noto Serif CJK TC","PMingLiU",Georgia,serif;
+  --font-body:"PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--font-body);color:var(--parch);background:#05030f;display:flex;justify-content:center;overflow:hidden}
+#app{position:relative;width:100%;max-width:440px;height:100vh;height:100dvh;
+  background:radial-gradient(120% 60% at 50% -8%,#3a2a72 0%,rgba(58,42,114,0) 55%),radial-gradient(90% 50% at 50% 108%,#241a52 0%,rgba(36,26,82,0) 60%),linear-gradient(180deg,#150e33 0%,#0b0821 55%,#070419 100%);
+  overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.6)}
+#stars{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.5;animation:tw 3.5s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.15}50%{opacity:.85}}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;padding:20px;overflow-y:auto;overflow-x:hidden}
+.screen.on{display:flex;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:12px;letter-spacing:.45em;color:var(--gold);text-align:center;text-transform:uppercase;margin-bottom:6px;padding-left:.45em}
+.gold-text{background:linear-gradient(180deg,var(--gold-b),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{font-family:var(--font-body);font-weight:700;font-size:17px;letter-spacing:.08em;border:none;border-radius:14px;padding:15px 22px;cursor:pointer;width:100%;color:#2a1400;position:relative;transition:transform .12s,filter .2s;
+  background:linear-gradient(180deg,var(--gold-b),var(--gold) 55%,var(--gold-d));box-shadow:0 6px 0 #7a5410,0 12px 22px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #7a5410,0 6px 12px rgba(0,0,0,.4)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));color:var(--parch);box-shadow:inset 0 0 0 1.5px rgba(245,195,59,.5),0 4px 14px rgba(0,0,0,.3)}
+.btn.small{font-size:14px;padding:11px 16px;width:auto;display:inline-block}
+.btn[disabled]{filter:grayscale(.7) brightness(.7);pointer-events:none}
+.panel{background:linear-gradient(180deg,rgba(43,31,92,.72),rgba(20,14,44,.82));border:1.5px solid rgba(245,195,59,.28);border-radius:18px;padding:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 10px 30px rgba(0,0,0,.35)}
+.verse{font-family:var(--font-display);font-size:18px;line-height:1.9;color:var(--gold-b);text-align:center;text-shadow:0 0 18px rgba(245,195,59,.25)}
+.verse .ref{display:flex;align-items:center;justify-content:center;gap:11px;margin-top:12px;font-family:var(--font-display);font-size:13px;letter-spacing:.2em;white-space:nowrap;background:linear-gradient(180deg,var(--gold-b),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+.verse .ref::before,.verse .ref::after{content:"";flex:0 0 26px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-d) 55%,transparent)}
+/* HUD */
+#hud{position:absolute;top:0;left:0;right:0;z-index:40;display:none;padding:12px 16px calc(12px + env(safe-area-inset-top,0));gap:10px;align-items:center;background:linear-gradient(180deg,rgba(7,4,20,.92),rgba(7,4,20,0))}
+#hud.on{display:flex}
+#hudAvatar{width:44px;height:44px;border-radius:12px;flex:0 0 44px;position:relative;background:radial-gradient(circle at 50% 40%,#4a3a8c,#1a1240);border:1.5px solid var(--gold);overflow:hidden;box-shadow:0 0 14px rgba(245,195,59,.35);cursor:pointer}
+#hudAvatar svg{position:absolute;inset:0}
+#hudAvatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 32%}
+.hud-main{flex:1;min-width:0}
+.hud-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.hud-stage{font-family:var(--font-display);font-size:13px;color:var(--gold-b);font-weight:700}
+.hud-fruit{font-size:12px;color:var(--holy)}
+.meter{height:9px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.5)}
+.meter>i{display:block;height:100%;width:0%;border-radius:6px;background:linear-gradient(90deg,var(--holy),var(--gold));transition:width .9s cubic-bezier(.22,1,.36,1);box-shadow:0 0 10px rgba(245,195,59,.6)}
+.meter-label{font-size:10px;color:var(--muted);margin-top:2px;text-align:right;letter-spacing:.08em}
+/* TITLE */
+#screen-title{justify-content:center;align-items:center;text-align:center;padding:32px}
+.emblem{width:150px;height:150px;margin:0 auto 8px;position:relative;filter:drop-shadow(0 0 26px rgba(245,195,59,.55));animation:float 5s ease-in-out infinite}
+.emblem-img{width:100%;height:100%;border-radius:22%;object-fit:cover;display:block}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.title-main{font-family:var(--font-display);font-weight:900;font-size:52px;letter-spacing:.14em;line-height:1.1;margin-top:4px;padding-left:.14em}
+.title-sub{font-family:var(--font-display);font-size:26px;letter-spacing:.5em;color:var(--ember);margin:10px 0 4px;padding-left:.5em;text-shadow:0 0 22px rgba(226,74,59,.4)}
+.title-en{font-size:12px;letter-spacing:.55em;color:var(--muted);padding-left:.55em;margin-bottom:36px}
+.verse-block{position:relative;max-width:322px;margin:0 auto 30px;padding:22px 24px 18px;
+  background:linear-gradient(180deg,rgba(245,195,59,.055),rgba(245,195,59,.012));
+  border:1px solid rgba(245,195,59,.16);border-radius:16px;
+  box-shadow:inset 0 0 26px rgba(245,195,59,.05),0 6px 22px rgba(0,0,0,.28)}
+.verse-block::before{content:"✦";position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  font-size:12px;line-height:1;color:var(--gold);padding:0 9px;
+  background:linear-gradient(180deg,#1a1240,#150e33);border-radius:8px;
+  text-shadow:0 0 10px rgba(245,195,59,.65)}
+.title-verse{font-family:var(--font-display);font-size:15.5px;line-height:1.95;color:var(--parch);opacity:.92;margin:0;text-align:center}
+.verse-ref{display:flex;align-items:center;justify-content:center;gap:11px;margin-top:15px}
+.verse-ref .vr-line{flex:0 0 30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-d) 55%,transparent)}
+.verse-ref .vr-txt{font-family:var(--font-display);font-size:13.5px;letter-spacing:.2em;white-space:nowrap;
+  background:linear-gradient(180deg,var(--gold-b),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+/* REBIRTH */
+#screen-rebirth{justify-content:center;align-items:center;text-align:center}
+#rebirthStage{width:100%;max-width:340px;margin:0 auto;min-height:200px;display:flex;align-items:center;justify-content:center}
+.hero-img{width:100%;border-radius:16px;display:block;box-shadow:0 10px 30px rgba(0,0,0,.5);
+  filter:grayscale(.5) brightness(.72);transition:filter 1.3s ease,box-shadow 1.3s ease,transform 1.3s ease}
+.hero-img.reborn{filter:none;box-shadow:0 0 46px rgba(245,195,59,.55),0 10px 30px rgba(0,0,0,.5);transform:scale(1.02)}
+.hero-wrap{position:relative;width:100%;max-width:230px;margin:0 auto}
+.hero-pic{position:relative;z-index:2;width:100%;border-radius:16px;display:block;transition:filter 1s ease,box-shadow 1s ease}
+.hero-aura{position:absolute;inset:-16%;z-index:1;border-radius:50%;pointer-events:none;filter:blur(16px);transition:opacity 1.1s ease,transform 1.1s ease;background:radial-gradient(circle at 50% 45%,rgba(89,227,214,.55),rgba(245,195,59,.3) 42%,rgba(245,195,59,0) 70%)}
+.hero-gems{display:flex;justify-content:center;gap:5px;margin-top:12px}
+.hero-gems .hg{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.14)}
+.hero-gems .hg.on{animation:gem-tw 2.6s ease-in-out infinite}
+@keyframes gem-tw{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.hero-gems .hg.on{animation:none}}
+.hero-crown{position:absolute;z-index:3;top:-14%;left:50%;transform:translateX(-50%);width:42%;pointer-events:none;filter:drop-shadow(0 0 12px rgba(245,195,59,.9));animation:crown-float 3s ease-in-out infinite}
+@keyframes crown-float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+.hero-burst{position:absolute;inset:-22%;z-index:3;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,242,190,.85),rgba(245,195,59,.4) 40%,rgba(245,195,59,0) 70%);animation:hero-flash 1.3s ease-out both}
+@keyframes hero-flash{0%{opacity:0;transform:scale(.3)}28%{opacity:1}100%{opacity:0;transform:scale(1.5)}}
+@media(prefers-reduced-motion:reduce){.hero-crown{animation:none}.hero-burst{animation:none;opacity:0}}
+#winStage,#cityStage,#heroBig{width:100%;margin:0 auto}
+/* 大陸完成獎章 */
+.land-medal{width:152px;height:176px;margin:0 auto 2px;animation:cel-pop .7s cubic-bezier(.2,1.3,.4,1) both}
+.land-medal svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+/* 勇者卡獎章牆 */
+.hero-medals{display:flex;justify-content:center;gap:6px;margin-top:18px;flex-wrap:wrap;max-width:330px;margin-left:auto;margin-right:auto}
+.hm-slot{width:58px;text-align:center;opacity:.38;transition:opacity .4s}
+.hm-slot.got{opacity:1}
+.hm-slot svg{width:50px;height:58px;display:block;margin:0 auto}
+.land-medal .medal-img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 6px 16px rgba(245,195,59,.3))}
+.hm-slot .medal-img{width:52px;height:52px;object-fit:contain;display:block;margin:0 auto}
+.hm-lock{width:44px;height:44px;margin:5px auto 1px;border-radius:50%;border:2px dashed rgba(154,147,196,.5);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:15px}
+.hm-name{font-size:9.5px;color:var(--muted);margin-top:1px}
+.hm-slot.got .hm-name{color:var(--gold-b)}
+/* 最終加冕大動畫 */
+.coronation{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden;opacity:0}
+.coronation.play{opacity:1}
+.cor-flash{position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 38%,rgba(255,240,190,.9),rgba(245,195,59,.2) 45%,transparent 70%)}
+.coronation.play .cor-flash{animation:cor-flash 1.5s ease-out both}
+@keyframes cor-flash{0%{opacity:0}18%{opacity:1}100%{opacity:0}}
+.cor-rays{position:absolute;top:34%;left:50%;width:360px;height:360px;margin:-180px 0 0 -180px;opacity:0}
+.coronation.play .cor-rays{animation:cor-fadein 1s ease-out .2s both}
+.cor-rays-spin{width:100%;height:100%;animation:cor-spin 28s linear infinite}
+.cor-rays-spin svg{width:100%;height:100%;filter:drop-shadow(0 0 12px rgba(245,195,59,.5))}
+@keyframes cor-fadein{from{opacity:0}to{opacity:.5}}
+@keyframes cor-spin{to{transform:rotate(360deg)}}
+.cor-crown{position:absolute;top:30%;left:50%;width:118px;margin:-59px 0 0 -59px;opacity:0;filter:drop-shadow(0 0 16px rgba(245,195,59,.95))}
+.coronation.play .cor-crown{animation:cor-descend 1.7s cubic-bezier(.3,1.2,.5,1) .3s both}
+@keyframes cor-descend{0%{opacity:0;transform:translateY(-230px) scale(.35) rotate(-14deg)}55%{opacity:1;transform:translateY(0) scale(1) rotate(0)}82%{opacity:1}100%{opacity:0;transform:translateY(0) scale(1.12)}}
+.cor-spark{position:absolute;top:-12px;border-radius:50%;opacity:0;background:radial-gradient(circle,#FFF6D0,#F5C33B);box-shadow:0 0 8px #F5C33B}
+.coronation.play .cor-spark{animation:cor-fall 2.8s ease-in forwards}
+@keyframes cor-fall{0%{opacity:0;transform:translateY(0)}12%{opacity:1}100%{opacity:0;transform:translateY(760px)}}
+@media(prefers-reduced-motion:reduce){.coronation .cor-rays-spin,.coronation.play .cor-crown,.coronation.play .cor-spark,.coronation.play .cor-flash,.coronation.play .cor-rays{animation:none}.coronation{opacity:0}}
+/* 分享見證卡 */
+.share-card{width:100%;max-width:340px;margin:6px auto 0;border-radius:20px;padding:18px 16px 20px;position:relative;overflow:hidden;background:radial-gradient(120% 60% at 50% 0%,#3a2a72,rgba(58,42,114,0) 60%),linear-gradient(180deg,#1a1240,#0b0821);border:1.5px solid rgba(245,195,59,.4);box-shadow:0 12px 34px rgba(0,0,0,.5)}
+.sc-badge{font-size:11px;letter-spacing:.16em;color:var(--gold);text-align:center;margin-bottom:8px}
+.sc-hero{width:72%;margin:0 auto}
+.sc-title{font-family:var(--font-display);font-size:22px;font-weight:800;text-align:center;margin-top:8px;background:linear-gradient(180deg,var(--gold-b),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sc-stats{display:flex;justify-content:center;gap:14px;margin-top:8px;font-size:12.5px;color:var(--holy)}
+.sc-verse{font-family:var(--font-display);font-size:13px;line-height:1.8;color:var(--parch);text-align:center;margin:12px 8px 0;opacity:.92}
+.sc-verse b{display:block;color:var(--gold);font-size:12px;margin-top:4px;letter-spacing:.1em}
+.sc-invite{text-align:center;font-size:12.5px;color:var(--gold-b);margin-top:12px;padding-top:10px;border-top:1px solid rgba(245,195,59,.2)}
+.share-tip{text-align:center;font-size:12px;color:var(--muted);margin-top:12px;line-height:1.7}
+/* 好習慣養成 */
+.habit-card{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:16px;margin-bottom:12px;background:linear-gradient(180deg,rgba(43,31,92,.5),rgba(20,14,44,.6));border:1.5px solid rgba(245,195,59,.22);transition:border-color .3s}
+.habit-card.done{border-color:rgba(89,227,214,.5)}
+.hb-icn{width:44px;height:44px;flex:0 0 44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;background:radial-gradient(circle at 50% 35%,#4a3a8c,#1a1240);border:1.5px solid rgba(245,195,59,.3)}
+.hb-body{flex:1;min-width:0}
+.hb-name{font-family:var(--font-display);font-size:15.5px;font-weight:800;color:var(--gold-b)}
+.hb-badge{font-size:11px;color:var(--holy);font-weight:400;margin-left:4px}
+.hb-why{font-size:12px;color:var(--parch);opacity:.82;line-height:1.6;margin-top:3px}
+.hb-verse{font-family:var(--font-display);font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:5px}
+.hb-verse i{color:var(--gold-d);font-style:normal;margin-left:4px}
+.hb-meter{height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:7px}
+.hb-meter>i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--holy),var(--gold));width:0;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.hb-stat{font-size:11px;color:var(--muted);margin-top:5px}
+.hb-stat b{color:var(--gold-b)}
+.hb-check{flex:0 0 auto;align-self:center;border:none;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;background:linear-gradient(180deg,var(--gold-b),var(--gold));color:#3a2a10;box-shadow:0 4px 12px rgba(245,195,59,.3)}
+.hb-check.done{background:rgba(89,227,214,.18);color:var(--holy);box-shadow:none}
+.hb-check:active{transform:scale(.96)}
+.hero-mh{font-size:12px;color:var(--gold);letter-spacing:.1em;margin-top:20px;text-align:center}
+.hero-habits{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:8px;max-width:330px;margin-left:auto;margin-right:auto}
+.hh-slot{width:46px;text-align:center;opacity:.34;transition:opacity .4s}
+.hh-slot.got{opacity:1}
+.hh-icn{width:40px;height:40px;margin:0 auto;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;background:radial-gradient(circle at 50% 35%,#4a3a8c,#1a1240);border:1.5px solid rgba(154,147,196,.4)}
+.hh-slot.got .hh-icn{border-color:var(--gold);box-shadow:0 0 10px rgba(245,195,59,.45)}
+.hh-name{font-size:9.5px;color:var(--muted);margin-top:2px}
+.hh-slot.got .hh-name{color:var(--gold-b)}
+.hh-week{display:inline-flex;align-items:center;gap:4px;margin:12px auto 0;padding:6px 14px;border-radius:20px;background:rgba(245,195,59,.15);border:1px solid rgba(245,195,59,.45);color:var(--gold-b);font-size:12.5px;font-weight:700}
+.gw-h{font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--gold-b);margin:22px 0 10px;text-align:center;letter-spacing:.05em}
+.gw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gw-medal{text-align:center;opacity:.4;transition:opacity .4s}
+.gw-medal.got{opacity:1}
+.gw-medal .medal-img{width:100%;max-width:90px;height:auto;object-fit:contain;margin:0 auto;display:block}
+.gw-medal svg{width:74px;height:86px;display:block;margin:0 auto}
+.gw-lock{width:64px;height:64px;margin:8px auto;border-radius:50%;border:2px dashed rgba(154,147,196,.5);display:flex;align-items:center;justify-content:center;font-size:22px}
+.gw-name{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.gw-name span{display:block;font-size:9.5px;color:var(--gold-d)}
+.gw-medal.got .gw-name{color:var(--gold-b)}
+.gw-medal.got .gw-name span{color:var(--holy)}
+.gw-ach-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.gw-ach{width:132px;padding:14px;border-radius:16px;text-align:center;background:linear-gradient(180deg,rgba(43,31,92,.5),rgba(20,14,44,.6));border:1.5px solid rgba(154,147,196,.3);opacity:.5}
+.gw-ach.got{opacity:1;border-color:rgba(245,195,59,.5)}
+.gw-ach-i{font-size:29px}
+.gw-ach-t{font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--gold-b);margin-top:4px}
+.gw-ach-n{font-size:11px;color:var(--muted);margin-top:2px}
+.gw-ach.got .gw-ach-n{color:var(--holy)}
+.sc-medals{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.scm{width:44px;height:44px;opacity:.34}
+.scm.got{opacity:1}
+.scm img{width:44px;height:44px;object-fit:contain;display:block}
+.scm svg{width:44px;height:50px;display:block}
+.scm i{display:flex;width:38px;height:38px;align-items:center;justify-content:center;border-radius:50%;border:1.5px dashed rgba(154,147,196,.4);font-size:13px;font-style:normal;margin:0 auto}
+.gw-medal{cursor:pointer}
+.gw-banner{display:none;text-align:center;font-family:var(--font-display);font-size:16px;font-weight:800;margin:8px auto 2px;max-width:330px;padding:9px 16px;border-radius:20px;background:linear-gradient(90deg,rgba(245,195,59,.16),rgba(89,227,214,.16));border:1px solid rgba(245,195,59,.5);color:var(--gold-b);animation:gw-bglow 2.4s ease-in-out infinite}
+@keyframes gw-bglow{0%,100%{box-shadow:0 0 10px rgba(245,195,59,.3)}50%{box-shadow:0 0 26px rgba(245,195,59,.75)}}
+.glory-full .gw-medal.got .medal-img,.glory-full .gw-medal.got svg,.glory-full .hh-slot.got .hh-icn{animation:gw-mglow 2.6s ease-in-out infinite}
+@keyframes gw-mglow{0%,100%{filter:drop-shadow(0 0 6px rgba(245,195,59,.4))}50%{filter:drop-shadow(0 0 18px rgba(245,195,59,.95))}}
+.medal-pop{position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(5,3,15,.72);padding:24px}
+.medal-pop.on{display:flex;animation:fade .3s ease}
+.mp-card{max-width:320px;width:100%;text-align:center;background:linear-gradient(180deg,#1a1240,#0b0821);border:1.5px solid rgba(245,195,59,.45);border-radius:20px;padding:22px 20px;box-shadow:0 16px 40px rgba(0,0,0,.6)}
+.mp-medal{width:120px;margin:0 auto 6px}
+.mp-medal .medal-img{width:100%;height:auto;display:block}
+.mp-medal svg{width:100px;height:116px;display:block;margin:0 auto}
+.mp-lock{font-size:44px;margin-bottom:6px}
+.mp-name{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--gold-b);margin-bottom:10px}
+.mp-verse{font-family:var(--font-display);font-size:14px;line-height:1.85;color:var(--parch);margin-bottom:16px}
+.mp-verse i{display:block;color:var(--gold);font-style:normal;font-size:12.5px;margin-top:6px}
+@media(prefers-reduced-motion:reduce){.gw-banner,.glory-full .gw-medal.got .medal-img,.glory-full .gw-medal.got svg,.glory-full .hh-slot.got .hh-icn{animation:none}}
+/* 通關慶祝圖 */
+.celebrate{position:relative;width:150px;height:150px;margin:0 auto 4px}
+.celebrate .rays{position:absolute;inset:0;animation:cel-spin 16s linear infinite}
+.celebrate .rays svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 10px rgba(245,195,59,.5))}
+.celebrate .halo{position:absolute;inset:24px;border-radius:50%;background:radial-gradient(circle,rgba(245,195,59,.4),rgba(245,195,59,0) 70%);animation:cel-pulse 2.4s ease-in-out infinite}
+.celebrate .core{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:58px;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));animation:cel-pop .6s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes cel-spin{to{transform:rotate(360deg)}}
+@keyframes cel-pulse{0%,100%{opacity:.5;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes cel-pop{0%{transform:scale(0) rotate(-25deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.celebrate .rays{animation:none}.celebrate .halo{animation:none}.celebrate .core{animation:none}}
+.narr{min-height:88px;display:flex;align-items:center;justify-content:center;margin:18px 6px 20px}
+.narr p{font-family:var(--font-display);font-size:19px;line-height:1.9;color:var(--parch);animation:fade .6s ease}
+.narr .who{color:var(--holy);font-weight:700}
+/* MAP + COURSE shared list card */
+.map-title{font-family:var(--font-display);font-size:24px;font-weight:800;text-align:center;letter-spacing:.1em;margin-bottom:2px}
+.map-note{font-size:12px;color:var(--muted);text-align:center;margin-bottom:18px;letter-spacing:.06em}
+#screen-map,#screen-course{padding-top:92px}
+.land{display:flex;align-items:center;gap:14px;padding:15px;border-radius:16px;margin-bottom:12px;cursor:pointer;position:relative;background:linear-gradient(110deg,rgba(43,31,92,.6),rgba(20,14,44,.55));border:1.5px solid rgba(245,195,59,.16);transition:transform .12s,border-color .2s}
+.land:active{transform:scale(.98)}
+.land.unlocked{border-color:rgba(245,195,59,.55);box-shadow:0 0 22px rgba(245,195,59,.14)}
+.land.locked{opacity:.5;filter:grayscale(.5)}
+.land.done{border-color:rgba(89,227,214,.5)}
+.land .icn{width:52px;height:52px;flex:0 0 52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;background:radial-gradient(circle at 50% 35%,#4a3a8c,#1a1240);border:1.5px solid rgba(245,195,59,.3);font-family:var(--font-display);font-weight:800;color:var(--gold-b)}
+.land .meta{flex:1;min-width:0}
+.land .lname{font-family:var(--font-display);font-size:17px;font-weight:800;letter-spacing:.03em}
+.land .ltheme{font-size:12px;color:var(--muted);margin-top:3px}
+.land .vtag{display:inline-block;font-size:11px;color:var(--holy);margin-top:5px;border:1px solid rgba(89,227,214,.35);border-radius:20px;padding:1px 9px}
+.land .badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:.04em;flex:0 0 auto}
+.badge.go{background:linear-gradient(180deg,var(--gold-b),var(--gold-d));color:#2a1400}
+.badge.lock{background:rgba(255,255,255,.08);color:var(--muted)}
+.badge.star{background:rgba(89,227,214,.16);color:var(--holy)}
+.course-prog{text-align:center;font-size:12px;color:var(--muted);margin-bottom:16px}
+.course-prog b{color:var(--gold-b)}
+.back-link{position:absolute;top:calc(14px + env(safe-area-inset-top,0));left:16px;z-index:45;font-size:13px;color:var(--muted);cursor:pointer;background:rgba(7,4,20,.6);padding:6px 12px;border-radius:20px;border:1px solid rgba(245,195,59,.25)}
+/* LEVEL */
+#screen-level{padding-top:84px}
+.step-track{display:flex;gap:5px;margin-bottom:14px}
+.step-track i{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.13);transition:background .4s}
+.step-track i.done{background:linear-gradient(90deg,var(--holy),var(--gold))}
+.step-head{text-align:center;margin-bottom:16px}
+.step-no{font-size:13px;letter-spacing:.3em;color:var(--gold);padding-left:.3em}
+.step-name{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:.08em;margin-top:2px}
+.step-hint{font-size:12.5px;color:var(--muted);margin-top:5px}
+.step-body{flex:1}
+.step-body .panel{margin-bottom:16px;animation:fade .45s ease}
+.step-foot{padding-top:6px}
+.lead{font-size:15px;line-height:1.85;color:var(--parch)}
+.lead b{color:var(--gold-b)}
+.reframe{display:flex;flex-direction:column;gap:12px}
+.rf-card{border-radius:14px;padding:16px;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s;background:linear-gradient(180deg,rgba(226,74,59,.16),rgba(142,35,24,.12));border:1.5px solid rgba(226,74,59,.4)}
+.rf-card:active{transform:scale(.98)}
+.rf-card.flipped{background:linear-gradient(180deg,rgba(89,227,214,.16),rgba(245,195,59,.1));border-color:rgba(89,227,214,.55)}
+.rf-eye{font-size:11px;letter-spacing:.16em;font-weight:700;margin-bottom:6px;color:var(--ember)}
+.rf-card.flipped .rf-eye{color:var(--holy)}
+.rf-text{font-size:15px;line-height:1.7;font-family:var(--font-display)}
+.rf-tap{font-size:11px;color:var(--muted);margin-top:8px;letter-spacing:.06em}
+.rf-card.flipped .rf-tap{color:var(--gold)}
+.choice{display:block;width:100%;text-align:left;border-radius:13px;padding:15px 16px;margin-bottom:11px;cursor:pointer;font-size:15px;line-height:1.6;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1.5px solid rgba(245,195,59,.22);color:var(--parch);transition:transform .12s,border-color .2s}
+.choice:active{transform:scale(.98)}
+.choice.right{border-color:var(--holy);background:linear-gradient(180deg,rgba(89,227,214,.16),rgba(89,227,214,.05))}
+.choice.wrong{border-color:var(--ember);opacity:.6}
+.feedback{font-size:13.5px;line-height:1.7;color:var(--holy);margin-top:4px;min-height:20px}
+.quest{text-align:center}
+.quest .q-icn{font-size:38px;margin-bottom:10px}
+.quest .q-title{font-family:var(--font-display);font-size:19px;font-weight:800;color:var(--gold-b);margin-bottom:10px}
+.quest .q-desc{font-size:15px;line-height:1.85}
+textarea{width:100%;min-height:96px;border-radius:13px;padding:14px;font-family:var(--font-body);font-size:15px;line-height:1.7;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.28);color:var(--parch);resize:none;outline:none}
+textarea:focus{border-color:var(--gold)}
+textarea::placeholder{color:var(--muted)}
+/* 小智 屬靈教練 */
+.coach-cta{display:flex;align-items:center;gap:12px;margin-top:14px;padding:13px 15px;border-radius:14px;cursor:pointer;
+  background:linear-gradient(120deg,rgba(89,227,214,.14),rgba(124,197,240,.08));border:1.5px solid rgba(89,227,214,.4);transition:transform .12s,opacity .2s}
+.coach-cta:active{transform:scale(.98)}
+.coach-cta[disabled]{opacity:.5;pointer-events:none}
+.xi-orb{width:40px;height:40px;flex:0 0 40px;filter:drop-shadow(0 0 8px rgba(89,227,214,.6))}
+.coach-cta .cc-t{flex:1}
+.coach-cta .cc-t b{font-family:var(--font-display);font-size:15px;color:var(--holy);display:block}
+.coach-cta .cc-t span{font-size:11.5px;color:var(--muted)}
+.coach-cta .cc-go{font-size:13px;color:var(--holy);font-weight:700}
+.chat{margin-top:14px;animation:fade .4s ease}
+.bubble{display:flex;gap:11px;align-items:flex-start;margin-top:12px}
+.bubble .xi-orb{width:34px;height:34px;flex:0 0 34px;margin-top:2px}
+.bubble .say{background:linear-gradient(180deg,rgba(43,31,92,.85),rgba(20,14,44,.9));border:1.5px solid rgba(89,227,214,.35);border-radius:6px 16px 16px 16px;padding:14px 16px;font-size:14.5px;line-height:1.85;color:var(--parch);flex:1}
+.bubble .say .q{display:block;margin-top:10px;color:var(--gold-b);font-family:var(--font-display);font-style:italic}
+.bubble .say .ref{color:var(--holy)}
+.dots span{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--holy);animation:bounce 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-6px);opacity:1}}
+.bubble.me{flex-direction:row-reverse}
+.bubble.me .say{background:linear-gradient(180deg,rgba(245,195,59,.16),rgba(184,134,43,.1));border:1.5px solid rgba(245,195,59,.4);border-radius:16px 6px 16px 16px;color:var(--gold-b)}
+.bubble .avatar-me{width:34px;height:34px;flex:0 0 34px;border-radius:50%;background:linear-gradient(180deg,#5b4aa0,#2f2358);border:1.5px solid rgba(245,195,59,.4);display:flex;align-items:center;justify-content:center;font-size:16px;margin-top:2px}
+.spk{margin-top:10px;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--holy);cursor:pointer;border:1px solid rgba(89,227,214,.35);border-radius:20px;padding:4px 12px;background:rgba(89,227,214,.06)}
+.spk:active{transform:scale(.96)}
+.spk.playing{background:rgba(89,227,214,.2);color:#fff}
+.reply-row{display:flex;gap:8px;margin-top:14px;align-items:flex-end}
+.reply-row textarea{min-height:46px;flex:1;padding:12px 14px;font-size:14.5px}
+.reply-send{flex:0 0 auto;border:none;border-radius:12px;padding:0 16px;height:48px;cursor:pointer;font-weight:700;color:#2a1400;background:linear-gradient(180deg,var(--gold-b),var(--gold-d));box-shadow:0 3px 0 #7a5410}
+.reply-send:active{transform:translateY(2px);box-shadow:0 1px 0 #7a5410}
+.reply-send[disabled]{filter:grayscale(.6) brightness(.7);pointer-events:none}
+.chat-hint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px}
+.streak{display:flex;justify-content:space-between;gap:6px;margin:6px 0 4px}
+.flame{flex:1;aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.08);filter:grayscale(1) brightness(.6);transition:.4s}
+.flame.lit{filter:none;background:linear-gradient(180deg,rgba(245,195,59,.22),rgba(226,74,59,.14));border-color:rgba(245,195,59,.5);animation:pop .4s ease}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.day-lab{font-size:9px;color:var(--muted);text-align:center;margin-top:3px}
+/* VICTORY / CITYDONE */
+#screen-victory,#screen-citydone{justify-content:center;align-items:center;text-align:center}
+#winStage,#cityStage{width:250px;height:300px;margin:6px auto 0}
+.win-title{font-family:var(--font-display);font-size:32px;font-weight:900;letter-spacing:.08em;margin:2px 0}
+.win-rewards{display:flex;justify-content:center;gap:20px;margin:16px 0}
+.reward{text-align:center}
+.reward .rv{font-family:var(--font-display);font-size:26px;font-weight:800}
+.reward .rl{font-size:11px;color:var(--muted);letter-spacing:.1em;margin-top:2px}
+/* HERO SHEET */
+#screen-hero{padding-top:84px;text-align:center}
+#heroBig{width:240px;height:300px;margin:0 auto}
+.fruit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.fruit{border-radius:13px;padding:11px 6px;text-align:center;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);filter:grayscale(1) opacity(.45);transition:.5s}
+.fruit.on{filter:none;border-color:rgba(89,227,214,.5);background:linear-gradient(180deg,rgba(89,227,214,.14),rgba(245,195,59,.06))}
+.fruit .fg{font-size:21px}
+.fruit .fn{font-size:12px;margin-top:4px;font-family:var(--font-display);font-weight:700}
+.shard{position:absolute;width:7px;height:7px;background:linear-gradient(180deg,#8a8298,#4a4560);border-radius:1px;pointer-events:none;z-index:5}
+@keyframes shatter{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.sp{flex:1}
+/* 王者之戰 Boss */
+.land.bossrow{border-color:rgba(226,74,59,.5)}
+.land.bossrow .icn{color:#ff9f96;border-color:rgba(226,74,59,.5);background:radial-gradient(circle at 50% 35%,#5a1a1a,#1a0810)}
+#screen-boss{padding:0;background:radial-gradient(circle at 50% 28%,#3a0f14 0%,#1a0812 55%,#0b0410 100%)}
+#screen-boss.on{display:flex}
+.boss-top{padding:calc(14px + env(safe-area-inset-top,0)) 18px 8px}
+.boss-back{font-size:12.5px;color:#e9b7b0;cursor:pointer;display:inline-block;margin-bottom:10px;border:1px solid rgba(226,74,59,.4);border-radius:20px;padding:5px 12px;background:rgba(0,0,0,.25)}
+.bhp{height:12px;border-radius:7px;background:rgba(255,255,255,.1);overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.6)}
+.bhp>i{display:block;height:100%;border-radius:7px;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.bhp.pride>i{background:linear-gradient(90deg,#8E2318,#E24A3B);box-shadow:0 0 10px rgba(226,74,59,.7)}
+.bhp.heart>i{background:linear-gradient(90deg,#59E3D6,#F5C33B);box-shadow:0 0 10px rgba(245,195,59,.6)}
+.bhp-label{display:flex;justify-content:space-between;font-size:12px;margin:0 2px 5px;color:#f0c9c4;font-family:var(--font-display)}
+.boss-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:120px}
+#bossFig{width:220px;height:280px}
+#bossFig.shake{animation:bshake .4s}
+@keyframes bshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-11px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+.boss-log{max-height:118px;overflow-y:auto;padding:0 18px;margin-bottom:4px}
+.blog{font-size:13.5px;line-height:1.7;margin-top:7px;padding:9px 12px;border-radius:10px;animation:fade .3s}
+.blog b{font-weight:700}
+.blog.sys{background:rgba(89,227,214,.1);border-left:3px solid var(--holy);color:#cdeae7}
+.blog.me{background:rgba(245,195,59,.1);border-left:3px solid var(--gold);color:#f3e6c8}
+.blog.boss{background:rgba(226,74,59,.12);border-left:3px solid var(--ember);color:#f2ccc6}
+.blog.win{background:rgba(245,195,59,.18);border-left:3px solid var(--gold-b);color:#fff;font-family:var(--font-display);font-weight:700}
+.boss-bottom{padding:6px 18px calc(16px + env(safe-area-inset-bottom,0))}
+.boss-actions{display:flex;gap:8px;margin-top:12px}
+.boss-act{flex:1;font-size:15px;padding:13px 4px}
+.boss-final{background:linear-gradient(180deg,#FFE08A,#F5C33B 55%,#B8862B);animation:finalpulse 1.1s infinite}
+@keyframes finalpulse{0%,100%{box-shadow:0 6px 0 #7a5410,0 0 0 rgba(245,195,59,.5)}50%{box-shadow:0 6px 0 #7a5410,0 0 26px rgba(245,195,59,.9)}}
+/* 牧養後台 */
+#screen-dash{padding-top:calc(18px + env(safe-area-inset-top,0));background:linear-gradient(180deg,#0d1226,#0b0821)}
+.dash-h{font-family:var(--font-display);font-size:24px;font-weight:800;text-align:center;letter-spacing:.08em}
+.dash-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px}
+.dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.dstat{background:linear-gradient(180deg,rgba(43,31,92,.6),rgba(20,14,44,.6));border:1.5px solid rgba(245,195,59,.2);border-radius:14px;padding:12px 4px;text-align:center}
+.dstat .dv{font-family:var(--font-display);font-size:23px;font-weight:800;color:var(--gold-b)}
+.dstat .dl{font-size:10.5px;color:var(--muted);margin-top:3px}
+.care-box{background:linear-gradient(180deg,rgba(226,74,59,.14),rgba(142,35,24,.08));border:1.5px solid rgba(226,74,59,.4);border-radius:14px;padding:13px 15px;margin-bottom:16px;font-size:13.5px;line-height:1.7;color:#f2ccc6}
+.care-box b{color:#ff9f96}
+.youth{background:linear-gradient(180deg,rgba(43,31,92,.55),rgba(20,14,44,.55));border:1.5px solid rgba(245,195,59,.16);border-radius:15px;padding:14px;margin-bottom:11px}
+.youth.care{border-color:rgba(226,74,59,.5)}
+.youth-top{display:flex;align-items:center;gap:11px}
+.youth-av{width:42px;height:42px;flex:0 0 42px;border-radius:11px;overflow:hidden;background:radial-gradient(circle at 50% 40%,#4a3a8c,#1a1240);border:1.5px solid var(--gold);position:relative}
+.youth-av svg{position:absolute;inset:0}
+.youth-nm{font-family:var(--font-display);font-size:16px;font-weight:700}
+.youth-meta{font-size:11.5px;color:var(--muted);margin-top:2px}
+.youth-flag{margin-left:auto;font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:20px}
+.flag-care{background:rgba(226,74,59,.2);color:#ff9f96}
+.flag-ok{background:rgba(89,227,214,.15);color:var(--holy)}
+.ybars{margin-top:11px}
+.ybar{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:11px;color:var(--muted)}
+.ybar .lab{width:48px;flex:0 0 48px}
+.ybar .track{flex:1;height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden}
+.ybar .track>i{display:block;height:100%;border-radius:5px}
+.yref{margin-top:11px;font-size:12.5px;line-height:1.6;color:#d8d2ee;background:rgba(0,0,0,.22);border-radius:10px;padding:10px 12px;border-left:3px solid var(--holy)}
+.yref.alert{border-left-color:var(--ember)}
+.yref .qt{color:var(--muted);font-size:11px;display:block;margin-bottom:3px}
+.pin-wrap{max-width:280px;margin:56px auto 0;text-align:center}
+.pin-in{letter-spacing:.5em;text-align:center;font-size:22px;padding:12px;width:100%;border-radius:12px;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.3);color:var(--gold-b);outline:none}
+/* 得勝獎勵約定 */
+#screen-rewards{padding-top:calc(18px + env(safe-area-inset-top,0))}
+.rw-intro{font-size:13px;line-height:1.8;color:var(--parch);background:linear-gradient(180deg,rgba(245,195,59,.1),rgba(184,134,43,.05));border:1.5px solid rgba(245,195,59,.3);border-radius:14px;padding:13px 15px;margin-bottom:14px}
+.rw-intro b{color:var(--gold-b)}
+#rewardEditBtn{margin-bottom:14px}
+.rw-card{background:linear-gradient(180deg,rgba(43,31,92,.55),rgba(20,14,44,.55));border:1.5px solid rgba(245,195,59,.16);border-radius:15px;padding:14px;margin-bottom:11px}
+.rw-card.ready{border-color:rgba(245,195,59,.55);box-shadow:0 0 20px rgba(245,195,59,.14)}
+.rw-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rw-nm{font-family:var(--font-display);font-size:15.5px;font-weight:700}
+.rw-hint{font-size:11.5px;color:var(--muted);margin-top:3px;margin-bottom:9px}
+.rw-badge{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:20px;flex:0 0 auto}
+.rw-badge.lock{background:rgba(255,255,255,.08);color:var(--muted)}
+.rw-badge.ready{background:linear-gradient(180deg,var(--gold-b),var(--gold-d));color:#2a1400}
+.rw-badge.done{background:rgba(89,227,214,.15);color:var(--holy)}
+.rw-in{width:100%;padding:11px 12px;font-size:14px;border-radius:10px;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.35);color:var(--gold-b);outline:none;font-family:var(--font-body)}
+.rw-text{font-size:15px;color:var(--gold-b);font-family:var(--font-display);padding:6px 2px}
+.rw-text.empty{color:var(--muted);font-style:italic;font-family:var(--font-body);font-size:13px}
+.rw-claim{margin-top:10px;width:100%;border:none;border-radius:11px;padding:11px;font-weight:700;cursor:pointer;color:#2a1400;background:linear-gradient(180deg,var(--gold-b),var(--gold-d));box-shadow:0 3px 0 #7a5410}
+.rw-claim:active{transform:translateY(2px);box-shadow:0 1px 0 #7a5410}
+.reward-banner{display:block;text-align:center;font-size:12.5px;line-height:1.65;color:var(--gold-b);cursor:pointer;background:linear-gradient(180deg,rgba(245,195,59,.13),rgba(184,134,43,.05));border:1.5px solid rgba(245,195,59,.38);border-radius:12px;padding:10px 12px;margin-bottom:16px}
+.reward-banner b{color:#fff}
+/* 我的換觀點 */
+.frame-divider{text-align:center;font-size:12px;color:var(--gold-b);margin:16px 0 10px;letter-spacing:.1em}
+.mf-del{position:absolute;top:8px;right:10px;font-size:13px;color:var(--muted);cursor:pointer;z-index:3;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.3)}
+.ff-label{font-size:12px;color:var(--muted);margin:12px 2px 6px}
+#frameForm{background:linear-gradient(180deg,rgba(43,31,92,.55),rgba(20,14,44,.55));border:1.5px solid rgba(245,195,59,.25);border-radius:15px;padding:15px;margin-top:6px}
+#frameForm input{width:100%;padding:11px 12px;font-size:14px;border-radius:10px;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.3);color:var(--parch);outline:none;font-family:var(--font-body)}
+#frameForm input:focus,#frameForm textarea:focus{border-color:var(--gold)}
+.xi-help{margin-top:9px;font-size:12.5px;color:var(--holy);cursor:pointer;border:1px solid rgba(89,227,214,.4);border-radius:20px;padding:6px 13px;display:inline-block;background:rgba(89,227,214,.07)}
+.xi-help:active{transform:scale(.97)}
+/* 每日靈修 */
+.devo-card{display:flex;align-items:center;gap:12px;padding:14px 15px;border-radius:16px;margin-bottom:14px;cursor:pointer;background:linear-gradient(120deg,rgba(245,195,59,.17),rgba(226,74,59,.08));border:1.5px solid rgba(245,195,59,.48);box-shadow:0 0 22px rgba(245,195,59,.12)}
+.devo-card:active{transform:scale(.99)}
+.devo-flame{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;font-size:24px;min-width:46px}
+.devo-flame span{font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--gold-b);margin-top:-2px}
+.devo-main{flex:1;min-width:0}
+.devo-t{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--gold-b)}
+.devo-s{font-size:12px;color:var(--muted);margin-top:3px}
+.devo-go{color:var(--gold);font-size:18px}
+#screen-devo{padding-top:calc(18px + env(safe-area-inset-top,0))}
+.devo-block{background:linear-gradient(180deg,rgba(43,31,92,.55),rgba(20,14,44,.55));border:1.5px solid rgba(245,195,59,.2);border-radius:15px;padding:15px;margin-bottom:13px}
+.devo-h{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--gold-b);margin-bottom:4px}
+.devo-med{font-size:14px;line-height:1.8;color:var(--parch)}
+.devo-med b{color:var(--gold-b)}
+.devo-chal{margin-top:10px;font-size:13.5px;line-height:1.75;color:var(--holy);background:rgba(89,227,214,.08);border:1px solid rgba(89,227,214,.3);border-radius:10px;padding:9px 12px}
+.devo-mini{font-size:12.5px;color:var(--gold-b);cursor:pointer;border:1px solid rgba(245,195,59,.4);border-radius:20px;padding:6px 12px;background:rgba(245,195,59,.06)}
+.devo-done{text-align:center;font-size:14px;color:var(--holy);background:rgba(89,227,214,.1);border:1.5px solid rgba(89,227,214,.35);border-radius:12px;padding:13px;margin-top:6px;font-family:var(--font-display)}
+.mem-list{margin-top:12px}
+.mem-item{display:flex;align-items:center;gap:10px;padding:9px 4px;border-top:1px solid rgba(255,255,255,.07)}
+.mem-ref{flex:1;font-family:var(--font-display);font-size:14px;color:var(--parch)}
+.mem-box{font-size:11.5px;color:var(--muted)}
+.mem-del{font-size:12px;color:var(--muted);cursor:pointer;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.2)}
+#memAddWrap input{width:100%;padding:11px 12px;font-size:14px;border-radius:10px;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.3);color:var(--parch);outline:none;font-family:var(--font-body);margin-bottom:8px}
+#screen-memreview{padding:20px;flex-direction:column}
+.rev-top{text-align:center;font-size:13px;color:var(--muted);letter-spacing:.2em;margin-bottom:14px;margin-top:14px}
+.rev-card{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg,rgba(43,31,92,.5),rgba(20,14,44,.6));border:1.5px solid rgba(245,195,59,.3);border-radius:18px;padding:26px 20px;margin-bottom:16px;min-height:180px}
+.rev-verse{font-family:var(--font-display);font-size:22px;line-height:2.1;color:var(--gold-b);letter-spacing:.02em}
+.rev-ref{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;font-family:var(--font-display);font-size:13.5px;letter-spacing:.2em;white-space:nowrap;background:linear-gradient(180deg,var(--gold-b),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rev-ref::before,.rev-ref::after{content:"";flex:0 0 28px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-d) 55%,transparent)}
+.rev-actions{display:flex;gap:10px}
+.rev-done{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+/* 禱告生活 */
+#screen-prayer{padding-top:calc(18px + env(safe-area-inset-top,0))}
+.pr-tabs{display:flex;gap:8px;margin-bottom:14px}
+.pr-tab{flex:1;text-align:center;padding:10px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:1.5px solid rgba(245,195,59,.25);color:var(--muted);background:rgba(255,255,255,.03);font-family:var(--font-display)}
+.pr-tab.on{background:linear-gradient(180deg,var(--gold-b),var(--gold-d));color:#2a1400;border-color:transparent}
+.pr-card{background:linear-gradient(180deg,rgba(43,31,92,.5),rgba(20,14,44,.5));border:1.5px solid rgba(245,195,59,.16);border-radius:14px;padding:13px 15px;margin-bottom:10px;position:relative}
+.pr-card.answered{border-color:rgba(89,227,214,.45);background:linear-gradient(180deg,rgba(89,227,214,.1),rgba(20,14,44,.5))}
+.pr-text{font-size:14.5px;line-height:1.7;color:var(--parch)}
+.pr-meta{font-size:11px;color:var(--muted);margin-top:6px}
+.pr-testimony{margin-top:9px;font-size:13px;line-height:1.7;color:var(--holy);background:rgba(89,227,214,.08);border-left:3px solid var(--holy);border-radius:8px;padding:9px 11px}
+.pr-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pr-btn{font-size:12px;padding:6px 13px;border-radius:20px;cursor:pointer;border:1px solid rgba(245,195,59,.4);color:var(--gold-b);background:rgba(245,195,59,.06)}
+.pr-btn.holy{border-color:rgba(89,227,214,.4);color:var(--holy);background:rgba(89,227,214,.06)}
+.pr-del{position:absolute;top:10px;right:10px;font-size:12px;color:var(--muted);cursor:pointer;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.2)}
+.wall-name{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--gold-b)}
+.wall-pray{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--holy);cursor:pointer;border:1px solid rgba(89,227,214,.4);border-radius:20px;padding:7px 14px;background:rgba(89,227,214,.06)}
+.wall-pray.done{background:rgba(89,227,214,.22);pointer-events:none}
+/* 920 每日任務 */
+#screen-920,#screen-squad{padding-top:calc(18px + env(safe-area-inset-top,0))}
+.task-card{background:linear-gradient(120deg,rgba(89,227,214,.15),rgba(124,197,240,.08));border:1.5px solid rgba(89,227,214,.42);border-radius:16px;padding:16px;margin-bottom:14px}
+.task-target{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--gold-b)}
+.task-action{font-size:16px;color:var(--holy);margin-top:6px;font-family:var(--font-display)}
+.two-item{display:flex;align-items:center;gap:10px;padding:9px 4px;border-top:1px solid rgba(255,255,255,.07)}
+.two-name{flex:1;font-size:14px;color:var(--parch)}
+#twoAddWrap textarea,#twoAddWrap input,#squadCtrl input{width:100%;padding:11px 12px;font-size:14px;border-radius:10px;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.3);color:var(--parch);outline:none;font-family:var(--font-body);margin-bottom:8px}
+/* 235 戰隊 */
+.squad-mem{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-top:1px solid rgba(255,255,255,.07)}
+.squad-av{width:40px;height:44px;flex:0 0 40px;border-radius:10px;overflow:hidden;background:radial-gradient(circle at 50% 40%,#4a3a8c,#1a1240);border:1.5px solid var(--gold);position:relative}
+.squad-av svg{position:absolute;inset:0}
+.squad-info{flex:1;min-width:0}
+.squad-nm{font-family:var(--font-display);font-size:14.5px;font-weight:700}
+.squad-role{font-size:10.5px;color:var(--holy);border:1px solid rgba(89,227,214,.35);border-radius:20px;padding:1px 7px;margin-left:4px;white-space:nowrap}
+.squad-meta{font-size:11px;color:var(--muted);margin-top:2px}
+/* 得勝者導師路徑 */
+#screen-mentor{padding-top:calc(18px + env(safe-area-inset-top,0))}
+#discAddWrap input,#discAddWrap textarea{width:100%;padding:11px 12px;font-size:14px;border-radius:10px;background:rgba(7,4,20,.5);border:1.5px solid rgba(245,195,59,.3);color:var(--parch);outline:none;font-family:var(--font-body);margin-bottom:8px}
+.commission-card{background:linear-gradient(160deg,rgba(245,195,59,.16),rgba(184,134,43,.06));border:1.5px solid rgba(245,195,59,.5);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 0 22px rgba(245,195,59,.12)}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.05ms!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stars"></div>
+
+  <div id="hud">
+    <div id="hudAvatar" onclick="openHero()"></div>
+    <div class="hud-main">
+      <div class="hud-row"><span class="hud-stage" id="hudStage">舊人 · 有己</span><span class="hud-fruit" id="hudFruit">果子 0/9</span></div>
+      <div class="meter"><i id="hudMeter"></i></div>
+      <div class="meter-label" id="hudPct">無己值 0%</div>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <section id="screen-title" class="screen on">
+    <div class="emblem" id="emblem"></div>
+    <div class="eyebrow">國度 321 空中團契</div>
+    <h1 class="title-main gold-text">得勝者</h1>
+    <div class="title-sub">無己覺醒</div>
+    <div class="title-en">OVERCOMER · 321</div>
+    <div class="verse-block">
+      <p class="title-verse">「得勝的，我要賜他在我寶座上與我同坐，就如我得了勝，在我父的寶座上與祂同坐一般。」</p>
+      <div class="verse-ref"><i class="vr-line"></i><span class="vr-txt">啟示錄 3:21</span><i class="vr-line"></i></div>
+    </div>
+    <button class="btn" onclick="startRebirth()">開始覺醒 ▸</button>
+    <div class="chat-hint" style="margin-top:18px;cursor:pointer" onclick="openPin()">牧者入口 🔐</div>
+  </section>
+
+  <!-- REBIRTH -->
+  <section id="screen-rebirth" class="screen">
+    <div class="sp"></div>
+    <div id="rebirthStage"></div>
+    <div class="narr" id="narr"><p></p></div>
+    <div id="rebirthBtn"></div>
+    <div class="sp"></div>
+  </section>
+
+  <!-- MAP -->
+  <section id="screen-map" class="screen">
+    <h2 class="map-title gold-text">五重之地</h2>
+    <p class="map-note">由內而外，五重的改變 · 依序解鎖</p>
+    <div id="lands"></div>
+  </section>
+
+  <!-- COURSE MENU -->
+  <section id="screen-course" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text" id="courseTitle">觀念之城</h2>
+    <p class="map-note" id="courseNote">改變觀點</p>
+    <p class="course-prog" id="courseProg"></p>
+    <div id="lessonList"></div>
+  </section>
+
+  <!-- LEVEL -->
+  <section id="screen-level" class="screen">
+    <div class="back-link" onclick="quitLesson()">‹ 課程</div>
+    <div class="step-track" id="track"></div>
+    <div class="step-head">
+      <div class="step-no" id="stepNo">STEP 1 / 8</div>
+      <div class="step-name gold-text" id="stepName">資訊</div>
+      <div class="step-hint" id="stepHint"></div>
+    </div>
+    <div class="step-body" id="stepBody"></div>
+    <div class="step-foot" id="stepFoot"></div>
+  </section>
+
+  <!-- LESSON VICTORY -->
+  <section id="screen-victory" class="screen">
+    <div class="sp"></div>
+    <div id="winCelebrate"></div>
+    <div class="eyebrow" id="winEyebrow">課程完成</div>
+    <div id="winStage"></div>
+    <h2 class="win-title gold-text" id="winTitle">觀點已更新</h2>
+    <p class="verse" style="font-size:14px;margin-top:4px" id="winVerse"></p>
+    <div class="win-rewards" id="winRewards"></div>
+    <button class="btn" onclick="backToCourse()">回到課程 ▸</button>
+    <button class="btn ghost" style="margin-top:12px" onclick="openHero()">查看我的勇者</button>
+    <div class="sp"></div>
+  </section>
+
+  <!-- CITY COMPLETE -->
+    <section id="screen-citydone" class="screen">
+    <div id="coronation" class="coronation"></div>
+    <div class="sp"></div>
+    <div id="cityCelebrate"></div>
+    <div class="eyebrow" id="cityEyebrow"></div>
+    <div id="cityStage"></div>
+    <h2 class="win-title gold-text" id="cityTitle"></h2>
+    <p class="verse" id="cityVerse" style="font-size:15px;margin-top:6px"></p>
+    <p class="lead" id="cityDesc" style="max-width:320px;margin:14px auto 0"></p>
+    <button class="btn" id="cityBtn" style="margin-top:22px"></button>
+    <button class="btn ghost" id="cityShareBtn" style="margin-top:12px;display:none" onclick="openShare('final')">📸 分享我的得勝見證</button>
+    <div class="sp"></div>
+  </section>
+
+  <!-- SHARE 分享見證 -->
+  <section id="screen-share" class="screen">
+    <div class="back-link" onclick="goBackFromShare()">‹ 返回</div>
+    <div class="eyebrow" style="text-align:center;margin-bottom:6px">得勝見證</div>
+    <div id="shareCard" class="share-card"></div>
+    <button class="btn" style="margin-top:16px" onclick="exportShareCard()">💾 存成圖片分享</button>
+    <button class="btn ghost" style="margin-top:12px" onclick="shareWitness()">分享文字邀請 ▸</button>
+    <p class="share-tip">或直接<b>截圖</b>這張見證卡，傳給你想邀請的人一起成為得勝者 📸</p>
+    <div class="sp"></div>
+  </section>
+
+  <!-- 好習慣養成 -->
+  <section id="screen-habits" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">好習慣養成</h2>
+    <p class="map-note">得勝者的日常 · 改變生活，一天一天養成基督的樣式</p>
+    <p class="map-note" id="habitsSummary" style="margin-top:6px"></p>
+    <div id="habitsBody" style="margin-top:12px"></div>
+    <div style="height:24px"></div>
+  </section>
+
+  <!-- 榮耀獎章牆 -->
+  <section id="screen-medals" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">榮耀獎章牆</h2>
+    <p class="map-note">你在得勝路上承受的每一個屬靈印記</p>
+    <p class="map-note" id="gwSummary" style="margin-top:6px"></p>
+    <div id="gwBanner" class="gw-banner">✨ 榮耀滿溢 · 完全的得勝者 ✨</div>
+    <div class="gw-h">🏛 五重之地 · 大陸獎章</div>
+    <div class="gw-grid" id="gwMedals"></div>
+    <div class="gw-h">🌱 好習慣徽章</div>
+    <div class="hero-habits" id="gwHabits"></div>
+    <div class="gw-h">✨ 特別成就</div>
+    <div class="gw-ach-row" id="gwAch"></div>
+    <button class="btn" style="margin-top:20px" onclick="openShare('hero')">📸 分享我的得勝見證</button>
+    <div style="height:24px"></div>
+  </section>
+
+  <!-- BOSS 王者之戰 -->
+  <section id="screen-boss" class="screen">
+    <div class="boss-top">
+      <span class="boss-back" onclick="quitLesson()">‹ 撤退（回課程）</span>
+      <div class="bhp-label"><span id="bossPrideTxt">驕傲之王 100%</span><span>👑 驕傲值</span></div>
+      <div class="bhp pride"><i id="bossPride" style="width:100%"></i></div>
+    </div>
+    <div class="boss-stage"><div id="bossFig"></div></div>
+    <div class="boss-log" id="bossLog"></div>
+    <div class="boss-bottom">
+      <div class="bhp-label"><span id="heartTxt">你的心 100%</span><span>❤ 心力</span></div>
+      <div class="bhp heart"><i id="heartBar" style="width:100%"></i></div>
+      <div class="boss-actions" id="bossActions"></div>
+    </div>
+  </section>
+
+  <!-- 牧養後台 -->
+  <section id="screen-dash" class="screen">
+    <div class="back-link" onclick="show('screen-title')">‹ 離開</div>
+    <h2 class="dash-h gold-text">牧養後台</h2>
+    <p class="dash-sub">陪伴每個孩子，成為得勝者</p>
+    <div class="dash-stats" id="dashStats"></div>
+    <div id="dashCare"></div>
+    <div id="dashList"></div>
+    <div style="height:24px"></div>
+  </section>
+
+  <!-- 牧者密碼 -->
+  <section id="screen-pin" class="screen">
+    <div class="back-link" onclick="show('screen-title')">‹ 返回</div>
+    <div class="pin-wrap">
+      <div style="font-size:44px;margin-bottom:10px">🔐</div>
+      <h2 class="dash-h gold-text" style="font-size:20px">牧者入口</h2>
+      <p class="dash-sub">請輸入牧者密碼</p>
+      <input id="pinIn" class="pin-in" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+      <button class="btn" style="margin-top:16px" onclick="checkPin()">進入 ▸</button>
+    </div>
+  </section>
+
+    <!-- 得勝獎勵約定 -->
+  <section id="screen-rewards" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">得勝獎勵約定</h2>
+    <p class="map-note">愛的約定，鼓勵你成為得勝者</p>
+    <div class="rw-intro">和<b>爸媽或牧者</b>一起，為每一站約定一個你真正想要的獎勵。這是一份<b>愛的約定</b>，陪你走完得勝的旅程——凡事都要憑愛心而做（林前十六 14）。而最大的獎賞，是將來<b>與基督同坐寶座</b>！</div>
+    <button class="btn ghost small" id="rewardEditBtn" onclick="toggleRewardEdit()">✎ 家長/牧者設定獎勵</button>
+    <div id="rewardList"></div>
+    <div style="height:24px"></div>
+  </section>
+
+    <!-- 我的換觀點 -->
+  <section id="screen-frames" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">我的換觀點</h2>
+    <p class="map-note">把真實的煩惱，換上神的觀點</p>
+    <div class="rw-intro">把生活中真實的煩惱、負面想法（<b>人的觀點</b>）寫下來，換上<b>神的觀點</b>。可以自己寫，也可以請爸媽或<b>小智</b>一起想。這些卡片也會出現在「觀念之城」的課程裡，陪你練習！</div>
+    <div id="framesList"></div>
+    <button class="btn ghost small" id="frameAddBtn" onclick="toggleFrameForm()">＋ 新增一張換觀點卡</button>
+    <div id="frameFormWrap"></div>
+    <div style="height:24px"></div>
+  </section>
+
+    <!-- 每日靈修 -->
+  <section id="screen-devo" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">每日靈修</h2>
+    <p class="map-note" id="devoStreak"></p>
+    <div id="devoBody"></div>
+    <div style="height:24px"></div>
+  </section>
+
+  <!-- 經文複習 -->
+  <section id="screen-memreview" class="screen">
+    <div class="back-link" onclick="openDevo()">‹ 靈修</div>
+    <div id="memReviewBody" style="flex:1;display:flex;flex-direction:column"></div>
+  </section>
+
+    <!-- 禱告生活 -->
+  <section id="screen-prayer" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">禱告生活</h2>
+    <p class="map-note">與神親近，彼此代禱，數算應允</p>
+    <div id="prayerBody"></div>
+    <div style="height:24px"></div>
+  </section>
+
+    <!-- 920 每日任務 -->
+  <section id="screen-920" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">920 每日任務</h2>
+    <p class="map-note" id="s920streak"></p>
+    <div id="s920Body"></div>
+    <div style="height:24px"></div>
+  </section>
+
+  <!-- 235 戰隊 -->
+  <section id="screen-squad" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">235 戰隊</h2>
+    <p class="map-note">彼此建造，一起爭戰，建立神國</p>
+    <div id="squadBody"></div>
+    <div style="height:24px"></div>
+  </section>
+
+    <!-- 得勝者導師路徑 -->
+  <section id="screen-mentor" class="screen">
+    <div class="back-link" onclick="show('screen-map');syncMap()">‹ 地圖</div>
+    <h2 class="map-title gold-text">得勝者導師</h2>
+    <p class="map-note">終點是新的起點 · 把生命傳下去</p>
+    <div id="mentorBody"></div>
+    <div style="height:24px"></div>
+  </section>
+
+  <!-- HERO SHEET -->
+  <section id="screen-hero" class="screen">
+    <div class="back-link" onclick="goBackFromHero()">‹ 返回</div>
+    <div id="heroBig"></div>
+    <div class="hud-stage" id="heroStageLbl" style="font-size:20px;margin-top:6px"></div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:4px" id="heroSub"></p>
+    <div class="fruit-grid" id="fruitGrid"></div>
+    <div class="hero-medals" id="heroMedals"></div>
+    <div class="hero-mh">🌱 好習慣徽章</div>
+    <div class="hero-habits" id="heroHabits"></div>
+    <button class="btn" style="margin-top:18px" onclick="openShare('hero')">📸 分享我的得勝見證</button>
+    <button class="btn ghost" style="margin-top:12px" onclick="openGloryWall()">🏆 榮耀獎章牆</button>
+    <button class="btn ghost" style="margin-top:12px" onclick="reportProgress()">回報我的進度給牧者 🙏</button>
+    <div style="height:20px"></div>
+  </section>
+</div>
+
+<script>
+/* ============ 勇者 SVG ============ */
+function heroSVG(unself, chainsLeft, opts){
+  opts=opts||{};
+  var sat=Math.max(0,Math.min(1,unself/100));
+  var glow=sat, halo=unself>=70?1:(unself>=50?0.5:0), gray=(1-sat).toFixed(2);
+  var chains='';
+  var links=[[70,120,-38],[92,132,-38],[114,144,-38],[130,116,40],[108,104,40],[86,92,40]];
+  for(var i=0;i<links.length;i++){ if(i<(6-chainsLeft))continue; var L=links[i];
+    chains+='<g transform="translate('+L[0]+','+L[1]+') rotate('+L[2]+')"><rect x="-7" y="-5" width="14" height="10" rx="4" fill="none" stroke="#b9b1c9" stroke-width="2.4"/></g>';}
+  var gems='';
+  if(opts.fruits){ var fc=['#FF6B6B','#FFD34E','#59E3D6','#7CC5F0','#B084F5','#8AE070','#F5A742','#FF9FC4','#67E8C0'];
+    for(var f=0;f<opts.fruits;f++){ var ang=(-125+f*(250/8))*Math.PI/180; var cx=100+Math.cos(ang)*104, cy=150+Math.sin(ang)*118;
+      gems+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="5.5" fill="'+fc[f]+'" opacity=".95"><animate attributeName="opacity" values=".5;1;.5" dur="2.4s" repeatCount="indefinite"/></circle>';}}
+  return '<svg viewBox="0 0 200 300" width="100%" height="100%"><defs>'
+  +'<radialGradient id="aura" cx="50%" cy="42%" r="55%"><stop offset="0%" stop-color="#FFE08A" stop-opacity="'+(0.55*glow)+'"/><stop offset="55%" stop-color="#F5C33B" stop-opacity="'+(0.18*glow)+'"/><stop offset="100%" stop-color="#F5C33B" stop-opacity="0"/></radialGradient>'
+  +'<linearGradient id="armor" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7C6BC4"/><stop offset="100%" stop-color="#3A2A6B"/></linearGradient>'
+  +'<linearGradient id="cloak" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a3690"/><stop offset="100%" stop-color="#241748"/></linearGradient>'
+  +'<linearGradient id="blade" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF3C8"/><stop offset="100%" stop-color="#F5C33B"/></linearGradient></defs>'
+  +'<ellipse cx="100" cy="272" rx="'+(48+30*glow)+'" ry="13" fill="#F5C33B" opacity="'+(0.10+0.22*glow)+'"/>'
+  +'<circle cx="100" cy="132" r="96" fill="url(#aura)"/>'
+  +'<g style="filter:grayscale('+gray+') brightness('+(0.72+0.28*sat)+')">'
+  +(halo>0?'<ellipse cx="100" cy="52" rx="30" ry="9" fill="none" stroke="#FFE08A" stroke-width="3" opacity="'+halo+'" style="filter:drop-shadow(0 0 6px #F5C33B)"/>':'')
+  +'<path d="M64 118 Q54 200 60 250 L100 236 L140 250 Q146 200 136 118 Z" fill="url(#cloak)"/>'
+  +'<g opacity="'+(0.5+0.5*sat)+'" style="filter:drop-shadow(0 0 '+(6*glow)+'px #F5C33B)"><rect x="96" y="120" width="8" height="120" rx="3" fill="url(#blade)"/><rect x="80" y="150" width="40" height="8" rx="3" fill="url(#blade)"/><circle cx="100" cy="118" r="6" fill="#FFF3C8"/></g>'
+  +'<path d="M74 120 Q100 108 126 120 L122 190 Q100 200 78 190 Z" fill="url(#armor)"/>'
+  +'<path d="M74 120 Q100 108 126 120 L124 138 Q100 130 76 138 Z" fill="#8f7de0" opacity=".55"/>'
+  +'<path d="M74 124 Q60 150 66 188 L80 184 Q76 150 84 128 Z" fill="url(#armor)"/>'
+  +'<path d="M126 124 Q140 150 134 188 L120 184 Q124 150 116 128 Z" fill="url(#armor)"/>'
+  +'<rect x="84" y="196" width="14" height="52" rx="6" fill="#2f2358"/><rect x="102" y="196" width="14" height="52" rx="6" fill="#2f2358"/>'
+  +'<circle cx="100" cy="86" r="22" fill="#f0c9a4"/>'
+  +'<path d="M78 84 Q80 58 100 56 Q120 58 122 84 L116 78 Q100 70 84 78 Z" fill="url(#armor)"/>'
+  +'<rect x="90" y="60" width="20" height="7" rx="3" fill="#FFE08A" opacity="'+(0.4+0.6*sat)+'"/></g>'
+  +'<g>'+chains+'</g>'+gems+'</svg>';
+}
+/* 小智：聖靈引導的化身，一團發光的靈焰，中央是「智」字 */
+function xiOrbSVG(){return '<svg viewBox="0 0 60 60" width="100%" height="100%"><defs>'
+  +'<radialGradient id="xg" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#EAFFFB"/><stop offset="45%" stop-color="#59E3D6"/><stop offset="100%" stop-color="#2E8F9E"/></radialGradient></defs>'
+  +'<circle cx="30" cy="31" r="19" fill="url(#xg)"><animate attributeName="r" values="18;20;18" dur="2.6s" repeatCount="indefinite"/></circle>'
+  +'<circle cx="30" cy="31" r="24" fill="none" stroke="#7CC5F0" stroke-width="1.4" opacity=".5"><animate attributeName="opacity" values=".2;.6;.2" dur="2.6s" repeatCount="indefinite"/></circle>'
+  +'<text x="30" y="39" text-anchor="middle" font-family="serif" font-size="23" font-weight="700" fill="#0B3B3F">智</text>'
+  +'<circle cx="22" cy="23" r="2.2" fill="#fff" opacity=".8"/></svg>';}
+function emblemSVG(){return '<svg viewBox="0 0 120 120" width="100%" height="100%"><defs><linearGradient id="e" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#B8862B"/></linearGradient></defs><circle cx="60" cy="60" r="54" fill="none" stroke="url(#e)" stroke-width="2.5" opacity=".7"/><circle cx="60" cy="60" r="44" fill="none" stroke="url(#e)" stroke-width="1" opacity=".4"/><rect x="54" y="24" width="12" height="72" rx="4" fill="url(#e)"/><rect x="36" y="48" width="48" height="12" rx="4" fill="url(#e)"/><text x="60" y="112" text-anchor="middle" fill="#F5C33B" font-size="13" font-family="serif" letter-spacing="2">321</text></svg>';}
+
+/* ============ 資料 ============ */
+var FRUITS=[['仁愛','❤'],['喜樂','☀'],['和平','🕊'],['忍耐','⏳'],['恩慈','🤲'],['良善','🌿'],['信實','⚓'],['溫柔','🍃'],['節制','⚖']];
+var STAGES=[{min:0,name:'舊人 · 有己'},{min:15,name:'重生 · 初信'},{min:30,name:'操練 · 捨己'},{min:50,name:'無己 · 合一'},{min:70,name:'得勝雛形'},{min:90,name:'得勝者'}];
+
+/* 觀念之城 · 五課完整課程（資料驅動） */
+var WORLD=[
+{id:'idea',name:'觀念之城',icn:'壹',theme:'改變觀點',lessons:[
+ { title:'觀點的力量', vtag:'觀點決定一切', fruit:0,
+   coachOpen:'嗨，我是小智，這一課我陪你一起走。今天要學一件很酷的事——換一個觀點，就換一個世界。準備好了嗎？',
+   coachCheer:'看到了嗎？你剛剛選的，就是「神的觀點」。謙卑帶動謙卑，你做得很好！',
+   intro:'在觀念之城，你要學的第一課是：<b>換一個觀點，就換一個世界。</b>改變觀點，就改變觀念；改變觀念，就改變生命。',
+   verse:{t:'不要效法這個世界，只要心意更新而變化，叫你們察驗何為神的善良、純全、可喜悅的旨意。',r:'羅馬書十二章 2 節'},
+   reveal:{lead:'同一件事，人的觀點看是災難，神的觀點看是恩典。<b>點卡片，換上神的觀點。</b>',
+     cards:[
+       {sit:'考試考壞了',human:'我真是個失敗者。',eye2:'神的觀點',god:'這是神在磨練我、塑造我，叫我學會倚靠祂（羅八 28）。'},
+       {sit:'被朋友誤會',human:'沒有人懂我，好孤單。',eye2:'神的觀點',god:'主完全懂我，這是操練我像祂一樣饒恕的機會。'}]},
+   believe:{scenario:'同學公開嘲笑你的信仰。你會用哪一種觀點回應？',
+     options:[
+       {t:'罵回去，證明我不好惹。',ok:false,fb:'用驕傲對抗驕傲，只會兩敗俱傷。'},
+       {t:'為他祝福，因為神也愛他。',ok:true,fb:'正是！謙卑帶動謙卑，這是神的觀點。'},
+       {t:'假裝我沒有信仰，比較安全。',ok:false,fb:'那是出於自卑——但你是神所寶貝的新造的人。'}]},
+   practice:{icn:'📜',title:'今日任務',desc:'走出螢幕，帶進生活——今天找一件你覺得「倒楣」的事，用<b>永恆的觀點</b>重新看它一次，並為它謝恩。',foot:'只是你們要行道，不要單單聽道（雅一 22）'},
+   review:{prompt:'安靜下來，寫下一件你想用神的觀點重新看的事。',ph:'例如：我一直覺得轉學很糟，但也許神要我在新地方成為光……'},
+   adjust:{l1:'做得好。改變觀念是一條路，會反覆、需要修正——這很正常。',l2:'下次當「人的觀點」又冒出來時，深呼吸，問一句：「主，祢怎麼看這件事？」'} },
+
+ { title:'人的觀點 → 神的觀點', vtag:'神看內心', fruit:1,
+   coachOpen:'這一課，小智 想邀你戴上「神的眼鏡」。人看外貌，神看內心——你會發現，連你自己都比你想的更寶貴。',
+   coachCheer:'太棒了！你選擇用神的眼光看那個人。神看的是內心，你剛剛也是。',
+   intro:'人是看外貌，神是看內心。當你學會用神的眼光看人、看自己，你就<b>不再被外表和環境嚇倒。</b>',
+   verse:{t:'耶和華不像人看人：人是看外貌；耶和華是看內心。',r:'撒母耳記上十六章 7 節'},
+   reveal:{lead:'把「人的觀點」翻成「神的觀點」，你會看見完全不同的自己。',
+     cards:[
+       {sit:'我又矮又不起眼',human:'我沒有價值，沒人看得起我。',eye2:'神的觀點',god:'神揀選的是內心；在祂眼中，我是被珍愛、被揀選的。'},
+       {sit:'面前的困難好巨大',human:'這巨人太大了，我一定輸。',eye2:'神的觀點',god:'巨人再大，也大不過我的神（撒上十七章，大衛與歌利亞）。'}]},
+   believe:{scenario:'班上有個同學又窮又邋遢，大家都排擠他。你怎麼做？',
+     options:[
+       {t:'跟著大家一起疏遠他。',ok:false,fb:'那是「人看外貌」。神看的是他的內心。'},
+       {t:'主動關心他，他和我一樣是神所寶貝的。',ok:true,fb:'對！你用神的眼光看見了他的價值。'},
+       {t:'假裝沒看見，不想惹麻煩。',ok:false,fb:'沉默有時也是隨從人的觀點。神要你去愛。'}]},
+   practice:{icn:'👁',title:'今日任務',desc:'今天用<b>神的眼光</b>看一個你平常看不順眼的人，刻意找出他一個「神所看重」的美好。',foot:'人是看外貌，耶和華是看內心（撒上十六 7）'},
+   review:{prompt:'寫下一個你想用「神看內心」的眼光，重新看待的人。',ph:'例如：那個常惹我生氣的同學，也許他內心其實很孤單……'},
+   adjust:{l1:'看人如神看人，是一生的操練，你剛剛跨出第一步。',l2:'當你又想用外貌評斷人時，提醒自己：「神看的是內心。」'} },
+
+ { title:'地上的觀點 → 天上的觀點', vtag:'思念上面', fruit:2,
+   coachOpen:'今天我們要把眼光往上抬。地上的東西比來比去比不完，天上的基業卻永不朽壞。跟小智 一起看看吧！',
+   coachCheer:'好選擇！天上的神一直看著，你選了誠實——這比任何分數都貴重。',
+   intro:'地上的人比誰擁有得多，天上的人比誰為神活得真。<b>求在上面的事，你的心就得自由。</b>',
+   verse:{t:'你們要思念上面的事，不要思念地上的事。',r:'歌羅西書三章 2 節'},
+   reveal:{lead:'把眼光從「地上」抬到「天上」，你追求的東西就變了。',
+     cards:[
+       {sit:'別人有名牌、有新手機，我沒有',human:'我好可憐，好羨慕別人。',eye2:'天上的觀點',god:'我有天上永不朽壞、存到永遠的基業（彼前一 4）。'},
+       {sit:'我想贏過所有人，當第一',human:'第一名才有價值。',eye2:'天上的觀點',god:'在神的國裡，願意服事人的為大（太二十 26）。'}]},
+   believe:{scenario:'考試時你有機會作弊拿高分，而且沒有人會發現。',
+     options:[
+       {t:'作弊，反正分數最重要。',ok:false,fb:'那是地上的觀點。天上的神一直看著。'},
+       {t:'不作弊，誠實比分數更寶貴，神在天上看著。',ok:true,fb:'對！你選擇了天上的觀點與獎賞。'},
+       {t:'作弊，事後捐點錢補償一下。',ok:false,fb:'補償換不到誠實。神要的是我們的心。'}]},
+   practice:{icn:'🕯',title:'今日任務',desc:'今天做一件<b>只有天上的神看得見</b>的好事，不讓任何人知道。',foot:'你父在暗中察看，必然報答你（太六 4）'},
+   review:{prompt:'寫下一件你一直很在意的「地上的事」，試著把它交託給天上的神。',ph:'例如：我很在意同學怎麼看我的穿著，但天父看重的是我的心……'},
+   adjust:{l1:'把心放在上面，地上的重擔就變輕了。',l2:'每天問自己一次：「這件事，在永恆裡還算數嗎？」'} },
+
+ { title:'暫時的觀點 → 永恆的觀點', vtag:'所不見的是永遠的', fruit:3,
+   coachOpen:'這一課有點深，但很重要。眼前的苦和樂都是暫時的，小智 陪你學會用「永恆」的眼光看事情。',
+   coachCheer:'你贏了！一時的快樂換不到永恆的平安，你為永恆站穩了，小智 為你開心。',
+   intro:'眼前的痛苦是暫時的，眼前的享樂也是暫時的。<b>為永恆而活的人，走得最穩。</b>',
+   verse:{t:'原來我們不是顧念所見的，乃是顧念所不見的；因為所見的是暫時的，所不見的是永遠的。',r:'哥林多後書四章 18 節'},
+   reveal:{lead:'把「暫時」的尺，換成「永恆」的尺，一切就有了不同的重量。',
+     cards:[
+       {sit:'現在好痛苦，快撐不下去了',human:'這就是世界末日，我完了。',eye2:'永恆的觀點',god:'這至暫至輕的苦楚，要成就極重無比、永遠的榮耀（林後四 17）。'},
+       {sit:'我想現在就爽，管他以後',human:'及時行樂最實在。',eye2:'永恆的觀點',god:'我要積財寶在天上，那裡永不朽壞（太六 20）。'}]},
+   believe:{scenario:'朋友揪你去做一件很刺激、但你知道不對的事：「就這一次嘛！」',
+     options:[
+       {t:'去啊，人生要及時行樂。',ok:false,fb:'那是暫時的觀點。一時的快樂，代價可能很長。'},
+       {t:'不去，一時的快樂換不到永恆的平安。',ok:true,fb:'對！你用永恆的眼光作了智慧的選擇。'},
+       {t:'去，但心裡一直覺得罪惡。',ok:false,fb:'順從試探又不平安，何必呢？為永恆站穩吧。'}]},
+   practice:{icn:'⏳',title:'今日任務',desc:'今天當你想放棄一件對的事時，對自己說：「這是<b>至暫至輕</b>的，永恆的榮耀在等我。」然後撐住。',foot:'所見的是暫時的，所不見的是永遠的（林後四 18）'},
+   review:{prompt:'寫下一個你正在經歷的難處。用永恆的觀點看，它有什麼不一樣的意義？',ph:'例如：現在的孤單很難熬，但也許神正在讓我學會單單倚靠祂……'},
+   adjust:{l1:'眼光放遠到永恆，眼前的浪就淹不沒你。',l2:'難處臨到時，記得問：「這在永恆裡，是至暫至輕的嗎？」'} },
+
+ { title:'屬世的觀點 → 屬神的觀點', vtag:'無己讓耶穌作王', fruit:4,
+   coachOpen:'這是觀念之城最後一課，也是最關鍵的。小智 要陪你走到最深的地方——無己，讓耶穌作王。',
+   coachCheer:'這就是無己！你放下自己，讓耶穌作王。這是整座城最寶貴的一步，小智 好感動。',
+   intro:'這是觀念之城的最後一課，也是最關鍵的一課：<b>屬世是以自己為中心（有己），屬神是以神為中心（無己）。</b>無己，才能讓耶穌作王。',
+   verse:{t:'這世界和其上的情慾都要過去，惟獨遵行神旨意的，是永遠常存。',r:'約翰一書二章 17 節'},
+   reveal:{lead:'最深的觀點轉換，是從「我作王」轉成「讓耶穌作王」。',
+     cards:[
+       {sit:'凡事以我為中心，我最重要',human:'我的人生我作主，我要作王。',eye2:'屬神的觀點',god:'不再是我，乃是基督在我裡面活——無己讓耶穌作王（加二 20）。'},
+       {sit:'我要靠自己的頭腦想辦法',human:'用腦靠自己，結果一直煩惱。',eye2:'屬神的觀點',god:'用心靠聖靈就開心；要專心仰賴耶和華，不倚靠自己的聰明（箴三 5）。'}]},
+   believe:{scenario:'一件事你很想照自己的意思做，但你感覺聖靈在提醒你：這樣不對。',
+     options:[
+       {t:'照我的意思，我的人生我作主。',ok:false,fb:'那是「有己」、屬世的觀點——舊人在作王。'},
+       {t:'放下自己，順服聖靈，讓耶穌作王。',ok:true,fb:'這就是無己！讓基督在你裡面作王掌權。'},
+       {t:'先照自己的，不行再說。',ok:false,fb:'半個順服還是自己作主。今天，練習真正的捨己。'}]},
+   practice:{icn:'✝',title:'今日任務',desc:'今天在一件小事上刻意<b>捨己</b>——放下你的意思，選擇神的意思，親自體驗「無己讓耶穌在你裡面作王」。',foot:'若有人要跟從我，就當捨己（太十六 24）'},
+   review:{prompt:'寫下一個你一直「以自己為中心」的地方。你願意在這裡，讓耶穌作王嗎？',ph:'例如：我總想證明自己比別人強，我願意放下這個，讓耶穌來得榮耀……'},
+   adjust:{l1:'你剛剛走到觀念之城最深的地方——無己。',l2:'記住：無己不是沒有，乃是讓基督在你裡面，活出無限。'} },
+ { type:'boss', bossId:'inferior', title:'王者之戰 · 自卑之王', vtag:'領受神眼中的你',
+   coachOpen:'觀念之城的王者之戰！自卑之王用謊言壓著你，說你不夠好。記住：越努力證明自己越被綑綁，唯有領受神眼中的你，才能得勝。',
+   verse:{t:'耶和華不像人看人：人是看外貌；耶和華是看內心。',r:'撒母耳記上十六章 7 節'} }
+]},
+{id:'life',name:'生命之谷',icn:'貳',theme:'舊人變新人',lessons:[
+ { title:'認識舊人', vtag:'有己是根源',
+   coachOpen:'歡迎來到生命之谷。這裡要面對一個真相——我們裡面有個「舊人」，凡事以自己為中心。看清楚它，是改變的開始。',
+   coachCheer:'你看見了！誠實面對舊人，不是為了自責，是為了讓耶穌來改變。',
+   intro:'觀念更新之後，要面對更深的——<b>生命的改變</b>。第一步，是誠實看見自己裡面的「舊人」：以自己為中心、想自己作王。',
+   verse:{t:'因為，立志為善由得我，只是行出來由不得我。',r:'羅馬書七章 18 節'},
+   reveal:{lead:'舊人常常戴著面具，點開看看它真實的樣子。',cards:[
+     {sit:'我明明想對，卻總是做錯',human:'我怎麼這麼糟，乾脆放棄。',eye2:'看見真相',god:'這正是「舊人有己」的軟弱，不是絕望，而是我需要耶穌的記號（羅七 24-25）。'},
+     {sit:'凡事都想照我的意思',human:'我這樣很正常啊。',eye2:'看見真相',god:'想自己作主、代替神，就是驕傲——問題的根源（創三章）。'}]},
+   believe:{scenario:'你發現自己又忍不住發脾氣、以自我為中心了。這時最健康的反應是？',options:[
+     {t:'算了，我就是這種人，改不了。',ok:false,fb:'那是放棄。舊人改不了，但耶穌能給你新生命。'},
+     {t:'誠實向神承認，求耶穌來改變我。',ok:true,fb:'對！看見舊人，正是為了讓耶穌動工。'},
+     {t:'假裝沒事，反正沒人看見。',ok:false,fb:'遮掩讓舊人繼續作王。誠實，光才照進來。'}]},
+   practice:{icn:'🪞',title:'今日任務',desc:'今天誠實觀察一次：什麼時候你想「以自己為中心、自己作主」？把它記下來，不責備自己，只是看見。',foot:'我真是苦啊！誰能救我脫離…感謝神，靠著耶穌基督（羅七 24-25）'},
+   review:{prompt:'寫下一個你最近看見的「舊人有己」的表現。',ph:'例如：我常常要別人聽我的，不然就生氣……'},
+   adjust:{l1:'看見舊人，需要勇氣，你做到了。',l2:'記得：看見不是為了定罪，是為了把它交給十字架。'} },
+ { title:'十字架的死', vtag:'舊人已與主同釘',
+   coachOpen:'舊人怎麼改變呢？不是靠努力壓制，而是——與基督同釘十字架。這一課很奇妙，小智 陪你看。',
+   coachCheer:'太好了！你抓到福音的核心——舊人的出路是死，然後在基督裡復活。',
+   intro:'舊人不是靠「變好」來改變，而是藉著福音——<b>與基督同釘十字架</b>，舊人已經死了。',
+   verse:{t:'我已經與基督同釘十字架，現在活著的不再是我，乃是基督在我裡面活著。',r:'加拉太書二章 20 節'},
+   reveal:{lead:'把「靠自己」的想法，換成「與主同死同活」的真理。',cards:[
+     {sit:'我要靠意志力改掉壞習慣',human:'我一定要更努力壓住自己！',eye2:'福音的眼光',god:'不是壓制，是同釘十字架——舊人已死，靠耶穌得自由（羅六 6）。'},
+     {sit:'我覺得自己不可能改變',human:'我大概一輩子就這樣了。',eye2:'福音的眼光',god:'在基督裡你是新造的人，舊事已過（林後五 17）。'}]},
+   believe:{scenario:'一個壞習慣你屢戰屢敗。福音給你的答案是？',options:[
+     {t:'再咬牙努力一次，靠自己撐住。',ok:false,fb:'單靠自己就是舊人的路，會一直累。'},
+     {t:'承認自己做不到，把它釘十字架，靠耶穌活。',ok:true,fb:'這就對了！不再是我，乃是基督在我裡面活。'},
+     {t:'乾脆接受自己爛。',ok:false,fb:'不！你在基督裡是新造的人，別小看福音的能力。'}]},
+   practice:{icn:'✝',title:'今日任務',desc:'今天在一個你常失敗的地方，禱告說：「主，這個舊我，我與祢同釘十架；現在讓祢在我裡面活。」然後試試看。',foot:'因為知道我們的舊人和祂同釘十字架（羅馬書六章 6 節）'},
+   review:{prompt:'寫下一個你想「與基督同釘十字架」、交給主的舊習慣或軟弱。',ph:'例如：我想把愛比較、嫉妒的心，釘在十字架上……'},
+   adjust:{l1:'福音的大能，不在你多強，在耶穌已成就。',l2:'每天提醒自己：不再是我，乃是基督。'} },
+ { title:'復活的新生命', vtag:'新生的樣式',
+   coachOpen:'舊人死了，新人就活了！這一課，小智 要帶你認識那個「新造的你」——有基督生命的你。',
+   coachCheer:'看見了嗎？你不是靠自己變好，是領受了全新的生命。這是恩典！',
+   intro:'與主同死，就與主同活。你可以<b>一舉一動有新生的樣式</b>，活出基督的生命。',
+   verse:{t:'…叫我們一舉一動有新生的樣式，像基督藉著父的榮耀從死裡復活一樣。',r:'羅馬書六章 4 節'},
+   reveal:{lead:'用「新人」的眼光，重新認識自己。',cards:[
+     {sit:'別人怎麼定義我',human:'他們說我沒用，我大概就是吧。',eye2:'新人的眼光',god:'我是神的兒女、新造的人，我的身份由神來定義（約壹三 1）。'},
+     {sit:'面對誘惑',human:'反正我本性就軟弱，擋不住。',eye2:'新人的眼光',god:'罪不能再作我的主，因為我已在基督裡活過來（羅六 14）。'}]},
+   believe:{scenario:'有人一直用你的「過去」貼標籤。新人的你怎麼回應？',options:[
+     {t:'認了，我大概改不掉過去。',ok:false,fb:'那是舊人的聲音。你已是新造的人。'},
+     {t:'我在基督裡是新人，過去不再定義我。',ok:true,fb:'阿們！舊事已過，都變成新的了。'},
+     {t:'生氣地反擊回去。',ok:false,fb:'新人不需要用憤怒證明自己，你的身份在基督裡穩固。'}]},
+   practice:{icn:'🌱',title:'今日任務',desc:'今天做一件「新人才會做」的事——一個舊的你不會做、但有基督生命的你願意做的選擇（例如主動原諒、主動服事）。',foot:'若有人在基督裡，他就是新造的人（林後五 17）'},
+   review:{prompt:'寫下一件「新造的你」想開始活出來的樣子。',ph:'例如：新的我，想成為一個會鼓勵人、而不是批評人的人……'},
+   adjust:{l1:'你不是在假裝變好，是在活出真實的新生命。',l2:'每天問：今天，新人的我，想怎麼活？'} },
+ { title:'無己 · 謙卑戰勝驕傲', vtag:'無己戰勝撒旦',
+   coachOpen:'這是生命之谷最深的一課。舊人的核心是驕傲，新人的核心是——無己與謙卑。小智 陪你走這最關鍵的一步。',
+   coachCheer:'這就是得勝！謙卑戰勝驕傲，無己戰勝撒旦。你正在成為得勝者。',
+   intro:'生命改變的頂點，是<b>無己</b>：不再是我，乃是基督。謙卑戰勝驕傲，無己戰勝撒旦——這是舊人變新人最深的實際。',
+   verse:{t:'…神阻擋驕傲的人，賜恩給謙卑的人。',r:'雅各書四章 6 節'},
+   reveal:{lead:'看清驕傲與謙卑的真相，選擇回到本位。',cards:[
+     {sit:'我想證明我比別人強',human:'我一定要贏過他、壓過他。',eye2:'謙卑的眼光',god:'驕傲是離開本位、抓權代替神；謙卑是放下權力、回到本位，讓神作神（腓二 3）。'},
+     {sit:'撒旦用驕傲攻擊我',human:'我要靠自己的強硬撐住。',eye2:'謙卑的眼光',god:'無己戰勝撒旦——放下自己、順服神，魔鬼就必逃跑（雅四 7）。'}]},
+   believe:{scenario:'和人起衝突時，你裡面兩個聲音在拉扯。哪一個是得勝之道？',options:[
+     {t:'用更強的驕傲壓過對方。',ok:false,fb:'驕傲對驕傲，兩敗俱傷。'},
+     {t:'選擇謙卑、放下自己，把對方交給神。',ok:true,fb:'謙卑帶動謙卑，達到雙贏——這是得勝！'},
+     {t:'表面退讓，心裡記恨。',ok:false,fb:'那不是真謙卑。真無己，是連心也放下。'}]},
+   practice:{icn:'👑',title:'今日任務',desc:'今天刻意做一次「回到本位」的謙卑：放下你想掌控的一件事，交給神；在一次衝突裡，選擇謙卑而不是壓過人。',foot:'你們要自卑，服在神大能的手下（彼前五 6）'},
+   review:{prompt:'寫下一個你願意「放下權力、回到本位」，讓神作神的地方。',ph:'例如：我一直想掌控我的成績和未來，我願意放手交給神……'},
+   adjust:{l1:'你走到了生命之谷最深處——無己與謙卑。',l2:'記住：無己不是沒有，是讓基督在你裡面活出無限。'} },
+ { type:'boss', bossId:'pride', title:'王者之戰 · 驕傲之王', vtag:'謙卑戰勝驕傲', fruit:5,
+   coachOpen:'這是生命之谷的王者之戰。你面前是「驕傲之王」——己的化身。記住：你不能靠攻擊贏牠，只能靠謙卑與捨己。',
+   verse:{t:'…神阻擋驕傲的人，賜恩給謙卑的人。',r:'雅各書四章 6 節'} }
+]},
+{id:'live',name:'生活之路',icn:'參',theme:'活出無己',lessons:[
+ { title:'用心靠聖靈', vtag:'用心不用腦',
+   coachOpen:'進入生活之路！這裡學的是每天怎麼活。第一課很實用——用心靠聖靈，不要用腦靠自己。',
+   coachCheer:'對了！用心就開心，用腦就煩惱。你選擇了倚靠聖靈。',
+   intro:'新生命要活在每天的生活裡。第一個祕訣：<b>用心靠聖靈，不要用腦靠自己</b>；用心就開心，用腦就煩惱。',
+   verse:{t:'你要專心仰賴耶和華，不可倚靠自己的聰明。',r:'箴言三章 5 節'},
+   reveal:{lead:'把「靠自己的腦」換成「靠聖靈的心」。',cards:[
+     {sit:'遇到難題',human:'我要自己想破頭找出答案。',eye2:'倚靠的眼光',god:'先安靜下來求問聖靈，在你一切所行的事上認定祂，祂必指引你的路（箴三 6）。'},
+     {sit:'心裡好煩好焦慮',human:'我一直在腦裡轉，停不下來。',eye2:'倚靠的眼光',god:'一生的果效由心發出；把心轉向神，祂賜出人意外的平安（腓四 6-7）。'}]},
+   believe:{scenario:'一件事讓你很焦慮，腦子停不下來。活出無己的做法是？',options:[
+     {t:'繼續在腦裡反覆計算，直到想通。',ok:false,fb:'用腦靠自己，只會越想越煩惱。'},
+     {t:'停下來，把心交給神，求聖靈引導。',ok:true,fb:'用心靠聖靈，就有平安。你抓到訣竅了！'},
+     {t:'乾脆逃避，不去想。',ok:false,fb:'逃避不是倚靠。把心轉向神，才有真平安。'}]},
+   practice:{icn:'🕊',title:'今日任務',desc:'今天遇到一件讓你煩的事，先別急著用腦解決——安靜一分鐘，把心轉向神，說：「聖靈，請祢帶領我。」',foot:'應當一無掛慮，只要凡事…把你們所要的告訴神（腓四 6）'},
+   review:{prompt:'寫下一件你想學習「用心靠聖靈、而不是用腦靠自己」的事。',ph:'例如：我對考試很焦慮，我想學會把心交給神……'},
+   adjust:{l1:'倚靠聖靈是一輩子的功課，你開始了。',l2:'煩惱時提醒自己：用心就開心，用腦就煩惱。'} },
+ { title:'焦點在耶穌', vtag:'定睛耶穌',
+   coachOpen:'這一課很重要——生活的風浪中，焦點放哪裡，決定你會不會沉下去。小智 陪你定睛耶穌。',
+   coachCheer:'太好了！焦點在耶穌，不在自己、不在別人、不在環境。你站穩了。',
+   intro:'活出無己的關鍵：<b>焦點在耶穌，不在自己、不在別人、不在環境</b>。彼得看風浪就下沉，看耶穌就行走在水面。',
+   verse:{t:'仰望為我們信心創始成終的耶穌…',r:'希伯來書十二章 2 節'},
+   reveal:{lead:'把焦點從環境，移回耶穌身上。',cards:[
+     {sit:'環境一團亂',human:'風浪這麼大，我要沉下去了。',eye2:'定睛的眼光',god:'像彼得一樣把眼目轉回耶穌，就能行在水面上（太十四 29-30）。'},
+     {sit:'一直在意別人的眼光',human:'大家都在看我、評論我。',eye2:'定睛的眼光',god:'焦點不在別人，在耶穌；祂的看法，才是我的定位。'}]},
+   believe:{scenario:'事情很不順，你開始慌了。活出無己的你會把焦點放在？',options:[
+     {t:'一直盯著問題有多大。',ok:false,fb:'盯著風浪，就會像彼得一樣往下沉。'},
+     {t:'把焦點轉回耶穌，信靠祂掌權。',ok:true,fb:'對！仰望耶穌，你就能站立得穩。'},
+     {t:'怪東怪西、怪環境。',ok:false,fb:'焦點在環境和別人，只會更慌。定睛耶穌吧。'}]},
+   practice:{icn:'👀',title:'今日任務',desc:'今天當你開始焦慮、往下沉時，做一個小動作：深呼吸，心裡說「耶穌，我看祢」，把焦點轉回祂身上。',foot:'仰望為我們信心創始成終的耶穌（來十二 2）'},
+   review:{prompt:'寫下一個最近讓你「往下沉」的風浪，練習把焦點轉回耶穌。',ph:'例如：我很怕考不好，但我想把眼目轉向掌管一切的耶穌……'},
+   adjust:{l1:'焦點在哪裡，力量就在哪裡。你選了耶穌。',l2:'風浪中記得那句話：耶穌，我看祢。'} },
+ { title:'凡事謝恩', vtag:'把榮耀歸神',
+   coachOpen:'這一課會改變你的每一天——學會凡事謝恩。感恩的心，是活出無己最美的樣子。',
+   coachCheer:'真棒！凡事謝恩，把榮耀歸給神。你的生活會越來越有光。',
+   intro:'活出無己的人，<b>凡事謝恩，把一切榮耀歸給神</b>。因為知道一切都是神在耶穌裡所成就的恩典。',
+   verse:{t:'凡事謝恩，因為這是神在基督耶穌裡向你們所定的旨意。',r:'帖撒羅尼迦前書五章 18 節'},
+   reveal:{lead:'把「抱怨」換成「謝恩」，你會看見恩典。',cards:[
+     {sit:'事情不如意',human:'為什麼倒楣的總是我，好想抱怨。',eye2:'感恩的眼光',god:'凡事謝恩——連難處裡都有神的美意，萬事都互相效力叫愛神的人得益處（羅八 28）。'},
+     {sit:'做成了一件好事',human:'哈，這是我厲害。',eye2:'感恩的眼光',god:'一切都是神的恩典，把榮耀歸給祂，不歸給自己。'}]},
+   believe:{scenario:'你努力達成了一個目標。活出無己的你會怎麼想？',options:[
+     {t:'這全是我自己的功勞。',ok:false,fb:'那是有己、驕傲。別忘了是誰給你力量。'},
+     {t:'感謝神，把榮耀歸給祂。',ok:true,fb:'對！凡事謝恩，榮耀歸神，這是無己的心。'},
+     {t:'趕快炫耀給大家看。',ok:false,fb:'焦點又回到自己了。把榮耀歸給神吧。'}]},
+   practice:{icn:'🙏',title:'今日任務',desc:'今天睡前，數算三件可以感謝神的事——包括一件本來想抱怨的事。',foot:'凡事謝恩…這是神…向你們所定的旨意（帖前五 18）'},
+   review:{prompt:'寫下一件你本來想抱怨、但現在願意謝恩的事。',ph:'例如：我一直抱怨功課多，但其實我能讀書、有機會學習，是恩典……'},
+   adjust:{l1:'感恩的心，是活出無己最美的記號。',l2:'每天找三件事謝恩，你的生活會越來越亮。'} },
+ { title:'活出基督', vtag:'讓人看見耶穌',
+   coachOpen:'這是生活之路最後一課。活出無己的終極目標，是讓人透過你看見耶穌。小智 好期待看你發光！',
+   coachCheer:'這就對了！你活出來的，讓人看見的是耶穌，不是你自己。榮耀歸神！',
+   intro:'活出無己的最高境界：<b>活著就是基督</b>，讓周圍的人透過你看見耶穌的光。',
+   verse:{t:'因我活著就是基督，我死了就有益處。',r:'腓立比書一章 21 節'},
+   reveal:{lead:'把「表現自己」換成「彰顯基督」。',cards:[
+     {sit:'想被人稱讚',human:'我要讓大家看見我有多好。',eye2:'發光的眼光',god:'我發的光是為叫人歸榮耀給神，不是給自己（太五 16）。'},
+     {sit:'信仰只放在心裡',human:'信耶穌是我私人的事，不用讓人知道。',eye2:'發光的眼光',god:'你是世上的光，光要照在人前，讓人看見你的好行為（太五 14-16）。'}]},
+   believe:{scenario:'同學問你：「你為什麼這麼不一樣？」活出基督的你會？',options:[
+     {t:'因為我本來就比較優秀啊。',ok:false,fb:'那是彰顯自己。機會是要讓人看見耶穌。'},
+     {t:'因為耶穌改變了我，願意把祂介紹給你。',ok:true,fb:'太好了！你活出來的，讓人看見的是基督。'},
+     {t:'不好意思講，隨便帶過。',ok:false,fb:'別把光藏起來，溫柔地讓人看見耶穌吧。'}]},
+   practice:{icn:'💡',title:'今日任務',desc:'今天用一個具體的好行為，讓身邊的人透過你感受到耶穌的愛——並在心裡把榮耀歸給神。',foot:'你們的光也當這樣照在人前（太五 16）'},
+   review:{prompt:'寫下一個你希望「透過你，讓人看見耶穌」的方式。',ph:'例如：我想在班上做那個最會關心人的，讓人好奇這份愛從哪來……'},
+   adjust:{l1:'活著就是基督——你正在成為一道光。',l2:'記住：讓人看見的是耶穌，榮耀歸給神。'} },
+ { type:'boss', bossId:'lust', title:'王者之戰 · 情慾之王', vtag:'逃避 · 定睛耶穌', fruit:6,
+   coachOpen:'生活之路的王者之戰！情慾之王用誘惑的假象，想網羅你的心和眼目。記住：硬碰、多看一眼只會被纏住，唯有逃避、定睛耶穌，才能得勝。',
+   verse:{t:'你要逃避少年的私慾，同那清心禱告主的人追求公義、信德、仁愛、和平。',r:'提摩太後書二章 22 節'} }
+]},
+{id:'rel',name:'關係之橋',icn:'肆',theme:'920 操練',lessons:[
+ { title:'關係的次序', vtag:'先與神連結',
+   coachOpen:'歡迎來到關係之橋！所有關係的祕訣，都從一個正確的次序開始。小智 陪你搭好這座橋。',
+   coachCheer:'對了！先與神建立關係，其他關係才會對。你抓到次序了。',
+   intro:'健康的關係有次序：<b>先與神，再與自己，再與人，再與事</b>。與神的關係對了，其他關係才會對。',
+   verse:{t:'你要盡心、盡性、盡意愛主你的神…要愛人如己。',r:'馬太福音二十二章 37、39 節'},
+   reveal:{lead:'把關係的次序擺對，橋才穩。',cards:[
+     {sit:'想被人喜歡、被接納',human:'只要大家喜歡我，我就滿足了。',eye2:'次序的眼光',god:'先在神的愛裡找到滿足，才不會被人的眼光綁架（詩六二 5）。'},
+     {sit:'和人關係卡住了',human:'我一直想修復和他的關係，卻更糟。',eye2:'次序的眼光',god:'先回到神面前，讓神的愛充滿你，再去愛人就有力量了。'}]},
+   believe:{scenario:'你很在意有沒有人喜歡你，情緒被同學的態度牽著走。更健康的方式是？',options:[
+     {t:'拚命討好每個人，讓大家都喜歡我。',ok:false,fb:'把根基建在別人身上，會很累也很不穩。'},
+     {t:'先在神的愛裡站穩，再去愛人。',ok:true,fb:'對！次序對了：先與神，再與人。'},
+     {t:'乾脆誰都不要好了。',ok:false,fb:'孤立不是答案。回到神的愛裡，你就有力量去愛。'}]},
+   practice:{icn:'🌉',title:'今日任務',desc:'今天先花幾分鐘與神獨處、領受祂的愛；然後帶著這份愛，去對一個人好。',foot:'我們愛，因為神先愛我們（約壹四 19）'},
+   review:{prompt:'寫下一段你想先「回到神面前」、再重新面對的關係。',ph:'例如：我和媽媽最近很緊張，我想先在神面前安靜，再去愛她……'},
+   adjust:{l1:'關係的根基在神，你把次序擺對了。',l2:'先與神，再與自己，再與人，再與事。'} },
+ { title:'人比事重要', vtag:'不為事傷人',
+   coachOpen:'這一課要提醒一件很容易忘記的事——人，永遠比事重要。小智 陪你學會愛人。',
+   coachCheer:'太棒了！你沒有為了事去傷害人。人比事重要，關係比東西重要。',
+   intro:'一個重要的原則：<b>人比事重要，關係比東西重要</b>。不要為了完成一件事，去傷害一個人。',
+   verse:{t:'安息日是為人設立的，人不是為安息日設立的。',r:'馬可福音二章 27 節'},
+   reveal:{lead:'把「事最大」換成「人最重要」。',cards:[
+     {sit:'有人礙到我的計畫',human:'別擋我路，事情做完最重要！',eye2:'愛人的眼光',god:'再重要的事，也不該用來傷害人；人比事重要。'},
+     {sit:'東西被弄壞了',human:'氣死了，這關係我不要了！',eye2:'愛人的眼光',god:'關係比東西寶貴——別為了物品，破壞了人。'}]},
+   believe:{scenario:'趕作業時，朋友難過地來找你聊心事。你會？',options:[
+     {t:'叫他等等，作業比較急。',ok:false,fb:'事情重要，但這一刻，人更需要你。'},
+     {t:'先停下來聽他說，陪他一下。',ok:true,fb:'對！人比事重要，你選對了。'},
+     {t:'一邊寫作業一邊敷衍他。',ok:false,fb:'那會讓他覺得不被重視。給他完整的關心吧。'}]},
+   practice:{icn:'❤',title:'今日任務',desc:'今天當「事」和「人」衝突時，練習選擇人——停下手邊的事，好好對待眼前的那個人。',foot:'總要…用愛心互相服事（加五 13）'},
+   review:{prompt:'寫下一次你差點「為了事而忽略人」的經驗，下次你想怎麼做。',ph:'例如：我常忙到不理家人，我想每天至少專心陪他們一下……'},
+   adjust:{l1:'把人放在事的前面，是愛的選擇。',l2:'記住：不要為了事傷害人，不要為了東西破壞關係。'} },
+ { title:'920 的操練', vtag:'對每個2活出無己',
+   coachOpen:'這一課是關係的核心操練——920。每個跟你有關係的人，都是你的「2」。小智 陪你活出愛。',
+   coachCheer:'這就是920！對你的「2」活出無己的愛，結出聖靈的果子。',
+   intro:'920 的操練：每個跟我有關係的人，都是我的「2」；我要對他<b>活出無己（0）的生命，結出聖靈的果子（9）</b>，就是彼此相愛。',
+   verse:{t:'我賜給你們一條新命令，乃是叫你們彼此相愛；我怎樣愛你們，你們也要怎樣相愛。',r:'約翰福音十三章 34 節'},
+   reveal:{lead:'把「以自我為中心」換成「對我的2活出愛」。',cards:[
+     {sit:'面對一個難相處的人',human:'他這麼討厭，我幹嘛對他好。',eye2:'920 的眼光',god:'他也是我的「2」；對他活出無己的愛，是主的新命令。'},
+     {sit:'愛人覺得很虧',human:'我對他好，他又沒回報我。',eye2:'920 的眼光',god:'無己的愛不求回報，因為愛的源頭是神，果子是聖靈結的。'}]},
+   believe:{scenario:'班上有個你不太喜歡的同學需要幫忙。920 的操練會怎麼做？',options:[
+     {t:'不干我的事，讓別人幫。',ok:false,fb:'他也是你的「2」，這正是操練無己的機會。'},
+     {t:'把他當作我的「2」，用愛去幫他。',ok:true,fb:'對！這就是920——對每個2，活出愛。'},
+     {t:'幫他，但要他記得欠我人情。',ok:false,fb:'那還是以自我為中心。無己的愛不求回報。'}]},
+   practice:{icn:'🤝',title:'今日任務',desc:'今天挑一個你的「2」（尤其是不太好相處的那個），刻意對他活出一個聖靈果子——愛、恩慈、或溫柔。',foot:'你們若有彼此相愛的心，眾人因此就認出你們是我的門徒（約十三 35）'},
+   review:{prompt:'寫下一個你想開始「當作我的2、用無己的愛去對待」的人。',ph:'例如：那個總是跟我作對的同學，我想試著對他好、為他禱告……'},
+   adjust:{l1:'愛你喜歡的人不難，愛你的「2」才是操練。',l2:'記住：對每個2，活出0，結出9。'} },
+ { title:'饒恕與合一', vtag:'無己才能合一',
+   coachOpen:'這是關係之橋最後一課，也是最需要勇氣的——饒恕。無己才能饒恕，無己才能合一。小智 陪你。',
+   coachCheer:'你做到了最難的——饒恕。無己帶來合一，這是神最喜悅的。',
+   intro:'關係最深的功課是<b>饒恕</b>。無己才能饒恕，無己才能合一；弟兄和睦同居，是何等地善、何等地美。',
+   verse:{t:'…要以恩慈相待，存憐憫的心，彼此饒恕，正如神在基督裡饒恕了你們一樣。',r:'以弗所書四章 32 節'},
+   reveal:{lead:'把「抓住苦毒」換成「放手饒恕」。',cards:[
+     {sit:'有人深深傷害了我',human:'我絕不原諒他，我要記一輩子。',eye2:'饒恕的眼光',god:'神在基督裡先饒恕了我；放下苦毒，我才得自由（弗四 32）。'},
+     {sit:'和好好像很吃虧',human:'先低頭的人不就輸了嗎？',eye2:'饒恕的眼光',god:'無己的人不怕吃虧；謙卑帶動謙卑，合一達到雙贏。'}]},
+   believe:{scenario:'一個朋友傷害了你，現在有機會和好。無己的你會？',options:[
+     {t:'絕不原諒，讓他也嘗嘗痛苦。',ok:false,fb:'苦毒綁住的是你自己。饒恕才得自由。'},
+     {t:'因為神先饒恕我，我也選擇饒恕他。',ok:true,fb:'這是最美的得勝！無己帶來合一。'},
+     {t:'表面和好，心裡繼續記恨。',ok:false,fb:'真饒恕是連心也放下，讓神醫治你。'}]},
+   practice:{icn:'🕊',title:'今日任務',desc:'今天為一個曾傷害你的人禱告、祝福他；如果可以，跨出一步去和好。',foot:'總要…彼此饒恕，正如神在基督裡饒恕了你們（弗四 32）'},
+   review:{prompt:'寫下一個你願意開始「饒恕」的人或一件事。',ph:'例如：我想試著放下對某個朋友的怨，把他交給神……'},
+   adjust:{l1:'饒恕需要很大的勇氣，你正走在得勝的路上。',l2:'記住：無己才能饒恕，無己才能合一。'} },
+ { type:'boss', bossId:'bitter', title:'王者之戰 · 苦毒之王', vtag:'饒恕帶來自由', fruit:7,
+   coachOpen:'關係之橋的王者之戰！苦毒之王用傷害和記恨，在你心裡扎下毒根。記住：記恨、報復先毒害的是自己，唯有饒恕，才能得勝。',
+   verse:{t:'…要以恩慈相待，存憐憫的心，彼此饒恕，正如神在基督裡饒恕了你們一樣。',r:'以弗所書四章 32 節'} }
+]},
+{id:'king',name:'體系之國',icn:'伍',theme:'建立神國',lessons:[
+ { title:'神國的異象', vtag:'願祢的國降臨',
+   coachOpen:'歡迎來到最後一塊大陸——體系之國！這裡要學的，是與神一起建立祂的國度。小智 好興奮陪你走到這裡！',
+   coachCheer:'對了！你渴望神的國降臨、神的旨意成就。這是得勝者的心。',
+   intro:'一切改變的目的，是<b>建立屬神的體系、成就主禱文</b>：願神的國降臨，願神的旨意行在地上如同行在天上。',
+   verse:{t:'…願人都尊你的名為聖。願你的國降臨；願你的旨意行在地上，如同行在天上。',r:'馬太福音六章 9-10 節'},
+   reveal:{lead:'把「建立我的王國」換成「建立神的國」。',cards:[
+     {sit:'我對未來的夢想',human:'我要成功、出名、建立我自己的王國。',eye2:'神國的眼光',god:'先求神的國和神的義，這一切都要加給你（太六 33）。'},
+     {sit:'覺得自己很渺小',human:'我這麼小，能做什麼？',eye2:'神國的眼光',god:'神的國從一粒芥菜種開始；你的一小步，也在建立神國（太十三 31-32）。'}]},
+   believe:{scenario:'想到未來，你的心願是？（得勝者的方向）',options:[
+     {t:'建立我自己的名聲和王國。',ok:false,fb:'那是有己。得勝者要建立的是神的國。'},
+     {t:'讓神的國藉著我，降臨在我的生活圈。',ok:true,fb:'對！這就是主禱文的心：願祢的國降臨。'},
+     {t:'先顧好自己，神國以後再說。',ok:false,fb:'先求神的國和義，其餘的神會加給你。'}]},
+   practice:{icn:'👑',title:'今日任務',desc:'今天禱告主禱文一次，並求神讓祂的國、祂的旨意，先降臨在你的家庭或班級裡。',foot:'你們要先求他的國和他的義（太六 33）'},
+   review:{prompt:'寫下一個你渴望「神的國降臨」的地方（你的家、班級、朋友圈）。',ph:'例如：我希望神的愛與平安，降臨在我們這個常吵架的家……'},
+   adjust:{l1:'你的心已轉向神的國，這是得勝者的異象。',l2:'每天禱告：願祢的國降臨，願祢的旨意成就。'} },
+ { title:'235 的團隊', vtag:'三股合成的繩子',
+   coachOpen:'神的國不是一個人建的。這一課學的是235——屬靈的同伴、父母兒女、戰友。小智 陪你找到你的隊伍。',
+   coachCheer:'太好了！你渴望與人同行、彼此建造。三股合成的繩子不容易折斷。',
+   intro:'建立神國要靠團隊——<b>235</b>：2 屬靈同伴、3 屬靈父母兒女、5 五重職份的戰友，彼此建造、一起爭戰。',
+   verse:{t:'有人攻勝孤身一人，若有二人便能敵擋他；三股合成的繩子不容易折斷。',r:'傳道書四章 12 節'},
+   reveal:{lead:'把「單打獨鬥」換成「彼此同行」。',cards:[
+     {sit:'習慣一個人扛',human:'我自己來就好，不想麻煩別人。',eye2:'團隊的眼光',god:'三股合成的繩子不易折斷；神要我們彼此建造、同行。'},
+     {sit:'覺得沒有人懂我',human:'反正沒人真的在乎我。',eye2:'團隊的眼光',god:'在基督的身體裡，你有屬靈的同伴、父母、戰友，你不孤單。'}]},
+   believe:{scenario:'你正在為信仰努力，但覺得孤單。神國的做法是？',options:[
+     {t:'繼續一個人硬撐。',ok:false,fb:'單打獨鬥容易被擊倒。神要你有隊友。'},
+     {t:'找屬靈同伴一起同行、彼此扶持。',ok:true,fb:'對！三股合成的繩子不容易折斷。'},
+     {t:'覺得孤單就乾脆放棄。',ok:false,fb:'別放棄！去連結你的235，你並不孤單。'}]},
+   practice:{icn:'🪢',title:'今日任務',desc:'今天主動連結一位屬靈同伴——約一個人一起禱告、或彼此分享信仰，開始建立你的235。',foot:'兩個人總比一個人好，因為二人勞碌同得美好的果效（傳四 9）'},
+   review:{prompt:'寫下一個你想邀請、成為你「屬靈同伴（2）」的人。',ph:'例如：我想找我的好朋友，每週一起讀經、彼此代禱……'},
+   adjust:{l1:'神國是團隊事奉，你開始搭建你的隊伍了。',l2:'記住：2 同伴、3 父母兒女、5 戰友，一起建立神國。'} },
+ { title:'使人作門徒', vtag:'繁殖與大使命',
+   coachOpen:'這一課是得勝者的使命——把生命傳下去，使人作門徒。小智 陪你領受這榮耀的託付。',
+   coachCheer:'阿們！你願意把福音傳下去、使人作門徒。這是神國繁殖的心。',
+   intro:'神國要<b>繁殖</b>：不只自己得勝，還要幫助別人也成為得勝者。這是主給的大使命。',
+   verse:{t:'所以，你們要去，使萬民作我的門徒，奉父、子、聖靈的名給他們施洗。',r:'馬太福音二十八章 19 節'},
+   reveal:{lead:'把「只顧自己」換成「使人作門徒」。',cards:[
+     {sit:'信仰只留給自己',human:'我自己信就好，管別人做什麼。',eye2:'使命的眼光',god:'主給我們大使命——去使人作門徒，把生命傳下去（太二八 19）。'},
+     {sit:'覺得自己不夠好，不能帶人',human:'我這麼軟弱，怎麼帶別人？',eye2:'使命的眼光',god:'主說「我就常與你們同在」；不是靠你夠好，是靠祂同在（太二八 20）。'}]},
+   believe:{scenario:'一個朋友對信仰好奇。神國繁殖的你會？',options:[
+     {t:'覺得麻煩，隨便帶過。',ok:false,fb:'這是撒種的好機會，別錯過了。'},
+     {t:'把握機會，陪他認識耶穌、成為門徒。',ok:true,fb:'對！這就是使人作門徒，神國就繁殖了。'},
+     {t:'怕講不好，乾脆不講。',ok:false,fb:'不是靠你多會講，是靠聖靈；主與你同在。'}]},
+   practice:{icn:'🌾',title:'今日任務',desc:'今天為一位還不認識耶穌的朋友禱告，並求神給你機會，把這份得勝的生命分享給他。',foot:'凡我所吩咐你們的，都教訓他們遵守（太二八 20）'},
+   review:{prompt:'寫下一個你想帶領、陪他認識耶穌的人。',ph:'例如：我想邀請我同學來教會，慢慢帶他認識神……'},
+   adjust:{l1:'把生命傳下去，是得勝者最美的使命。',l2:'記住：不是靠你夠好，是靠主與你同在。'} },
+ { type:'boss', bossId:'fear', title:'王者之戰 · 懼怕之王', vtag:'靠主剛強壯膽',
+   coachOpen:'體系之國的王者之戰！懼怕之王用恐懼讓你退縮、不敢為主站出來。記住：越躲藏懼怕越大，唯有靠主剛強壯膽，才能得勝。',
+   verse:{t:'因為神賜給我們，不是膽怯的心，乃是剛強、仁愛、謹守的心。',r:'提摩太後書一章 7 節'} },
+ { title:'得勝者 · 與基督同坐寶座', vtag:'迎接主再來', fruit:8,
+   coachOpen:'這是整趟旅程的最後一課！你一路走來，從舊人到新人。現在，小智 要陪你迎向得勝者的冠冕。',
+   coachCheer:'你成為得勝者了！將來要與基督同坐寶座。這是何等的榮耀與盼望！',
+   intro:'這是最後一課，也是整個旅程的高峰：<b>成為得勝者，邁向末後的大復興，迎接主耶穌再來</b>，將來與基督同坐寶座，直到永遠。',
+   verse:{t:'得勝的，我要賜他在我寶座上與我同坐，就如我得了勝，在我父的寶座上與祂同坐一般。',r:'啟示錄三章 21 節'},
+   reveal:{lead:'把「暫時的眼前」換成「永恆的盼望」。',cards:[
+     {sit:'覺得堅持信仰好累',human:'撐到什麼時候才是盡頭？',eye2:'得勝的眼光',god:'那美好的仗打過了，有公義的冠冕為我存留（提後四 7-8）。'},
+     {sit:'世界好黑暗，好灰心',human:'一切好像沒有希望。',eye2:'得勝的眼光',god:'主必再來！我要儆醒等候，迎接祂的國度完全降臨（啟二二 20）。'}]},
+   believe:{scenario:'走完這趟旅程，得勝者的你，要帶著什麼樣的心繼續前行？',options:[
+     {t:'鬆懈了，反正我已經很棒。',ok:false,fb:'得勝者要儆醒到底，忠心等候主再來。'},
+     {t:'儆醒、忠心，靠主活出無己，迎接主再來。',ok:true,fb:'阿們！這就是得勝者的心。冠冕為你存留。'},
+     {t:'覺得自己已經無敵，不需要神了。',ok:false,fb:'小心！無己才能得勝——一切榮耀永遠歸給神。'}]},
+   practice:{icn:'♛',title:'今日任務',desc:'今天為主的再來禱告，並立志：靠著耶穌，做一個忠心到底、榮耀歸神的得勝者。把你這趟旅程的改變，分享給一個人。',foot:'看哪，我必快來！…主耶穌啊，我願你來（啟二二 20）'},
+   review:{prompt:'走完這趟旅程，寫下你最大的改變，和你想對耶穌說的一句話。',ph:'例如：我從一個凡事以自己為中心的人，開始學會無己、讓耶穌作王……'},
+   adjust:{l1:'你成為得勝者了——這不是結束，是永恆的開始。',l2:'記住：無己才能得勝，一切榮耀歸給神，直到永遠。'} }
+]}
+
+];
+
+/* ============ 狀態 ============ */
+function mkDone(){var d=[];for(var i=0;i<WORLD.length;i++){var a=[];for(var j=0;j<WORLD[i].lessons.length;j++)a.push(false);d.push(a);}return d;}
+function reconcileDone(sv){var d=mkDone();for(var i=0;i<d.length&&i<sv.length;i++){for(var j=0;j<d[i].length&&sv[i]&&j<sv[i].length;j++)d[i][j]=!!sv[i][j];}return d;}
+var state={unself:0,chainsLeft:6,fruits:0,streak:0,done:mkDone(),cur:0,landIdx:0};
+/* 存檔（try/catch 包住：Claude 預覽會自動降級為記憶體，正式部署則真實存檔） */
+var SAVE_KEY='overcomer321_save';
+function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({unself:state.unself,chainsLeft:state.chainsLeft,fruits:state.fruits,streak:state.streak,done:state.done}));}catch(e){}}
+function loadSave(){try{var s=localStorage.getItem(SAVE_KEY);if(!s)return null;var o=JSON.parse(s);if(o&&typeof o.unself==='number')return o;}catch(e){}return null;}
+function resetSave(){try{localStorage.removeItem(SAVE_KEY);}catch(e){}}
+function confirmReset(){
+  if(!window._resetArm){window._resetArm=true;toast('再點一次「重新開始」即會清除所有進度');setTimeout(function(){window._resetArm=false;},3000);return;}
+  resetSave();state.unself=0;state.chainsLeft=6;state.fruits=0;state.streak=0;state.done=mkDone();state.cur=0;state.landIdx=0;window._resetArm=false;show('screen-title');
+}
+function stageName(u){var n=STAGES[0].name;for(var i=0;i<STAGES.length;i++){if(u>=STAGES[i].min)n=STAGES[i].name;}return n;}
+function landDoneCount(li){var c=0,a=state.done[li];for(var i=0;i<a.length;i++)if(a[i])c++;return c;}
+function landDone(li){return landDoneCount(li)>=WORLD[li].lessons.length;}
+function landUnlocked(li){return li===0||landDone(li-1);}
+function lessonUnlocked(li,idx){return idx===0||state.done[li][idx-1];}
+function allDone(){for(var i=0;i<WORLD.length;i++)if(!landDone(i))return false;return true;}
+
+/* ============ 畫面切換 ============ */
+var lastScreen='screen-map';
+function show(id){
+  var s=document.querySelectorAll('.screen');
+  for(var i=0;i<s.length;i++)s[i].classList.remove('on');
+  var el=document.getElementById(id);el.classList.add('on');el.scrollTop=0;
+  var hudScreens=['screen-map','screen-course','screen-level','screen-hero','screen-victory','screen-citydone'];
+  document.getElementById('hud').classList.toggle('on',hudScreens.indexOf(id)>=0);
+  if(id!=='screen-hero')lastScreen=id;
+  updateHUD();
+}
+function updateHUD(){
+  document.getElementById('hudAvatar').innerHTML='<img src="'+HERO_SRC+'" alt="得勝者" onerror="this.onerror=null;this.parentNode.innerHTML=heroSVG(state.unself,state.chainsLeft,{fruits:0});">';
+  document.getElementById('hudStage').textContent=stageName(state.unself);
+  document.getElementById('hudFruit').textContent='果子 '+state.fruits+'/9';
+  document.getElementById('hudMeter').style.width=state.unself+'%';
+  document.getElementById('hudPct').textContent='無己值 '+state.unself+'%';
+}
+
+/* ============ 重生 ============ */
+var rebirthBeats=[
+  {t:'靈之引導',s:'孩子，你被「己」的鎖鏈捆綁了太久……'},
+  {t:'靈之引導',s:'看看你自己——灰暗、破碎，以自己為王。'},
+  {t:'靈之引導',s:'但神愛你。祂差耶穌為你死，又復活賜你新生命。'},
+  {act:true}
+];
+var rbIdx=0;
+function startRebirth(){show('screen-rebirth');document.getElementById('hud').classList.remove('on');rbIdx=0;state.unself=0;state.chainsLeft=6;renderRebirth();nextBeat();}
+var HERO_SRC='hero.jpg';
+var CROWN_SVG='<svg viewBox="0 0 120 84" width="100%" height="100%"><defs><linearGradient id="hc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9A8"/><stop offset="55%" stop-color="#F5C33B"/><stop offset="100%" stop-color="#B8862B"/></linearGradient></defs><path d="M20 70 L14 26 L40 48 L60 18 L80 48 L106 26 L100 70 Z" fill="url(#hc)" stroke="#8A6316" stroke-width="1.5"/><rect x="20" y="65" width="80" height="13" rx="5" fill="url(#hc)" stroke="#8A6316" stroke-width="1"/><circle cx="60" cy="31" r="5" fill="#E24A3B"/><circle cx="27" cy="41" r="4" fill="#59E3D6"/><circle cx="93" cy="41" r="4" fill="#59E3D6"/><circle cx="14" cy="26" r="4.5" fill="#FFF3C8"/><circle cx="106" cy="26" r="4.5" fill="#FFF3C8"/><circle cx="60" cy="18" r="4.5" fill="#FFF3C8"/></svg>';
+function heroImgTag(){
+  var u=Math.max(0,Math.min(100,state.unself)),lvl=u/100,broken=6-state.chainsLeft,fr=state.fruits,i;
+  var filt='saturate('+(0.8+0.4*lvl).toFixed(2)+') brightness('+(0.88+0.22*lvl).toFixed(2)+')';
+  var shadow='0 8px 26px rgba(0,0,0,.5),0 0 '+(10+broken*7)+'px rgba(245,195,59,'+(0.14+0.09*broken).toFixed(2)+')';
+  var FC=['#FF6B6B','#FFD34E','#59E3D6','#7CC5F0','#B084F5','#8AE070','#F5A742','#FF9FC4','#67E8C0'];
+  var g='';for(i=0;i<9;i++){var on=i<fr;g+='<span class="hg'+(on?' on':'')+'"'+(on?' style="background:'+FC[i]+';box-shadow:0 0 7px '+FC[i]+'"':'')+'></span>';}
+  var crown=(u>=100)?'<div class="hero-crown">'+CROWN_SVG+'</div>':'';
+  var flash=(broken>=6)?'<div class="hero-burst"></div>':'';
+  return '<div class="hero-wrap">'+flash+'<div class="hero-aura" style="opacity:'+(0.12+0.62*lvl).toFixed(2)+';transform:scale('+(0.86+0.36*lvl).toFixed(2)+')"></div>'+crown
+    +'<img class="hero-pic" style="filter:'+filt+';box-shadow:'+shadow+'" src="'+HERO_SRC+'" alt="得勝者" onerror="this.onerror=null;this.parentNode.parentNode.innerHTML=heroSVG(state.unself,state.chainsLeft,{fruits:state.fruits});">'
+    +'</div><div class="hero-gems">'+g+'</div>';
+}
+function renderRebirth(){document.getElementById('rebirthStage').innerHTML='<img id="heroImg" class="hero-img" src="'+HERO_SRC+'" alt="得勝者" onerror="this.onerror=null;this.parentNode.innerHTML=heroSVG(state.unself,state.chainsLeft,{});">';}
+function nextBeat(){
+  var b=rebirthBeats[rbIdx],narr=document.getElementById('narr'),btn=document.getElementById('rebirthBtn');
+  if(!b.act){narr.innerHTML='<p><span class="who">'+b.t+'：</span>'+b.s+'</p>';btn.innerHTML='<button class="btn ghost small" onclick="rbIdx++;nextBeat()">繼續 ▸</button>';}
+  else{narr.innerHTML='<p style="color:var(--gold-b)">你願意接受耶穌，讓祂在你裡面作王嗎？</p>';btn.innerHTML='<button class="btn" onclick="doRebirth(this)">接受耶穌的十架與復活 ✝</button>';}
+}
+function doRebirth(btn){
+  btn.disabled=true;
+  var img=document.getElementById('heroImg');if(img)img.classList.add('reborn');
+  var stage=document.getElementById('rebirthStage');
+  burst(stage);setTimeout(function(){burst(stage);},380);
+  state.unself=15;state.chainsLeft=5;save();updateHUD();
+  setTimeout(function(){
+    document.getElementById('narr').innerHTML='<p style="color:var(--holy)"><span class="who">你已重生！</span>第一道鎖鏈斷了，舊人已死，你是新造的人。</p>';
+    document.getElementById('rebirthBtn').innerHTML='<button class="btn" onclick="show(\'screen-map\');syncMap()">踏上五重之地 ▸</button>';
+  },800);
+}
+
+/* ============ 地圖 ============ */
+function syncMap(){
+  var html='';
+  for(var i=0;i<WORLD.length;i++){
+    var W=WORLD[i],cls,badge,click;
+    if(landDone(i)){cls='done';badge='<span class="badge star">★ 完成</span>';click='openCourse('+i+')';}
+    else if(landUnlocked(i)){cls='unlocked';var dc=landDoneCount(i);badge='<span class="badge go">'+(dc>0?dc+'/'+W.lessons.length:'進入')+' ▸</span>';click='openCourse('+i+')';}
+    else{cls='locked';badge='<span class="badge lock">🔒 未解鎖</span>';click='locked()';}
+    html+='<div class="land '+cls+'" onclick="'+click+'"><div class="icn">'+W.icn+'</div><div class="meta"><div class="lname">'+W.name+'</div><div class="ltheme">'+W.theme+' · '+W.lessons.length+' 課</div></div>'+badge+'</div>';
+  }
+  html=devoCard()+rewardBanner()+html;
+  html+='<div class="chat-hint" style="margin-top:14px;cursor:pointer" onclick="openRewards()">🎁 得勝獎勵約定</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openFrames()">🔄 我的換觀點</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openPrayer(\'mine\')">🙏 禱告生活</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openS920()">🤝 920 每日任務</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openSquad()">⚔ 235 戰隊</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openHabits()">🌱 好習慣養成 · 得勝者的日常</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openGloryWall()">🏆 榮耀獎章牆</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="openMentor()">👑 得勝者導師</div>';
+  html+='<div class="chat-hint" style="margin-top:8px;cursor:pointer" onclick="confirmReset()">↻ 重新開始（清除進度）</div>';
+  document.getElementById('lands').innerHTML=html;
+}
+function locked(){toast('先完成前面的地，才能解鎖這裡。先生命，再關係，後事工。');}
+
+/* ============ 課程選單 ============ */
+function openCourse(li){state.landIdx=li;renderCourse();show('screen-course');}
+/* 每關圖示：優先關卡自訂 → 實踐任務圖示 → 大陸預設；王者之戰用劍 */
+var LAND_ICN=['🧠','🌱','🌟','🤝','🏛'];
+function lessonIcon(Ls,landIdx,isBoss){
+  if(isBoss)return '⚔';
+  if(Ls.icn)return Ls.icn;
+  if(Ls.practice&&Ls.practice.icn)return Ls.practice.icn;
+  return LAND_ICN[landIdx]||'📖';
+}
+/* 通關慶祝圖：金色放射光芒 + 中央獎勵符號 */
+function raysSVG(){
+  var s='<svg viewBox="0 0 200 200">',i,n=12;
+  for(i=0;i<n;i++){var a=i*(360/n);s+='<polygon points="100,8 93,74 107,74" fill="#F5C33B" opacity="'+((i%2)?'.45':'.85')+'" transform="rotate('+a.toFixed(1)+' 100 100)"/>';}
+  return s+'</svg>';
+}
+function celebrateHTML(glyph){
+  return '<div class="celebrate"><div class="rays">'+raysSVG()+'</div><div class="halo"></div><div class="core">'+glyph+'</div></div>';
+}
+/* 五塊大陸專屬完成獎章 */
+var MEDALS=[
+ {n:'神的眼光',a1:'#2E6FB0',a2:'#7CC5F0',g:'<ellipse cx="60" cy="58" rx="20" ry="12" fill="none" stroke="#fff" stroke-width="3"/><circle cx="60" cy="58" r="6.5" fill="#fff"/><circle cx="60" cy="58" r="3" fill="#2E6FB0"/>'},
+ {n:'新的生命',a1:'#2E9E5A',a2:'#8AE070',g:'<rect x="58" y="54" width="4" height="18" rx="2" fill="#fff"/><path d="M60 60 q-14 -3 -17 -13 q13 -1 17 9 Z" fill="#fff"/><path d="M60 60 q14 -3 17 -13 q-13 -1 -17 9 Z" fill="#fff"/><rect x="58" y="42" width="4" height="12" fill="#fff"/><rect x="54" y="45" width="12" height="4" fill="#fff"/>'},
+ {n:'生活之光',a1:'#B5601E',a2:'#F5A742',g:'<path d="M60 42 q11 13 4 24 q-3 6 -9 6 q-9 0 -9 -9 q0 -7 6 -12 q-1 6 3 9 q5 -8 5 -18 Z" fill="#fff"/>'},
+ {n:'愛的橋樑',a1:'#1C9E92',a2:'#59E3D6',g:'<path d="M38 68 Q60 40 82 68" fill="none" stroke="#fff" stroke-width="3.5"/><rect x="38" y="66" width="4" height="12" fill="#fff"/><rect x="78" y="66" width="4" height="12" fill="#fff"/><line x1="40" y1="72" x2="80" y2="72" stroke="#fff" stroke-width="3"/>'},
+ {n:'神的國度',a1:'#6B3FB0',a2:'#B084F5',g:'<path d="M44 52 L60 43 L76 52 Z" fill="#fff"/><rect x="45" y="52" width="30" height="4" fill="#fff"/><rect x="48" y="58" width="4" height="15" fill="#fff"/><rect x="58" y="58" width="4" height="15" fill="#fff"/><rect x="68" y="58" width="4" height="15" fill="#fff"/><rect x="44" y="73" width="32" height="4" fill="#fff"/>'}
+];
+var MEDAL_SRC=['medal-idea.png','medal-life.png','medal-live.png','medal-rel.png','medal-king.png'];
+var MEDAL_VERSE=[{t:'耶和華不像人看人：人是看外貌；耶和華是看內心。',r:'撒母耳記上 16:7'},{t:'若有人在基督裡，他就是新造的人，舊事已過，都變成新的了。',r:'哥林多後書 5:17'},{t:'你們的光也當這樣照在人前，叫他們看見你們的好行為，便將榮耀歸給你們在天上的父。',r:'馬太福音 5:16'},{t:'我賜給你們一條新命令，乃是叫你們彼此相愛；我怎樣愛你們，你們也要怎樣相愛。',r:'約翰福音 13:34'},{t:'你們要先求他的國和他的義，這些東西都要加給你們了。',r:'馬太福音 6:33'}];
+function landMedalSVG(idx){return '<img class="medal-img" src="'+MEDAL_SRC[idx]+'" alt="'+MEDALS[idx].n+'" onerror="this.onerror=null;this.outerHTML=landMedalRawSVG('+idx+')">';}
+function landMedalRawSVG(idx){var M=MEDALS[idx];return '<svg viewBox="0 0 120 140" width="100%" height="100%"><defs>'
+ +'<linearGradient id="mgr'+idx+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9A8"/><stop offset="55%" stop-color="#F5C33B"/><stop offset="100%" stop-color="#B8862B"/></linearGradient>'
+ +'<radialGradient id="mdc'+idx+'" cx="50%" cy="40%" r="62%"><stop offset="0" stop-color="'+M.a2+'"/><stop offset="100%" stop-color="'+M.a1+'"/></radialGradient></defs>'
+ +'<path d="M44 92 L32 132 L50 122 L56 100 Z" fill="'+M.a1+'"/><path d="M76 92 L88 132 L70 122 L64 100 Z" fill="'+M.a1+'"/>'
+ +'<circle cx="60" cy="58" r="50" fill="'+M.a2+'" opacity=".16"/>'
+ +'<circle cx="60" cy="58" r="45" fill="none" stroke="url(#mgr'+idx+')" stroke-width="6"/>'
+ +'<circle cx="60" cy="58" r="37" fill="url(#mdc'+idx+')"/>'
+ +'<circle cx="60" cy="58" r="37" fill="none" stroke="url(#mgr'+idx+')" stroke-width="2" opacity=".6"/>'
+ +M.g
+ +'<circle cx="60" cy="12" r="9" fill="#F5C33B" opacity=".3"/><circle cx="60" cy="12" r="4.5" fill="#FFF3C8"/></svg>';}
+/* 最終加冕大動畫 */
+function corRaysSVG(){var s='<svg viewBox="0 0 200 200" width="100%" height="100%">',i,n=16;for(i=0;i<n;i++){var a=i*(360/n);s+='<polygon points="100,4 94,82 106,82" fill="#F5C33B" opacity="'+((i%2)?'.32':'.68')+'" transform="rotate('+a.toFixed(1)+' 100 100)"/>';}return s+'</svg>';}
+function coronate(){
+  var c=document.getElementById('coronation');if(!c)return;
+  var sp='',i;for(i=0;i<18;i++){var x=(Math.random()*100).toFixed(1),d=(Math.random()*1.6).toFixed(2),z=(6+Math.random()*8).toFixed(0);
+    sp+='<span class="cor-spark" style="left:'+x+'%;animation-delay:'+d+'s;width:'+z+'px;height:'+z+'px"></span>';}
+  c.innerHTML='<div class="cor-flash"></div><div class="cor-rays"><div class="cor-rays-spin">'+corRaysSVG()+'</div></div><div class="cor-crown">'+CROWN_SVG+'</div>'+sp;
+  c.classList.remove('play');void c.offsetWidth;c.classList.add('play');
+  var host=document.getElementById('cityStage');
+  setTimeout(function(){burst(host);},300);setTimeout(function(){burst(host);},760);setTimeout(function(){burst(host);},1200);
+}
+/* 分享見證卡 */
+var shareFrom='hero';
+function scMedalsHTML(){var i,s='';for(i=0;i<WORLD.length;i++){var got=landDone(i);s+='<span class="scm'+(got?' got':'')+'">'+(got?('<img src="'+MEDAL_SRC[i]+'" onerror="this.onerror=null;this.outerHTML=landMedalRawSVG('+i+')">'):'<i>🔒</i>')+'</span>';}return s;}
+function shareCardHTML(){var broken=6-state.chainsLeft;
+  return '<div class="sc-badge">國度321空中團契 · 得勝者</div>'
+   +'<div class="sc-hero">'+heroImgTag()+'</div>'
+   +'<div class="sc-title">'+stageName(state.unself)+'</div>'
+   +'<div class="sc-stats"><span>無己值 '+state.unself+'%</span><span>果子 '+state.fruits+'/9</span><span>斷鏈 '+broken+'/6</span></div>'
+   +'<div class="sc-medals">'+scMedalsHTML()+'</div>'
+   +'<div class="sc-verse">「得勝的，我要賜他在我寶座上與我同坐。」<b>啟示錄 3:21</b></div>'
+   +'<div class="sc-invite">✝ 一起走上無己覺醒之路，成為得勝者</div>';
+}
+function openShare(from){shareFrom=from||'hero';document.getElementById('shareCard').innerHTML=shareCardHTML();show('screen-share');}
+function goBackFromShare(){if(shareFrom==='final'){show('screen-citydone');}else{openHero();}}
+function shareWitness(){
+  var t='我正在《得勝者·無己覺醒》操練無己、活出基督的生命——無己值 '+state.unself+'%、聖靈果子 '+state.fruits+'/9！一起來成為得勝者吧 ✝　國度321空中團契';
+  if(navigator.share){navigator.share({title:'得勝者·無己覺醒',text:t}).catch(function(){});}
+  else{toast('已為你準備好邀請文字，截圖分享給朋友吧 📸');}
+}
+/* ===== 好習慣養成 · 得勝者的日常 ===== */
+var HABIT_KEY='dsz_habits_v1',HABIT_GOAL=21;
+var HABITS=[
+ {id:'read',n:'每日讀經',icn:'📖',v:'你的話是我腳前的燈，是我路上的光。',r:'詩篇 119:105',w:'聖經是我的準則。每天讀一段神的話，心思意念就被更新。'},
+ {id:'pray',n:'每日禱告',icn:'🙏',v:'不住的禱告。',r:'帖前 5:17',w:'禱告是與神說話。每天親近神，就得著從上頭來的力量。'},
+ {id:'thanks',n:'每日感恩',icn:'🌟',v:'凡事謝恩，因為這是神在基督耶穌裡向你們所定的旨意。',r:'帖前 5:18',w:'凡事謝恩。感恩的心，是活出無己最美的樣子。'},
+ {id:'deny',n:'每日捨己一件事',icn:'✝',v:'若有人要跟從我，就當捨己，天天背起他的十字架來跟從我。',r:'路加 9:23',w:'每天在一件小事上放下自己，讓耶穌作王。'},
+ {id:'bless',n:'每日為一人祝福',icn:'💛',v:'要愛你們的仇敵，為那逼迫你們的禱告。',r:'馬太 5:44',w:'920操練：每天為一個人祝福，把9聖靈果子活出來。'},
+ {id:'examine',n:'每晚省察無己',icn:'👑',v:'現在活著的不再是我，乃是基督在我裡面活著。',r:'加拉太 2:20',w:'每晚問自己：今天是我作王，還是讓耶穌作王？'},
+ {id:'rest',n:'早睡早起 · 顧惜身體',icn:'🌙',v:'豈不知你們的身子就是聖靈的殿嗎？',r:'林前 6:19',w:'身體是聖靈的殿。規律作息，身心健康才能好好服事神。'}
+];
+function loadHabits(){try{var s=localStorage.getItem(HABIT_KEY);if(s)return JSON.parse(s)||{};}catch(e){}return {};}
+function saveHabits(o){try{localStorage.setItem(HABIT_KEY,JSON.stringify(o));}catch(e){}}
+function habitState(o,id){if(!o[id])o[id]={total:0,streak:0,best:0,last:'',est:false};return o[id];}
+function yesterdayStr(){var d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function openHabits(){renderHabits();show('screen-habits');}
+function openGloryWall(){renderGloryWall();show('screen-medals');}
+function renderGloryWall(){
+  var i,o=loadHabits(),meta=o._meta||{};
+  var lm='';for(i=0;i<WORLD.length;i++){var got=landDone(i);
+    lm+='<div class="gw-medal'+(got?' got':'')+'" onclick="showMedalVerse('+i+')">'+(got?landMedalSVG(i):'<div class="gw-lock">🔒</div>')+'<div class="gw-name">'+WORLD[i].name+'<span>'+MEDALS[i].n+'</span></div></div>';}
+  document.getElementById('gwMedals').innerHTML=lm;
+  var hb='',SHORT=['讀經','禱告','感恩','捨己','祝福','省察','作息'];
+  for(i=0;i<HABITS.length;i++){var est=habitState(o,HABITS[i].id).est;hb+='<div class="hh-slot'+(est?' got':'')+'"><div class="hh-icn">'+HABITS[i].icn+'</div><div class="hh-name">'+SHORT[i]+'</div></div>';}
+  document.getElementById('gwHabits').innerHTML=hb;
+  var wb=meta.weekBadges||0,crowned=allDone(),sp='';
+  sp+='<div class="gw-ach'+(wb>0?' got':'')+'"><div class="gw-ach-i">🏆</div><div class="gw-ach-t">得勝一週</div><div class="gw-ach-n">'+(wb>0?('×'+wb):'尚未達成')+'</div></div>';
+  sp+='<div class="gw-ach'+(crowned?' got':'')+'"><div class="gw-ach-i">👑</div><div class="gw-ach-t">得勝者冠冕</div><div class="gw-ach-n">'+(crowned?'已加冕':'全境通關解鎖')+'</div></div>';
+  document.getElementById('gwAch').innerHTML=sp;
+  var doneLands=0,estH=0;for(i=0;i<WORLD.length;i++)if(landDone(i))doneLands++;for(i=0;i<HABITS.length;i++)if(habitState(o,HABITS[i].id).est)estH++;
+  document.getElementById('gwSummary').innerHTML='大陸獎章 <b>'+doneLands+'/5</b> · 好習慣 <b>'+estH+'/7</b> · 週徽章 <b>'+wb+'</b>';
+  var scr=document.getElementById('screen-medals'),bn=document.getElementById('gwBanner');
+  if(gloryFull()){scr.classList.add('glory-full');if(bn)bn.style.display='block';setTimeout(function(){burst(document.getElementById('gwMedals'));burst(document.getElementById('gwAch'));},250);setTimeout(function(){burst(document.getElementById('gwMedals'));},700);}
+  else{scr.classList.remove('glory-full');if(bn)bn.style.display='none';}
+}
+function gloryFull(){var i,o=loadHabits();for(i=0;i<WORLD.length;i++)if(!landDone(i))return false;for(i=0;i<HABITS.length;i++)if(!habitState(o,HABITS[i].id).est)return false;return true;}
+function showMedalVerse(idx){var M=MEDALS[idx],V=MEDAL_VERSE[idx],got=landDone(idx),pop=document.getElementById('medalPop');
+  if(!pop){pop=document.createElement('div');pop.id='medalPop';pop.className='medal-pop';pop.onclick=function(e){if(e.target===pop)closeMedalPop();};document.getElementById('app').appendChild(pop);}
+  var inner;
+  if(got){inner='<div class="mp-card"><div class="mp-medal">'+landMedalSVG(idx)+'</div><div class="mp-name">'+WORLD[idx].name+' · '+M.n+'</div><div class="mp-verse">「'+V.t+'」<i>'+V.r+'</i></div><button class="btn" onclick="closeMedalPop()">阿們 ✝</button></div>';}
+  else{inner='<div class="mp-card"><div class="mp-lock">🔒</div><div class="mp-name">'+WORLD[idx].name+' · '+M.n+'</div><div class="mp-verse">完成「'+WORLD[idx].name+'」的所有課程，即可領受這枚獎章與這節得勝經文。</div><button class="btn" onclick="closeMedalPop()">繼續前行 ▸</button></div>';}
+  pop.innerHTML=inner;pop.classList.add('on');}
+function closeMedalPop(){var pop=document.getElementById('medalPop');if(pop)pop.classList.remove('on');}
+function roundRectPath(ctx,x,y,w,hh,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+hh,r);ctx.arcTo(x+w,y+hh,x,y+hh,r);ctx.arcTo(x,y+hh,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function wrapText(ctx,text,x,y,maxW,lh){var a=text.split(''),line='',i;for(i=0;i<a.length;i++){var t=line+a[i];if(ctx.measureText(t).width>maxW&&line!==''){ctx.fillText(line,x,y);line=a[i];y+=lh;}else{line=t;}}ctx.fillText(line,x,y);return y+lh;}
+function drawCard(ctx,W,H,imgs,earned){var CJK='"PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif',SER='"Songti TC","Noto Serif CJK TC",serif';
+  var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a1240');g.addColorStop(0.55,'#0b0821');g.addColorStop(1,'#070419');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  var rg=ctx.createRadialGradient(W/2,H*0.26,0,W/2,H*0.26,W*0.78);rg.addColorStop(0,'rgba(89,227,214,0.16)');rg.addColorStop(0.5,'rgba(124,101,180,0.10)');rg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(245,195,59,0.55)';ctx.lineWidth=8;roundRectPath(ctx,26,26,W-52,H-52,40);ctx.stroke();
+  ctx.textAlign='center';ctx.textBaseline='alphabetic';
+  ctx.fillStyle='#F5C33B';ctx.font='500 34px '+CJK;ctx.fillText('國度321空中團契 · 得勝者',W/2,120);
+  var y=172;
+  if(imgs.hero){var hw=W*0.60,hh=imgs.hero.height*(hw/imgs.hero.width);if(hh>640){hh=640;hw=imgs.hero.width*(hh/imgs.hero.height);}var hx=(W-hw)/2;ctx.save();roundRectPath(ctx,hx,y,hw,hh,28);ctx.clip();ctx.drawImage(imgs.hero,hx,y,hw,hh);ctx.restore();ctx.strokeStyle='rgba(245,195,59,0.4)';ctx.lineWidth=3;roundRectPath(ctx,hx,y,hw,hh,28);ctx.stroke();y+=hh+72;}else{y+=380;}
+  ctx.fillStyle='#FFE08A';ctx.font='800 66px '+SER;ctx.fillText(stageName(state.unself),W/2,y);y+=62;
+  ctx.fillStyle='#59E3D6';ctx.font='500 38px '+CJK;ctx.fillText('無己值 '+state.unself+'%     果子 '+state.fruits+'/9     斷鏈 '+(6-state.chainsLeft)+'/6',W/2,y);y+=72;
+  if(earned.length){var ms=112,gap=16,n=earned.length,tw=n*ms+(n-1)*gap,mx=(W-tw)/2,i;for(i=0;i<n;i++){var im=imgs['m'+earned[i]];if(im)ctx.drawImage(im,mx+i*(ms+gap),y,ms,ms);}y+=ms+78;}
+  ctx.fillStyle='#ECE3CC';ctx.font='400 42px '+SER;y=wrapText(ctx,'「得勝的，我要賜他在我寶座上與我同坐，就如我得了勝，在我父的寶座上與祂同坐一般。」',W/2,y,W-170,60);
+  ctx.fillStyle='#F5C33B';ctx.font='500 32px '+CJK;ctx.fillText('啟示錄 3:21',W/2,y+6);
+  ctx.fillStyle='#FFE08A';ctx.font='500 36px '+CJK;ctx.fillText('✝ 一起走上無己覺醒之路，成為得勝者',W/2,H-78);}
+function finishExport(cv){try{cv.toBlob(function(blob){if(!blob){toast('合成失敗，請改用截圖 📸');return;}var file=null;try{file=new File([blob],'得勝見證.png',{type:'image/png'});}catch(e){}if(file&&navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'我的得勝見證',text:'一起成為得勝者 ✝'}).catch(function(){});}else{var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='得勝見證.png';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},5000);toast('見證圖已產生，可儲存分享 📸');}},'image/png');}catch(e){toast('這台裝置不支援合成，請改用截圖 📸');}}
+function exportShareCard(){toast('正在合成見證圖…');var W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var ctx=cv.getContext('2d');var need=[{key:'hero',src:HERO_SRC}],earned=[],i;for(i=0;i<WORLD.length;i++)if(landDone(i)){earned.push(i);need.push({key:'m'+i,src:MEDAL_SRC[i]});}var imgs={},loaded=0,total=need.length;function done(){drawCard(ctx,W,H,imgs,earned);finishExport(cv);}for(i=0;i<need.length;i++){(function(nn){var im=new Image();im.onload=function(){imgs[nn.key]=im;loaded++;if(loaded===total)done();};im.onerror=function(){loaded++;if(loaded===total)done();};im.src=nn.src;})(need[i]);}}
+function renderHabits(){
+  var o=loadHabits(),today=todayStr(),doneToday=0,estCount=0,html='',i;
+  for(i=0;i<HABITS.length;i++){
+    var H=HABITS[i],hs=habitState(o,H.id),done=hs.last===today,prog=Math.min(100,Math.round(hs.total/HABIT_GOAL*100));
+    if(done)doneToday++; if(hs.est)estCount++;
+    html+='<div class="habit-card'+(done?' done':'')+'"><div class="hb-icn">'+H.icn+'</div>'
+      +'<div class="hb-body"><div class="hb-name">'+H.n+(hs.est?' <span class="hb-badge">🏅 已養成</span>':'')+'</div>'
+      +'<div class="hb-why">'+H.w+'</div>'
+      +'<div class="hb-verse">「'+H.v+'」<i>'+H.r+'</i></div>'
+      +'<div class="hb-meter"><i style="width:'+prog+'%"></i></div>'
+      +'<div class="hb-stat">連續 <b>'+hs.streak+'</b> 天 · 累積 <b>'+hs.total+'/'+HABIT_GOAL+'</b> 天'+(hs.best>1?(' · 最佳 '+hs.best+' 天'):'')+'</div></div>'
+      +'<button class="hb-check'+(done?' done':'')+'" onclick="checkHabit(\''+H.id+'\')">'+(done?'✓ 今天':'今天 ✓')+'</button></div>';
+  }
+  var _m=o._meta||{};
+  document.getElementById('habitsSummary').innerHTML='今天完成 <b>'+doneToday+'/'+HABITS.length+'</b> · 已養成 <b>'+estCount+'/'+HABITS.length+'</b>'+(((_m.weekBadges||0)>0)?(' · 🏆 週徽章 <b>'+_m.weekBadges+'</b>'):'')+(((_m.perfectStreak||0)>0)?(' · 全習慣連續 <b>'+_m.perfectStreak+'</b> 天'):'');
+  document.getElementById('habitsBody').innerHTML=html;
+}
+var HABIT_LINK={read:'devo',pray:'devo',bless:'920'};
+function markDevoLinked(){var st=loadDevo(),today=todayStr();if(st.lastDone===today)return false;var y=addDaysStr(-1);st.streak=(st.lastDone===y)?((st.streak||0)+1):1;if(st.streak>(st.longest||0))st.longest=st.streak;st.lastDone=today;saveDevo(st);addUnself(1);return true;}
+function mark920Linked(){if(!load2s().length)return false;var st=loadS920(),today=todayStr();if(st.doneDate===today)return false;var y=addDaysStr(-1);st.streak=(st.doneDate===y)?((st.streak||0)+1):1;if(st.streak>(st.longest||0))st.longest=st.streak;st.doneDate=today;st.count=(st.count||0)+1;saveS920(st);addUnself(1);return true;}
+function checkHabit(id){
+  var o=loadHabits(),hs=habitState(o,id),today=todayStr(),k;
+  if(hs.last===today){toast('這個習慣今天已經完成了 👍');return;}
+  hs.streak=(hs.last===yesterdayStr())?(hs.streak+1):1;
+  hs.total++;hs.last=today;if(hs.streak>hs.best)hs.best=hs.streak;
+  var justEst=false;if(hs.total>=HABIT_GOAL&&!hs.est){hs.est=true;justEst=true;}
+  var link='';
+  if(HABIT_LINK[id]==='devo'&&markDevoLinked())link=' · 同時完成每日靈修 ✨';
+  if(HABIT_LINK[id]==='920'&&mark920Linked())link=' · 同時完成 920 任務 🤝';
+  var allDone=true;for(k=0;k<HABITS.length;k++){if(habitState(o,HABITS[k].id).last!==today){allDone=false;break;}}
+  var weekEarned=false;
+  if(allDone){var meta=o._meta||{perfectStreak:0,perfectBest:0,perfectLast:'',weekBadges:0};
+    if(meta.perfectLast!==today){meta.perfectStreak=(meta.perfectLast===yesterdayStr())?(meta.perfectStreak+1):1;meta.perfectLast=today;if(meta.perfectStreak>meta.perfectBest)meta.perfectBest=meta.perfectStreak;if(meta.perfectStreak%7===0){meta.weekBadges=(meta.weekBadges||0)+1;weekEarned=true;}}
+    o._meta=meta;}
+  saveHabits(o);
+  var host=document.getElementById('habitsBody');
+  if(weekEarned){addUnself(2);if(host){burst(host);setTimeout(function(){burst(host);},350);}toast('🏆 連續 7 天全習慣達標！獲得「得勝一週」週徽章！');}
+  else if(justEst){addUnself(1);if(host)burst(host);toast('🎉 好習慣養成！這將成為你一生的祝福'+link);}
+  else{toast('今天做到了！連續 '+hs.streak+' 天 🔥'+link);}
+  renderHabits();
+}
+function renderCourse(){
+  var land=WORLD[state.landIdx];var dc=landDoneCount(state.landIdx);
+  document.getElementById('courseTitle').textContent=land.name;
+  document.getElementById('courseNote').textContent=land.theme;
+  document.getElementById('courseProg').innerHTML='課程進度 <b>'+dc+' / '+land.lessons.length+'</b> · 收集果子 <b>'+state.fruits+' / 9</b>';
+  var html='';
+  for(var i=0;i<land.lessons.length;i++){
+    var Ls=land.lessons[i],done=state.done[state.landIdx][i];
+    var unlocked=lessonUnlocked(state.landIdx,i);
+    var cls,badge,click;
+    if(done){cls='done';badge='<span class="badge star">★ 完成</span>';click='startLesson('+i+')';}
+    else if(unlocked){cls='unlocked';badge='<span class="badge go">開始 ▸</span>';click='startLesson('+i+')';}
+    else{cls='locked';badge='<span class="badge lock">🔒</span>';click='toast(\'先完成上一課\')';}
+    var isBoss=Ls.type==='boss';
+    var sub=isBoss?'王者之戰 · 特殊關卡':('第 '+(i+1)+' 課 · '+((typeof Ls.fruit==='number')?('得果子：'+FRUITS[Ls.fruit][0]):'無己的操練'));
+    var icn=lessonIcon(Ls,state.landIdx,isBoss);
+    html+='<div class="land '+cls+(isBoss?' bossrow':'')+'" onclick="'+click+'"><div class="icn">'+icn+'</div><div class="meta"><div class="lname">'+Ls.title+'</div><div class="ltheme">'+sub+'</div><span class="vtag">'+Ls.vtag+'</span></div>'+badge+'</div>';
+  }
+  document.getElementById('lessonList').innerHTML=html;
+}
+
+/* ============ 八大步驟引擎（資料驅動） ============ */
+var STEPS=[
+  {no:'資訊',hint:'領受一段真理',render:s_info,gain:0},
+  {no:'啟示',hint:'親自發現真理',render:s_reveal,gain:1},
+  {no:'信服',hint:'做出信心的選擇',render:s_believe,gain:1},
+  {no:'實踐',hint:'帶進真實生活',render:s_practice,gain:1},
+  {no:'檢討',hint:'安靜地反思',render:s_review,gain:1},
+  {no:'修正',hint:'調整再出發',render:s_adjust,gain:1},
+  {no:'反覆',hint:'讓操練成習慣',render:s_repeat,gain:1},
+  {no:'繁殖',hint:'帶一個人同行',render:s_multiply,gain:1}
+];
+var stepIdx=0;
+function L(){return WORLD[state.landIdx].lessons[state.cur];}
+function startLesson(i){state.cur=i;var Ls=WORLD[state.landIdx].lessons[i];if(Ls&&Ls.type==='boss'){return startBoss();}stepIdx=0;show('screen-level');renderStep();}
+function quitLesson(){show('screen-course');renderCourse();}
+function renderStep(){
+  var st=STEPS[stepIdx];
+  document.getElementById('stepNo').textContent='STEP '+(stepIdx+1)+' / 8 · '+L().title;
+  document.getElementById('stepName').textContent=st.no;
+  document.getElementById('stepHint').textContent=st.hint;
+  var tr='';for(var i=0;i<8;i++)tr+='<i class="'+(i<=stepIdx?'done':'')+'"></i>';
+  document.getElementById('track').innerHTML=tr;
+  document.getElementById('stepFoot').innerHTML='';
+  st.render();
+}
+function nextStep(){
+  addUnself(STEPS[stepIdx].gain);
+  if(stepIdx<7){stepIdx++;renderStep();}else{finishLesson();}
+}
+function footBtn(label,fn,disabled){document.getElementById('stepFoot').innerHTML='<button class="btn'+(disabled?'" disabled':'"')+' onclick="'+fn+'">'+label+'</button>';}
+
+function s_info(){
+  var v=L().verse;
+  document.getElementById('stepBody').innerHTML='<div class="panel"><p class="verse">'+v.t+'<span class="ref">'+v.r+'</span></p></div><p class="lead" style="text-align:center">'+L().intro+'</p>'+xiMiniBubble(L().coachOpen);
+  footBtn('我領受了 ▸','nextStep()');
+}
+/* 通用小智小泡泡（含朗讀） */
+function xiMiniBubble(html){
+  var plain=stripTags(html);
+  return '<div class="chat"><div class="bubble"><div class="xi-orb">'+xiOrbSVG()+'</div><div class="say" data-say="'+plain.replace(/"/g,'&quot;')+'">'+html+'<div class="spk" onclick="speakBubble(this)">🔊 朗讀</div></div></div></div>';
+}
+function s_reveal(){
+  var R=L().reveal,cards='',i;
+  window._flipTotal=R.cards.length;window._flipped=0;
+  for(i=0;i<R.cards.length;i++){var c=R.cards[i];
+    window['_rf'+i]={god:c.god,eye2:c.eye2,done:false};
+    cards+=rfMarkup(i,'「'+c.sit+'」——'+c.human);}
+  var extra='';
+  var mine=(state.landIdx===0)?loadFrames():[];
+  if(mine.length){extra='<div class="frame-divider">★ 你的真實狀況</div><div class="reframe">';
+    for(var j=0;j<mine.length;j++){var idx=R.cards.length+j,m=mine[j];
+      window['_rf'+idx]={god:m.god,eye2:'神的觀點',done:false};
+      extra+=rfMarkup(idx,(m.sit?'「'+m.sit+'」——':'')+m.human);}
+    extra+='</div>';}
+  document.getElementById('stepBody').innerHTML='<p class="lead" style="margin-bottom:14px">'+R.lead+'</p><div class="reframe">'+cards+'</div>'+extra;
+  footBtn('繼續 ▸','nextStep()',true);
+}
+function rfMarkup(idx,humanText){
+  return '<div class="rf-card" id="rf'+idx+'" onclick="flip('+idx+')"><div class="rf-eye">人的觀點</div><div class="rf-text">'+escapeHtml(humanText)+'</div><div class="rf-tap">▸ 點一下，換上神的觀點</div></div>';
+}
+function flip(i){
+  var d=window['_rf'+i],el=document.getElementById('rf'+i);
+  if(d.done)return;d.done=true;el.classList.add('flipped');
+  el.querySelector('.rf-eye').textContent=d.eye2;
+  el.querySelector('.rf-text').textContent=d.god;
+  el.querySelector('.rf-tap').textContent='✓ 觀點已更新';
+  window._flipped++;
+  if(window._flipped>=window._flipTotal){var b=document.querySelector('#stepFoot .btn');if(b)b.removeAttribute('disabled');}
+}
+function s_believe(){
+  var B=L().believe,opts='';
+  for(var i=0;i<B.options.length;i++){var o=B.options[i];
+    opts+='<button class="choice" onclick="pick(this,'+(o.ok?'true':'false')+',\''+o.fb.replace(/'/g,"\\'")+'\')">'+o.t+'</button>';}
+  document.getElementById('stepBody').innerHTML='<p class="lead" style="margin-bottom:14px">情境：<b>'+B.scenario+'</b></p><div id="choices">'+opts+'</div><div class="feedback" id="fb"></div>';
+  footBtn('繼續 ▸','nextStep()',true);
+}
+function pick(el,ok,fb){
+  var fbEl=document.getElementById('fb');
+  if(ok){el.classList.add('right');var all=document.querySelectorAll('#choices .choice');for(var i=0;i<all.length;i++)all[i].setAttribute('disabled','');fbEl.style.color='var(--holy)';fbEl.textContent='✓ '+fb;var b=document.querySelector('#stepFoot .btn');if(b)b.removeAttribute('disabled');fbEl.insertAdjacentHTML('afterend',xiMiniBubble(L().coachCheer));scrollChat();}
+  else{el.classList.add('wrong');el.setAttribute('disabled','');fbEl.style.color='var(--ember)';fbEl.textContent='✗ '+fb+' 再選一次。';}
+}
+function s_practice(){
+  var P=L().practice;
+  document.getElementById('stepBody').innerHTML='<div class="panel quest"><div class="q-icn">'+P.icn+'</div><div class="q-title">'+P.title+'</div><p class="q-desc">'+P.desc+'</p></div><p class="lead" style="text-align:center;font-size:13px;color:var(--muted)">'+P.foot+'</p>';
+  footBtn('我接受這個任務 ▸','nextStep()');
+}
+function s_review(){
+  var R=L().review;
+  document.getElementById('stepBody').innerHTML='<p class="lead" style="margin-bottom:12px">'+R.prompt+'<br><span style="font-size:12px;color:var(--muted)">（只有你自己和小智 看得見）</span></p>'
+    +'<textarea id="reflect" placeholder="'+R.ph+'" oninput="onReflect()"></textarea>'
+    +'<div class="coach-cta" id="coachCta" disabled onclick="callXiaoI()"><div class="xi-orb">'+xiOrbSVG()+'</div>'
+    +'<div class="cc-t"><b>請小智 陪我看看</b><span>聖靈引導的屬靈教練，會回應你的反思</span></div><div class="cc-go">▸</div></div>'
+    +'<div id="chatBox"></div>';
+  footBtn('寫好了 ▸','nextStep()',true);
+}
+function onReflect(){
+  var v=document.getElementById('reflect').value.trim();
+  var b=document.querySelector('#stepFoot .btn');
+  var cta=document.getElementById('coachCta');
+  var ok=v.length>=4;
+  if(b){if(ok)b.removeAttribute('disabled');else b.setAttribute('disabled','');}
+  if(cta&&!cta.dataset.used){if(ok)cta.removeAttribute('disabled');else cta.setAttribute('disabled','');}
+}
+function callXiaoI(){
+  var cta=document.getElementById('coachCta');if(cta.dataset.used)return;cta.dataset.used='1';cta.setAttribute('disabled','');
+  var reflect=document.getElementById('reflect').value.trim();window._lastReflection=reflect;
+  window._xiHist=[{role:'user',content:'我這一課（'+L().title+'）的反思：'+reflect}];
+  window._xiTurns=1;
+  var box=document.getElementById('chatBox');
+  box.innerHTML='<div class="chat" id="chatThread"></div>';
+  var say=appendThinking();
+  askXiaoIMessages(window._xiHist).then(function(res){
+    fillXi(say,res.html,res.plain);
+    window._xiHist.push({role:'assistant',content:res.plain});
+    showReplyRow();
+  });
+}
+function appendThinking(){
+  var thread=document.getElementById('chatThread');
+  var wrap=document.createElement('div');wrap.className='bubble';
+  wrap.innerHTML='<div class="xi-orb">'+xiOrbSVG()+'</div><div class="say"><span class="dots"><span></span><span></span><span></span></span></div>';
+  thread.appendChild(wrap);scrollChat();
+  return wrap.querySelector('.say');
+}
+function fillXi(sayEl,html,plain){
+  sayEl.setAttribute('data-say',plain);
+  sayEl.innerHTML=html+'<div class="spk" onclick="speakBubble(this)">🔊 朗讀</div>';
+  scrollChat();
+}
+function appendMe(text){
+  var thread=document.getElementById('chatThread');
+  var wrap=document.createElement('div');wrap.className='bubble me';
+  wrap.innerHTML='<div class="avatar-me">🧒</div><div class="say">'+escapeHtml(text)+'</div>';
+  thread.appendChild(wrap);scrollChat();
+}
+function showReplyRow(){
+  var box=document.getElementById('chatBox');
+  if(document.getElementById('replyRow'))return;
+  var row=document.createElement('div');row.id='replyRow';row.className='reply-row';
+  row.innerHTML='<textarea id="replyIn" placeholder="想再跟小智 說些什麼…" oninput="onReply()"></textarea><button class="reply-send" id="replySend" disabled onclick="sendReply()">送出</button>';
+  box.appendChild(row);
+  var hint=document.createElement('div');hint.className='chat-hint';hint.textContent='可以一直和小智 聊，準備好了再按下面「寫好了」繼續。';box.appendChild(hint);
+}
+function onReply(){var v=document.getElementById('replyIn').value.trim();var b=document.getElementById('replySend');if(!b)return;if(v.length>=1)b.removeAttribute('disabled');else b.setAttribute('disabled','');}
+function sendReply(){
+  var inp=document.getElementById('replyIn');var v=inp.value.trim();if(!v)return;
+  inp.value='';var sb=document.getElementById('replySend');if(sb)sb.setAttribute('disabled','');
+  appendMe(v);
+  window._xiHist.push({role:'user',content:v});window._xiTurns++;
+  var say=appendThinking();
+  askXiaoIMessages(window._xiHist).then(function(res){
+    fillXi(say,res.html,res.plain);
+    window._xiHist.push({role:'assistant',content:res.plain});
+  });
+}
+function scrollChat(){var el=document.getElementById('screen-level');if(el)setTimeout(function(){el.scrollTop=el.scrollHeight;},70);}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function stripTags(h){var d=document.createElement('div');d.innerHTML=h;return (d.textContent||d.innerText||'').replace(/\s+/g,' ').trim();}
+/* 朗讀（Web Speech API，繁體中文） */
+var _voices=[];
+function loadVoices(){try{_voices=window.speechSynthesis?window.speechSynthesis.getVoices():[];}catch(e){_voices=[];}}
+if(window.speechSynthesis){loadVoices();try{window.speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
+/* 選音：優先「雲哲」(Microsoft YunJhe，台灣國語男聲)，其次任何 zh-TW，再退回 zh */
+function pickVoice(){
+  var i,nm,lg;
+  for(i=0;i<_voices.length;i++){nm=(_voices[i].name||'');if(nm.indexOf('YunJhe')>=0||nm.indexOf('雲哲')>=0)return _voices[i];}
+  for(i=0;i<_voices.length;i++){lg=(_voices[i].lang||'').replace('_','-');if(lg.indexOf('zh-TW')===0)return _voices[i];}
+  for(i=0;i<_voices.length;i++){if((_voices[i].lang||'').toLowerCase().indexOf('zh')===0)return _voices[i];}
+  return null;
+}
+/* ===== 雲哲真人語音（Azure Neural TTS，經 Cloudflare Worker 代理）=====
+   部署到 GitHub Pages 時，把 TTS_PROXY 改成你的 Worker 網址；
+   留空則自動使用裝置內建的中文語音（優先雲哲）。金鑰只放在 Worker，不寫在這裡。 */
+var TTS_PROXY='';  /* 例：'https://yunjhe-tts.spch321.workers.dev' */
+var _ttsAudio=null,_ttsUrl=null,_ttsBtn=null;
+function stopTTS(){
+  try{if(window.speechSynthesis)window.speechSynthesis.cancel();}catch(e){}
+  if(_ttsAudio){try{_ttsAudio.onended=null;_ttsAudio.onerror=null;_ttsAudio.pause();_ttsAudio.src='';}catch(e){}_ttsAudio=null;}
+  if(_ttsUrl){try{URL.revokeObjectURL(_ttsUrl);}catch(e){}_ttsUrl=null;}
+  if(_ttsBtn){_ttsBtn.classList.remove('playing');_ttsBtn=null;}
+}
+function speakLocal(text,btn){
+  if(!window.speechSynthesis){if(btn)btn.classList.remove('playing');return;}
+  window.speechSynthesis.cancel();loadVoices();
+  var u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=0.92;u.pitch=1.0;
+  var v=pickVoice();if(v)u.voice=v;
+  if(btn){btn.classList.add('playing');_ttsBtn=btn;u.onend=function(){btn.classList.remove('playing');if(_ttsBtn===btn)_ttsBtn=null;};u.onerror=function(){btn.classList.remove('playing');};}
+  window.speechSynthesis.speak(u);
+}
+function fetchAzure(text,btn){
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST',TTS_PROXY,true);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.responseType='blob';
+  xhr.onload=function(){
+    if(xhr.status>=200&&xhr.status<300&&xhr.response&&xhr.response.size>200&&_ttsAudio){
+      try{_ttsUrl=URL.createObjectURL(xhr.response);_ttsAudio.src=_ttsUrl;_ttsAudio.play();}
+      catch(e){var b=_ttsBtn;stopTTS();speakLocal(text,b);}
+    }else{var b2=_ttsBtn;stopTTS();speakLocal(text,b2);}  /* 代理失敗→退回裝置語音 */
+  };
+  xhr.onerror=function(){var b3=_ttsBtn;stopTTS();speakLocal(text,b3);};
+  try{xhr.send(JSON.stringify({text:text}));}catch(e){var b4=_ttsBtn;stopTTS();speakLocal(text,b4);}
+}
+function speak(text,btn){
+  stopTTS();
+  if(!text)return;
+  if(TTS_PROXY){
+    _ttsAudio=new Audio();  /* 在點擊當下建立，解鎖 iOS 自動播放限制 */
+    _ttsAudio.onended=function(){stopTTS();};
+    _ttsAudio.onerror=function(){var b=_ttsBtn;stopTTS();speakLocal(text,b);};
+    if(btn){btn.classList.add('playing');_ttsBtn=btn;}
+    fetchAzure(text,btn);
+    return;
+  }
+  if(!window.speechSynthesis){toast('這台裝置不支援朗讀');return;}
+  speakLocal(text,btn);
+}
+function speakBubble(btn){
+  if(btn.classList.contains('playing')){stopTTS();return;}
+  var say=btn.parentNode;var t=say.getAttribute('data-say')||say.textContent||'';
+  t=t.replace('🔊 朗讀','');
+  speak(t,btn);
+}
+var XI_ENDPOINT='https://api.anthropic.com/v1/messages'; /* 部署到 GitHub Pages 時，改成你的 Cloudflare Worker 代理網址 */
+function distressHit(t){var kw=['自殺','想死','不想活','活不下去','撐不下去','自殘','割腕','傷害自己','結束生命','沒有意義','好想消失','不想活了','被虐','被打','霸凌','被欺負','沒人愛我','都是我的錯'];for(var i=0;i<kw.length;i++)if(t.indexOf(kw[i])>=0)return true;return false;}
+function xiSafety(){
+  return '小智 真的很在乎你，也很心疼你剛剛說的。這些感受太重了，請不要自己一個人扛。'
+    +'<span class="q">可以答應小智 一件事嗎？今天就把這些心情，告訴一位你信任的大人——爸爸媽媽、老師、牧者或輔導，讓他們好好陪你、幫你。</span>'
+    +'你很寶貴，神深深愛你，也一定有人願意幫助你。';
+}
+function xiFallbackFirst(){
+  var v=L().verse;
+  return '謝謝你這麼誠實地寫下來，我看見你正在學習把眼光轉向神——這一步很不容易，但很寶貴。'
+    +'記得這句話：「<span class="ref">'+v.t+'（'+v.r+'）</span>」'
+    +'<span class="q">你覺得，如果讓耶穌來看這件事，祂會怎麼對你說呢？</span>';
+}
+var _xiPool=[
+  '謝謝你願意再多說一點，神很喜歡你這樣打開心。<span class="q">你覺得，在這件事上，神最想對你說的一句話會是什麼呢？</span>',
+  '我聽見了。把心裡的話說出來，本身就是一種勇敢。<span class="ref">你要保守你心，勝過保守一切，因為一生的果效是由心發出（箴言四章 23 節）。</span><span class="q">如果把這件事交在神手中，你的心會有什麼不一樣？</span>',
+  '嗯，我懂。改變觀點是一步一步走的，你已經在路上了。<span class="q">下一步，你想先為哪一件小事，練習用神的眼光去看呢？</span>',
+  '你能這樣想，真的長大了。焦點放在耶穌，不放在自己、別人或環境，心就會慢慢有平安。<span class="q">現在你心裡，多了一點什麼感覺呢？</span>'
+];
+function xiFallbackFollow(){return _xiPool[(window._xiTurns||1)%_xiPool.length];}
+function askXiaoIMessages(history){
+  var Ls=L();
+  var sys='你是「小智」，國度321空中團契《得勝者·無己覺醒》遊戲裡的屬靈成長教練，是聖靈引導的化身，溫柔、有智慧、充滿盼望，像一位親切的大哥哥或大姐姐。你正在陪伴一位青少年做屬靈反思與對話。\n\n'
+    +'這一課是「'+Ls.title+'」，主題是把觀點從「'+Ls.vtag+'」轉向神。本課核心經文：'+Ls.verse.t+'（'+Ls.verse.r+'）。\n\n'
+    +'【321理念，請自然融入，不要生硬說教】焦點在耶穌，不在自己、不在別人、不在環境；改變觀點就改變觀念，改變觀念就改變生命；無己（放下以自我為中心）才能讓耶穌在我們裡面作王；用心靠聖靈就開心，用腦靠自己就煩惱；一切榮耀歸給神。\n\n'
+    +'【回應格式，務必遵守】只輸出 HTML 片段，不要用 markdown、不要加「嗨」之類的開場問候。第一次回應可依「先同理肯定→引用一句和合本繁體經文→溫柔提問」的順序；之後的回合就像自然的對話，簡短回應（2-3 句即可），需要時才引用經文。經文一律用 <span class="ref">經文（出處）</span> 包住，提問一律用 <span class="q">…</span> 包住。全部用繁體中文，親切自然，不要太長。\n\n'
+    +'【安全守則】對方是青少年，內容務必純淨、適齡、充滿愛與盼望。絕不批評或論斷。若他透露自我傷害、想不開、被欺負或很深的痛苦，請溫柔而堅定地鼓勵他一定要告訴他信任的大人、牧者或家人，不要獨自承擔；絕不提供醫療、藥物或任何危險的具體方法。永遠把他指向耶穌和神的愛。';
+  var body={model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:history};
+  var last=history[history.length-1];var lastText=(last&&last.role==='user')?last.content:'';
+  return fetch(XI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(!data||!data.content)throw 0;
+      var text=data.content.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('').trim();
+      if(!text)throw 0;
+      return {html:text,plain:stripTags(text)};
+    })
+    .catch(function(){
+      var html;
+      if(distressHit(lastText))html=xiSafety();
+      else if((window._xiTurns||1)<=1)html=xiFallbackFirst();
+      else html=xiFallbackFollow();
+      return {html:html,plain:stripTags(html)};
+    });
+}
+function s_adjust(){
+  var A=L().adjust;
+  document.getElementById('stepBody').innerHTML='<div class="panel"><p class="lead">'+A.l1+'</p><p class="lead" style="margin-top:12px;color:var(--gold-b)">'+A.l2+'</p></div>';
+  footBtn('我記住了 ▸','nextStep()');
+}
+function s_repeat(){
+  var days=['一','二','三','四','五','六','日'],f='';
+  for(var i=0;i<7;i++)f+='<div><div class="flame" id="fl'+i+'">🔥</div><div class="day-lab">第'+days[i]+'天</div></div>';
+  document.getElementById('stepBody').innerHTML='<p class="lead" style="margin-bottom:14px;text-align:center">觀點的更新，靠的是<b>每天</b>的操練。<br>點亮今天，開始你的連續打卡。</p><div class="streak">'+f+'</div>';
+  window._checked=false;footBtn('今日打卡 🔥','doCheckin()');
+}
+function doCheckin(){if(window._checked)return;window._checked=true;document.getElementById('fl0').classList.add('lit');state.streak++;save();setTimeout(function(){footBtn('繼續 ▸','nextStep()');},450);}
+function s_multiply(){
+  document.getElementById('stepBody').innerHTML='<div class="panel quest"><div class="q-icn">🤝</div><div class="q-title">最後一步：繁殖</div><p class="q-desc">真懂一件事，是能把它傳下去。<br>邀請<b>一位朋友</b>一起走這一課，<br>你才算真正「畢業」。</p></div><p class="lead" style="text-align:center;font-size:13px;color:var(--muted)">你們要去，使人作我的門徒（太二十八 19）</p>';
+  footBtn('邀請朋友一起覺醒 ▸','doInvite()');
+}
+function doInvite(){
+  var text='我在玩《得勝者·無己覺醒》，正在學「'+L().title+'」，一起來成為得勝者吧！';
+  if(navigator.share){navigator.share({title:'得勝者·無己覺醒',text:text}).then(afterInvite).catch(afterInvite);}
+  else{toast('（原型示範：已產生邀請連結）');afterInvite();}
+}
+function afterInvite(){footBtn('完成這一課 ✦','nextStep()');}
+
+/* ============ 完成課程 / 城 ============ */
+function addUnself(g){
+  state.unself=Math.min(100,state.unself+g);
+  var shouldLeft=6-Math.floor(state.unself/15);
+  if(shouldLeft<state.chainsLeft&&state.chainsLeft>0)state.chainsLeft=Math.max(0,shouldLeft);
+  updateHUD();save();
+}
+function finishLesson(){
+  var li=state.landIdx,idx=state.cur;
+  var justFinished=!state.done[li][idx];
+  state.done[li][idx]=true;
+  var Ls=L(),gotFruit=false;
+  if(justFinished&&typeof Ls.fruit==='number'){var want=Ls.fruit+1;if(state.fruits<want){state.fruits=want;gotFruit=true;}}
+  updateHUD();save();
+  if(landDone(li)){return finishLand(li);}
+  document.getElementById('winEyebrow').textContent=WORLD[li].name+' · 第 '+(idx+1)+' 課完成';
+  document.getElementById('winTitle').textContent=Ls.title;
+  var v=Ls.verse;
+  document.getElementById('winVerse').innerHTML=v.t+'<span class="ref">'+v.r+'</span>';
+  document.getElementById('winStage').innerHTML=heroImgTag();
+  var rw=(gotFruit?reward('＋'+FRUITS[Ls.fruit][0],'聖靈果子','var(--holy)'):reward('第 '+(idx+2)+' 課','即將解鎖','var(--holy)'));
+  rw+=reward(state.unself+'%','無己值','var(--gold-b)')+reward((6-state.chainsLeft)+'/6','鎖鏈已斷','var(--ember)');
+  document.getElementById('winRewards').innerHTML=rw;
+  document.getElementById('winCelebrate').innerHTML=celebrateHTML(gotFruit?FRUITS[Ls.fruit][1]:'👑');
+  show('screen-victory');
+  var host=document.getElementById('winStage');setTimeout(function(){burst(host);},250);
+}
+function backToCourse(){show('screen-course');renderCourse();}
+function finishLand(li){
+  if(li>=WORLD.length-1){state.unself=100;var sl=6-Math.floor(state.unself/15);if(sl<state.chainsLeft)state.chainsLeft=Math.max(0,sl);updateHUD();save();}
+  document.getElementById('cityStage').innerHTML=heroImgTag();
+  if(allDone()){document.getElementById('cityCelebrate').innerHTML=celebrateHTML('👑');document.getElementById('cityShareBtn').style.display='block';coronate();}
+  else{document.getElementById('cityCelebrate').innerHTML='<div class="land-medal">'+landMedalSVG(li)+'</div>';document.getElementById('cityShareBtn').style.display='none';}
+  var nextLand=(li+1<WORLD.length)?WORLD[li+1]:null;
+  var btn=document.getElementById('cityBtn');
+  if(allDone()){
+    document.getElementById('cityEyebrow').textContent='五重之地 · 全境通關';
+    document.getElementById('cityTitle').textContent='你成為得勝者了';
+    document.getElementById('cityVerse').innerHTML='得勝的，我要賜他在我寶座上與我同坐<span class="ref">啟示錄三章 21 節</span>';
+    document.getElementById('cityDesc').innerHTML='你從灰暗的舊人，走成了發光的得勝者——鎖鏈全斷、九果齊備。這不是結束，是與基督同坐寶座、直到永遠的開始。<b>一切榮耀，歸給神。</b>';
+    btn.textContent='接受差遣 · 成為屬靈父母 ▸';btn.setAttribute('onclick','commissionMentor()');
+  }else{
+    document.getElementById('cityEyebrow').textContent=WORLD[li].name+' · 全數通關';
+    document.getElementById('cityTitle').textContent=WORLD[li].name+' 完成';
+    document.getElementById('cityVerse').innerHTML='';
+    document.getElementById('cityDesc').innerHTML='這一塊地你已走完。下一站——<b>'+nextLand.name+'</b>（'+nextLand.theme+'），繼續前行。';
+    btn.textContent='前往 '+nextLand.name+' ▸';btn.setAttribute('onclick',"show('screen-map');syncMap()");
+  }
+  var rmid=allDone()?'final':WORLD[li].id;var rr=loadRewards()[rmid];
+  if(rr&&rr.text&&!rr.claimed){document.getElementById('cityDesc').innerHTML+='<br><br><span style="color:var(--gold-b)">🎁 你達成了約定的獎勵：<b>'+escapeHtml(rr.text)+'</b>！記得找爸媽或牧者兌現喔。</span>';}
+  show('screen-citydone');
+  var host=document.getElementById('cityStage');setTimeout(function(){burst(host);setTimeout(function(){burst(host);},400);},250);
+}
+function reward(v,l,c){return '<div class="reward"><div class="rv" style="color:'+c+'">'+v+'</div><div class="rl">'+l+'</div></div>';}
+
+/* ============ 勇者卡 ============ */
+function openHero(){
+  document.getElementById('heroBig').innerHTML=heroImgTag();
+  document.getElementById('heroStageLbl').textContent=stageName(state.unself);
+  document.getElementById('heroSub').textContent='無己值 '+state.unself+'% · 鎖鏈已斷 '+(6-state.chainsLeft)+'/6 · 果子 '+state.fruits+'/9';
+  var g='';for(var i=0;i<FRUITS.length;i++){var on=i<state.fruits?' on':'';g+='<div class="fruit'+on+'"><div class="fg">'+FRUITS[i][1]+'</div><div class="fn">'+FRUITS[i][0]+'</div></div>';}
+  document.getElementById('fruitGrid').innerHTML=g;
+  var md='',k;for(k=0;k<MEDALS.length;k++){var got=landDone(k);md+='<div class="hm-slot'+(got?' got':'')+'">'+(got?landMedalSVG(k):'<div class="hm-lock">?</div>')+'<div class="hm-name">'+MEDALS[k].n+'</div></div>';}
+  document.getElementById('heroMedals').innerHTML=md;
+  var ho=loadHabits(),hmeta=ho._meta||{},SHORT=['讀經','禱告','感恩','捨己','祝福','省察','作息'],hh='',j;
+  for(j=0;j<HABITS.length;j++){var est=habitState(ho,HABITS[j].id).est;hh+='<div class="hh-slot'+(est?' got':'')+'"><div class="hh-icn">'+HABITS[j].icn+'</div><div class="hh-name">'+SHORT[j]+'</div></div>';}
+  document.getElementById('heroHabits').innerHTML=hh+((hmeta.weekBadges||0)>0?'<div class="hh-week">🏆 得勝一週 ×'+hmeta.weekBadges+'</div>':'');
+  show('screen-hero');
+}
+function goBackFromHero(){show(lastScreen);if(lastScreen==='screen-map')syncMap();if(lastScreen==='screen-course')renderCourse();}
+
+/* ============ 特效 ============ */
+function burst(host){
+  var r=host.getBoundingClientRect(),app=document.getElementById('app'),ar=app.getBoundingClientRect();
+  var cx=r.left-ar.left+r.width/2,cy=r.top-ar.top+r.height/2;
+  for(var i=0;i<14;i++){var s=document.createElement('div');s.className='shard';
+    var a=Math.random()*Math.PI*2,d=60+Math.random()*90;
+    s.style.left=cx+'px';s.style.top=cy+'px';
+    s.style.setProperty('--dx',(Math.cos(a)*d).toFixed(0)+'px');s.style.setProperty('--dy',(Math.sin(a)*d).toFixed(0)+'px');s.style.setProperty('--r',(Math.random()*360)+'deg');
+    s.style.animation='shatter '+(600+Math.random()*400)+'ms ease-out forwards';
+    if(Math.random()<0.5)s.style.background='linear-gradient(180deg,#FFE08A,#F5C33B)';
+    app.appendChild(s);(function(el){setTimeout(function(){el.remove();},1100);})(s);}
+}
+var toastT;
+function toast(msg){
+  var t=document.getElementById('_toast');
+  if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='position:absolute;left:50%;bottom:40px;transform:translateX(-50%);z-index:99;max-width:80%;text-align:center;background:rgba(11,8,33,.95);border:1.5px solid rgba(245,195,59,.5);color:var(--parch);padding:12px 18px;border-radius:14px;font-size:14px;line-height:1.6;box-shadow:0 8px 24px rgba(0,0,0,.5);transition:opacity .3s';document.getElementById('app').appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';clearTimeout(toastT);toastT=setTimeout(function(){t.style.opacity='0';},2600);
+}
+
+/* ============ 王者之戰（資料驅動：五位王，機制各異） ============ */
+var BOSS_DATA={
+ pride:{name:'驕傲之王',meter:'驕傲值',color:'#E24A3B',dark:'#4a1418',motif:'crown',
+   intro:['這是「驕傲之王」——你舊生命的王，己的化身。','記住：<b>驕傲對抗驕傲，只會兩敗俱傷</b>。唯有謙卑與捨己能得勝。'],
+   good:{label:'謙卑',boss:-24,heart:6,log:'你選擇<b>謙卑</b>。「神阻擋驕傲的人，賜恩給謙卑的人」（雅四 6）。牠的氣焰被壓下去了！'},
+   bad:{label:'以驕傲反擊',boss:-8,heart:-22,log:'你用<b>驕傲</b>反擊……驕傲激起驕傲，<b>兩敗俱傷</b>！你的心受了傷，牠卻更囂張。'},
+   heal:{label:'呼求主耶穌',boss:-4,heart:34,log:'你<b>呼求主耶穌的名</b>，聖靈充滿你，心力恢復了。'},
+   finish:{label:'捨己 · 與基督同釘十字架 ✝',me:'你說：「舊我，我與祢同釘十字架；現在活著的不再是我，乃是基督！」',win:'✦ 驕傲之王轟然消滅！舊人死了，新人發光了！'},
+   taunts:['驕傲之王咆哮：「你不過是個失敗者，屈服吧！」','驕傲之王譏笑：「靠你自己，永遠贏不了我。」','驕傲之王逼近：「證明你比別人強，來反擊啊！」'],
+   regenLog:'你的反擊反而餵養了牠——驕傲之王更強大了。'},
+ inferior:{name:'自卑之王',meter:'自卑值',color:'#7CA0E0',dark:'#1b2740',motif:'weight',
+   intro:['這是「自卑之王」——牠用謊言壓著你，說你不夠好、沒有價值。','記住：<b>越努力證明自己，越被牠綑綁</b>。唯有領受神眼中的你，才能得勝。'],
+   good:{label:'領受神的愛',boss:-24,heart:6,log:'你<b>領受神的愛</b>：「我是神的兒女，是祂所愛、所寶貴的」（約壹三 1）。謊言的重擔輕了！'},
+   bad:{label:'更努力證明自己',boss:-8,heart:-22,log:'你想<b>證明自己夠好</b>……但越證明越覺得不夠，<b>反而更自卑</b>。你的心累了。'},
+   heal:{label:'安靜在神面前',boss:-4,heart:34,log:'你<b>安靜在神面前</b>，想起祂看的是內心（撒上十六 7）。你重新得力。'},
+   finish:{label:'相信我在基督裡的新身份 ✝',me:'你說：「我不再看自己的軟弱，只看神眼中寶貴的我——我是新造的人！」',win:'✦ 自卑之王的謊言破碎了！你在基督裡站起來了！'},
+   taunts:['自卑之王低語：「你這麼差，怎麼配？」','自卑之王嘲諷：「大家都比你好，放棄吧。」','自卑之王壓迫：「你努力也沒用，你就是不夠。」'],
+   regenLog:'你想靠自己證明，反而餵養了牠——自卑之王更沉重了。'},
+ lust:{name:'情慾之王',meter:'誘惑值',color:'#D06AB0',dark:'#3a1030',motif:'bait',
+   intro:['這是「情慾之王」——牠用誘惑的假象，想網羅你的心和眼目。','記住：<b>硬碰、多看一眼，只會被牠纏住</b>。唯有逃避、定睛耶穌，才能得勝。'],
+   good:{label:'逃避 · 轉眼定睛耶穌',boss:-24,heart:6,log:'你像約瑟一樣<b>轉身逃跑</b>，把眼目轉向耶穌（提後二 22）。誘惑的網鬆開了！'},
+   bad:{label:'靠意志力硬撐',boss:-8,heart:-22,log:'你想<b>硬撐、再看一眼</b>……卻越陷越深，<b>被網羅纏住</b>了。你的心受傷了。'},
+   heal:{label:'求聖靈保守心眼',boss:-4,heart:34,log:'你<b>求聖靈充滿</b>，思念聖潔的事（腓四 8）。心眼被保守，你得著力量。'},
+   finish:{label:'與眼目立約 · 身體是聖靈的殿 ✝',me:'你說：「我與眼睛立約（伯三十一 1）；我的身體是聖靈的殿，要榮耀神！」',win:'✦ 情慾之王的假象破滅了！你聖潔地站立得勝！'},
+   taunts:['情慾之王引誘：「就看一眼，沒關係的。」','情慾之王低語：「大家都這樣，別那麼認真。」','情慾之王糾纏：「你根本擋不住，投降吧。」'],
+   regenLog:'你想硬碰，反而被牠纏得更緊——情慾之王更猖狂了。'},
+ bitter:{name:'苦毒之王',meter:'苦毒值',color:'#5FC888',dark:'#123320',motif:'thorn',
+   intro:['這是「苦毒之王」——牠用傷害和記恨，在你心裡扎下毒根。','記住：<b>記恨、報復，先毒害的是你自己</b>。唯有饒恕，才能得勝。'],
+   good:{label:'饒恕 · 因神先饒恕我',boss:-24,heart:6,log:'你選擇<b>饒恕</b>：「神在基督裡先饒恕了我」（弗四 32）。毒根鬆動了！'},
+   bad:{label:'記恨 · 想報復',boss:-8,heart:-22,log:'你抓住<b>怨恨、想報復</b>……苦毒的根越扎越深，<b>先傷到的是你自己</b>。'},
+   heal:{label:'把傷害交給神',boss:-4,heart:34,log:'你<b>把傷害交給神</b>，為對方禱告祝福（羅十二 19）。你的心得著醫治。'},
+   finish:{label:'放手饒恕 · 讓神醫治 ✝',me:'你說：「我選擇饒恕，把這苦毒釘十字架，交給神來醫治。」',win:'✦ 苦毒之王枯乾了！饒恕帶來了自由與合一！'},
+   taunts:['苦毒之王煽動：「他傷你這麼深，怎能原諒？」','苦毒之王纏繞：「記住這筆帳，讓他好看。」','苦毒之王逼問：「先低頭，你不就輸了？」'],
+   regenLog:'你的怨恨餵養了毒根——苦毒之王更張狂了。'},
+ fear:{name:'懼怕之王',meter:'懼怕值',color:'#8E9BC8',dark:'#1a2038',motif:'cloud',
+   intro:['這是「懼怕之王」——牠用恐懼讓你退縮、不敢為主站出來。','記住：<b>越躲藏，懼怕越大</b>。唯有靠主剛強壯膽，才能得勝。'],
+   good:{label:'靠主剛強壯膽',boss:-24,heart:6,log:'你<b>靠主剛強壯膽</b>：「不要懼怕，因為我與你同在」（書一 9）。懼怕退去了！'},
+   bad:{label:'退縮躲藏',boss:-8,heart:-22,log:'你選擇<b>退縮躲藏</b>……越躲，<b>懼怕越大</b>，把你困得更緊。'},
+   heal:{label:'禱告支取主的同在',boss:-4,heart:34,log:'你<b>禱告支取主的同在</b>（賽四十一 10）。平安充滿你，你重新得力。'},
+   finish:{label:'奉主的名勇敢站出來 ✝',me:'你說：「神賜給我的不是膽怯的心，乃是剛強、仁愛、謹守的心！」（提後一 7）',win:'✦ 懼怕之王消散了！你勇敢地為主站立得勝！'},
+   taunts:['懼怕之王恐嚇：「別出頭，會被笑的。」','懼怕之王低語：「你辦不到的，退回去吧。」','懼怕之王逼近：「危險太大，逃走吧。」'],
+   regenLog:'你的退縮餵養了牠——懼怕之王更龐大了。'}
+};
+function bossSVG(t,cfg){
+  t=Math.max(0,Math.min(1,t/100));var c=cfg.color,d=cfg.dark,dim=(0.35+0.65*t).toFixed(2),k,a,x1,y1,x2,y2;
+  var motif='';
+  if(cfg.motif==='crown'){motif='<path d="M74 66 L78 44 L88 60 L100 40 L112 60 L122 44 L126 66 Z" fill="#C9A24B" stroke="#3a2a10" stroke-width="1"/><circle cx="100" cy="52" r="3.5" fill="'+c+'"/>';}
+  else if(cfg.motif==='weight'){motif='<rect x="64" y="42" width="72" height="16" rx="3" fill="#3a4358"/><rect x="72" y="30" width="56" height="12" rx="3" fill="#2a3145"/><text x="100" y="54" text-anchor="middle" font-size="9" fill="#9fb0d0" font-family="serif">謊言</text>';}
+  else if(cfg.motif==='bait'){motif='<ellipse cx="100" cy="82" rx="21" ry="15" fill="#150a1a"/><circle cx="100" cy="150" r="13" fill="'+c+'" opacity="'+(0.5+0.5*t)+'" style="filter:drop-shadow(0 0 '+(10*t)+'px '+c+')"><animate attributeName="r" values="12;15;12" dur="2.2s" repeatCount="indefinite"/></circle>';}
+  else if(cfg.motif==='thorn'){var ang=[18,58,122,162,300,342];for(k=0;k<ang.length;k++){a=ang[k]*Math.PI/180;x1=100+Math.cos(a)*34;y1=120+Math.sin(a)*44;x2=100+Math.cos(a)*56;y2=120+Math.sin(a)*66;motif+='<path d="M'+x1.toFixed(0)+' '+y1.toFixed(0)+' L'+x2.toFixed(0)+' '+y2.toFixed(0)+' l6 5 Z" fill="'+d+'" stroke="'+c+'" stroke-width="1.2"/>';}}
+  else if(cfg.motif==='cloud'){motif='<g fill="'+d+'"><circle cx="80" cy="60" r="18"/><circle cx="104" cy="50" r="23"/><circle cx="126" cy="62" r="16"/></g><circle cx="90" cy="60" r="3" fill="'+c+'"/><circle cx="108" cy="56" r="3" fill="'+c+'"/><circle cx="120" cy="64" r="2.5" fill="'+c+'"/>';}
+  var eyes=(cfg.motif==='cloud')?'':'<circle cx="91" cy="86" r="4.6" fill="'+c+'"><animate attributeName="opacity" values="'+(0.6*t)+';1;'+(0.6*t)+'" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="109" cy="86" r="4.6" fill="'+c+'"><animate attributeName="opacity" values="'+(0.6*t)+';1;'+(0.6*t)+'" dur="1.8s" repeatCount="indefinite"/></circle>';
+  return '<svg viewBox="0 0 200 280" width="100%" height="100%"><defs>'
+   +'<radialGradient id="bAura" cx="50%" cy="42%" r="55%"><stop offset="0%" stop-color="'+c+'" stop-opacity="'+(0.5*t)+'"/><stop offset="60%" stop-color="'+d+'" stop-opacity="'+(0.14*t)+'"/><stop offset="100%" stop-color="'+d+'" stop-opacity="0"/></radialGradient>'
+   +'<linearGradient id="bBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+d+'"/><stop offset="1" stop-color="#0a0510"/></linearGradient></defs>'
+   +'<ellipse cx="100" cy="260" rx="'+(46+26*t)+'" ry="13" fill="'+c+'" opacity="'+(0.10+0.2*t)+'"/>'
+   +'<circle cx="100" cy="120" r="98" fill="url(#bAura)"/>'
+   +'<g style="opacity:'+dim+'">'
+   +'<path d="M56 130 Q40 210 52 258 L100 244 L148 258 Q160 210 144 130 Z" fill="url(#bBody)"/>'
+   +'<path d="M70 120 Q100 108 130 120 L126 196 Q100 206 74 196 Z" fill="url(#bBody)"/>'
+   +'<circle cx="100" cy="86" r="24" fill="'+d+'"/>'+motif+eyes+'</g></svg>';
+}
+var bs=null;
+function startBoss(){
+  var lesson=WORLD[state.landIdx].lessons[state.cur];
+  var cfg=BOSS_DATA[lesson.bossId]||BOSS_DATA.pride;
+  bs={cfg:cfg,pride:100,heart:100,turn:0,over:false,unlocked:false,regen:false,shield:false};
+  show('screen-boss');
+  document.getElementById('bossLog').innerHTML='';
+  bossLog('靈之引導：'+cfg.intro[0],'sys');
+  bossLog(cfg.intro[1],'sys');
+  renderBoss();
+}
+function bossLog(html,who){var box=document.getElementById('bossLog');box.insertAdjacentHTML('beforeend','<div class="blog '+who+'">'+html+'</div>');box.scrollTop=box.scrollHeight;}
+function renderBoss(){
+  var cfg=bs.cfg,pb=document.getElementById('bossPride');
+  pb.style.width=bs.pride+'%';pb.style.background='linear-gradient(90deg,'+cfg.dark+','+cfg.color+')';pb.style.boxShadow='0 0 10px '+cfg.color;
+  document.getElementById('bossPrideTxt').textContent=cfg.name+' '+bs.pride+'%';
+  var lbl=document.querySelector('#screen-boss .boss-top .bhp-label span:last-child');if(lbl)lbl.textContent=cfg.meter;
+  document.getElementById('heartBar').style.width=bs.heart+'%';
+  document.getElementById('heartTxt').textContent='你的心 '+bs.heart+'%';
+  document.getElementById('bossFig').innerHTML=bossSVG(bs.pride,cfg);
+  var acts;
+  if(bs.over){acts='';}
+  else if(bs.unlocked){acts='<button class="btn boss-final" onclick="bossAct(\'die\')">'+cfg.finish.label+'</button>';}
+  else{acts='<button class="btn ghost boss-act" onclick="bossAct(\'good\')">'+cfg.good.label+'</button>'
+      +'<button class="btn ghost boss-act" onclick="bossAct(\'bad\')">'+cfg.bad.label+'</button>'
+      +'<button class="btn ghost boss-act" onclick="bossAct(\'heal\')">'+cfg.heal.label+'</button>';}
+  document.getElementById('bossActions').innerHTML=acts;
+}
+function shakeBoss(){var f=document.getElementById('bossFig');f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');}
+function bossAct(kind){
+  if(bs.over)return;var cfg=bs.cfg;
+  if(kind==='die'){
+    bs.over=true;renderBoss();
+    bossLog(cfg.finish.me,'me');bossLog(cfg.finish.win,'win');
+    var host=document.getElementById('bossFig');burst(host);setTimeout(function(){burst(host);},350);
+    setTimeout(bossWin,1200);return;
+  }
+  var a=cfg[kind];
+  bs.pride=Math.max(0,bs.pride+(a.boss||0));
+  bs.heart=Math.max(0,Math.min(100,bs.heart+(a.heart||0)));
+  if(kind==='good')shakeBoss();
+  if(kind==='bad')bs.regen=true;
+  if(kind==='heal')bs.shield=true;
+  bossLog(a.log,'me');
+  renderBoss();
+  if(bs.pride<=28&&!bs.unlocked){bs.unlocked=true;bossLog('牠虛弱了！此刻使出最後一擊——'+cfg.finish.label.replace(' ✝','')+'！','sys');renderBoss();return;}
+  setTimeout(bossTurn,520);
+}
+function bossTurn(){
+  if(bs.over||bs.unlocked)return;var cfg=bs.cfg;
+  if(bs.regen){bs.pride=Math.min(100,bs.pride+16);bs.regen=false;bossLog(cfg.regenLog,'boss');}
+  else if(bs.shield){bs.shield=false;bossLog(cfg.taunts[bs.turn%3]+'但你靠著主，心裡有平安，不被動搖。','boss');}
+  else{bs.heart=Math.max(0,bs.heart-8);bossLog(cfg.taunts[bs.turn%3],'boss');}
+  bs.turn++;
+  if(bs.heart<=0){bs.heart=40;bossLog('你的心力竭了……但主的恩典夠你用。「反敗為勝」——重新靠主，站起來！','sys');}
+  renderBoss();
+}
+function bossWin(){addUnself(8);finishLesson();}
+
+/* ============ 牧養後台 ============ */
+var PASTOR_PIN='0321';           /* 牧者密碼（部署時可自訂） */
+var REPORT_ENDPOINT='';          /* 部署時填：https://<worker>/report */
+var FLOCK_ENDPOINT='';           /* 部署時填：https://<worker>/flock（牧養後台彙整） */
+var FLOCK_TOKEN='';              /* 與 Worker 的 PASTOR_TOKEN 一致 */
+var _remoteFlock=null;
+var FLOCK_KEY='overcomer321_flock';
+var SAMPLE_FLOCK=[
+ {name:'小恩',stage:'操練·捨己',unself:44,fruits:3,streak:6,lands:[5,2,0,0,0],lastActive:'今天',care:false,reflection:'我想學會饒恕那個常惹我生氣的同學，把他交給神。'},
+ {name:'阿哲',stage:'無己·合一',unself:58,fruits:5,streak:12,lands:[5,5,3,0,0],lastActive:'昨天',care:false,reflection:'我發現我一直想證明自己比別人強，我願意放下，讓耶穌作王。'},
+ {name:'小雅',stage:'重生·初信',unself:16,fruits:1,streak:0,lands:[2,0,0,0,0],lastActive:'11 天前',care:true,reflection:'最近覺得好累，好像什麼都提不起勁……'},
+ {name:'恩恩',stage:'得勝雛形',unself:74,fruits:7,streak:21,lands:[5,5,4,4,1],lastActive:'今天',care:false,reflection:'我想帶我室友一起認識耶穌，求神給我機會。'}
+];
+function openPin(){var el=document.getElementById('pinIn');el.value='';show('screen-pin');setTimeout(function(){try{el.focus();}catch(e){}},200);}
+function checkPin(){var v=document.getElementById('pinIn').value.trim();if(v===PASTOR_PIN){openDash();}else{toast('密碼不正確');}}
+function loadFlock(){var a=[];try{var s=localStorage.getItem(FLOCK_KEY);if(s)a=JSON.parse(s)||[];}catch(e){}return a;}
+function saveFlock(a){try{localStorage.setItem(FLOCK_KEY,JSON.stringify(a));}catch(e){}}
+function mySnapshot(){
+  var lands=[];for(var i=0;i<WORLD.length;i++)lands.push(landDoneCount(i));
+  return {name:'我（本機）',stage:stageName(state.unself),unself:state.unself,fruits:state.fruits,streak:state.streak,lands:lands,lastActive:'剛剛',care:(state.streak===0&&state.unself<20),reflection:(window._lastReflection||'')};
+}
+function reportProgress(){
+  var snap=mySnapshot();var a=loadFlock(),found=false;
+  for(var i=0;i<a.length;i++){if(a[i].name===snap.name){a[i]=snap;found=true;break;}}
+  if(!found)a.push(snap);
+  saveFlock(a);
+  if(REPORT_ENDPOINT){try{fetch(REPORT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(snap)}).catch(function(){});}catch(e){}}
+  toast('已回報進度給牧者 🙏');
+}
+function openDash(){
+  show('screen-dash');renderDash();
+  if(FLOCK_ENDPOINT){
+    fetch(FLOCK_ENDPOINT,{headers:{'X-Pastor-Token':FLOCK_TOKEN}}).then(function(r){return r.json();})
+      .then(function(d){if(d&&d.flock){_remoteFlock=d.flock;renderDash();}}).catch(function(){});
+  }
+}
+function dstat(v,l){return '<div class="dstat"><div class="dv">'+v+'</div><div class="dl">'+l+'</div></div>';}
+function ybar(lab,pct,grad,txt){pct=Math.max(0,Math.min(100,Math.round(pct)));return '<div class="ybar"><span class="lab">'+lab+'</span><span class="track"><i style="width:'+pct+'%;background:'+grad+'"></i></span><span>'+(txt||pct+'%')+'</span></div>';}
+function youthCard(y){
+  var lands=y.lands||[0,0,0,0,0],td=0,tl=0;
+  for(var i=0;i<WORLD.length;i++){td+=(lands[i]||0);tl+=WORLD[i].lessons.length;}
+  var flag=y.care?'<span class="youth-flag flag-care">需要關懷</span>':'<span class="youth-flag flag-ok">成長中</span>';
+  var av=heroSVG(y.unself,6-Math.floor(y.unself/15),{fruits:0});
+  var bars=ybar('無己值',y.unself,'linear-gradient(90deg,#59E3D6,#F5C33B)')
+          +ybar('果子',(y.fruits/9)*100,'linear-gradient(90deg,#59E3D6,#7CC5F0)',y.fruits+'/9')
+          +ybar('課程',(td/tl)*100,'linear-gradient(90deg,#F5C33B,#B8862B)',td+'/'+tl);
+  var ref=y.reflection?('<div class="yref'+(y.care?' alert':'')+'"><span class="qt">最近的反思（檢討）'+(y.care?' · 建議主動關懷':'')+'</span>'+escapeHtml(y.reflection)+'</div>'):'';
+  return '<div class="youth'+(y.care?' care':'')+'"><div class="youth-top"><div class="youth-av">'+av+'</div>'
+    +'<div><div class="youth-nm">'+escapeHtml(y.name)+'</div><div class="youth-meta">'+y.stage+' · 連續打卡 '+(y.streak||0)+' 天 · '+(y.lastActive||'—')+'</div></div>'+flag+'</div>'
+    +'<div class="ybars">'+bars+'</div>'+ref+'</div>';
+}
+function renderDash(){
+  var flock=(_remoteFlock&&_remoteFlock.length)?_remoteFlock.concat(loadFlock()):SAMPLE_FLOCK.concat(loadFlock());
+  var n=flock.length,avg=0,care=0,names=[];
+  for(var i=0;i<n;i++){avg+=flock[i].unself;if(flock[i].care){care++;names.push(flock[i].name);}}
+  avg=n?Math.round(avg/n):0;
+  document.getElementById('dashStats').innerHTML=dstat(n,'位青少年')+dstat(avg+'%','平均無己值')+dstat(care,'需要關懷');
+  document.getElementById('dashCare').innerHTML=care?('<div class="care-box">⚠ <b>'+care+' 位孩子需要你的關懷</b>：'+names.join('、')+'。他們最近較少操練或正處低谷，適合主動問候、代禱、陪伴。</div>'):'';
+  var html='';for(i=0;i<n;i++)html+=youthCard(flock[i]);
+  document.getElementById('dashList').innerHTML=html;
+}
+
+/* ============ 得勝獎勵約定 ============ */
+var REWARDS_KEY='overcomer321_rewards';
+var REWARD_MILESTONES=[
+ {id:'idea',name:'觀念之城 通關',hint:'學會用神的眼光看世界（勝過自卑之王）',check:function(){return landDone(0);}},
+ {id:'life',name:'生命之谷 通關',hint:'舊人變新人（勝過驕傲之王）',check:function(){return landDone(1);}},
+ {id:'live',name:'生活之路 通關',hint:'聖潔得勝（勝過情慾之王）',check:function(){return landDone(2);}},
+ {id:'rel',name:'關係之橋 通關',hint:'饒恕與合一（勝過苦毒之王）',check:function(){return landDone(3);}},
+ {id:'king',name:'體系之國 通關',hint:'建立神國（勝過懼怕之王）',check:function(){return landDone(4);}},
+ {id:'final',name:'✦ 全境通關 · 成為得勝者',hint:'九果齊備，與基督同坐寶座',check:function(){return allDone();}}
+];
+function loadRewards(){try{var s=localStorage.getItem(REWARDS_KEY);if(s)return JSON.parse(s)||{};}catch(e){}return {};}
+function saveRewards(o){try{localStorage.setItem(REWARDS_KEY,JSON.stringify(o));}catch(e){}}
+function escapeAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function openRewards(){renderRewards();show('screen-rewards');}
+function toggleRewardEdit(){window._rewardEdit=!window._rewardEdit;renderRewards();}
+function setReward(id,val){var r=loadRewards();var prev=r[id]||{};r[id]={text:val,claimed:prev.claimed||false};saveRewards(r);}
+function claimReward(id){var r=loadRewards();r[id]=r[id]||{text:''};r[id].claimed=true;saveRewards(r);renderRewards();toast('太棒了！願這份鼓勵陪你繼續前行 🎉');}
+function renderRewards(){
+  var r=loadRewards(),edit=!!window._rewardEdit;
+  document.getElementById('rewardEditBtn').textContent=edit?'完成設定 ✓':'✎ 家長/牧者設定獎勵';
+  var html='';
+  for(var i=0;i<REWARD_MILESTONES.length;i++){
+    var m=REWARD_MILESTONES[i],got=m.check(),it=r[m.id]||{text:'',claimed:false};
+    var status,action='';
+    if(!got){status='<span class="rw-badge lock">🔒 未達成</span>';}
+    else if(!it.claimed){status='<span class="rw-badge ready">🎁 可兌現</span>';action='<button class="rw-claim" onclick="claimReward(\''+m.id+'\')">家長/牧者確認已給予 ✓</button>';}
+    else{status='<span class="rw-badge done">✅ 已兌現</span>';}
+    var field=edit
+      ? '<input class="rw-in" value="'+escapeAttr(it.text)+'" placeholder="輸入約定的獎勵…例如：一起去吃你最愛的火鍋" oninput="setReward(\''+m.id+'\',this.value)">'
+      : '<div class="rw-text'+(it.text?'':' empty')+'">'+(it.text?escapeHtml(it.text):'（尚未約定獎勵，點上方「設定」）')+'</div>';
+    html+='<div class="rw-card'+(got&&!it.claimed?' ready':'')+'"><div class="rw-top"><div class="rw-nm">'+escapeHtml(m.name)+'</div>'+status+'</div><div class="rw-hint">'+m.hint+'</div>'+field+action+'</div>';
+  }
+  document.getElementById('rewardList').innerHTML=html;
+}
+function rewardBanner(){
+  var r=loadRewards();
+  for(var i=0;i<REWARD_MILESTONES.length;i++){
+    var m=REWARD_MILESTONES[i],it=r[m.id]||{text:'',claimed:false};
+    if(m.check()&&!it.claimed){
+      return '<div class="reward-banner" onclick="openRewards()">🎁 你達成了約定的獎勵：<b>'+(it.text?escapeHtml(it.text):'（尚未約定）')+'</b>！點我去兌現 →</div>';
+    }
+    if(!m.check()){
+      if(it.text)return '<div class="reward-banner" onclick="openRewards()">🎁 下一個獎勵：<b>'+escapeHtml(it.text)+'</b><br>通關「'+escapeHtml(m.name.replace('✦ ',''))+'」即可兌現！</div>';
+      return '<div class="reward-banner" onclick="openRewards()">🎁 點我，和爸媽或牧者一起約定你的過關獎勵 →</div>';
+    }
+  }
+  return '<div class="reward-banner" onclick="openRewards()">🏆 所有約定的獎勵都兌現了，你真棒！</div>';
+}
+
+/* ============ 我的換觀點（真實狀況卡） ============ */
+var FRAMES_KEY='overcomer321_myframes';
+function loadFrames(){try{var s=localStorage.getItem(FRAMES_KEY);if(s)return JSON.parse(s)||[];}catch(e){}return [];}
+function saveFrames(a){try{localStorage.setItem(FRAMES_KEY,JSON.stringify(a));}catch(e){}}
+function openFrames(){renderFrames();document.getElementById('frameFormWrap').innerHTML='';document.getElementById('frameAddBtn').textContent='＋ 新增一張換觀點卡';show('screen-frames');}
+function renderFrames(){
+  var arr=loadFrames(),html='';
+  if(!arr.length){html='<p class="rw-hint" style="text-align:center;margin:6px 0 16px">還沒有換觀點卡。點下面「新增」，把你真實的煩惱寫下來，換上神的觀點！</p>';}
+  for(var i=0;i<arr.length;i++){var m=arr[i];
+    html+='<div class="rf-card" id="mf'+i+'" onclick="practiceFlip('+i+')" data-god="'+escapeAttr(m.god)+'" data-human="'+escapeAttr((m.sit?'「'+m.sit+'」——':'')+m.human)+'">'
+      +'<div class="mf-del" onclick="event.stopPropagation();delFrame('+i+')">✕</div>'
+      +'<div class="rf-eye">人的觀點</div><div class="rf-text">'+escapeHtml((m.sit?'「'+m.sit+'」——':'')+m.human)+'</div><div class="rf-tap">▸ 點一下，換上神的觀點</div></div>';
+  }
+  document.getElementById('framesList').innerHTML=html;
+}
+function practiceFlip(i){
+  var el=document.getElementById('mf'+i);
+  if(el.classList.contains('flipped')){el.classList.remove('flipped');el.querySelector('.rf-eye').textContent='人的觀點';el.querySelector('.rf-text').textContent=el.getAttribute('data-human');el.querySelector('.rf-tap').textContent='▸ 點一下，換上神的觀點';return;}
+  el.classList.add('flipped');el.querySelector('.rf-eye').textContent='神的觀點';el.querySelector('.rf-text').textContent=el.getAttribute('data-god');el.querySelector('.rf-tap').textContent='✓ 觀點已更新（再點可翻回）';
+}
+function delFrame(i){var a=loadFrames();a.splice(i,1);saveFrames(a);renderFrames();}
+function toggleFrameForm(){
+  var w=document.getElementById('frameFormWrap');
+  if(w.innerHTML){w.innerHTML='';document.getElementById('frameAddBtn').textContent='＋ 新增一張換觀點卡';return;}
+  document.getElementById('frameAddBtn').textContent='取消';
+  w.innerHTML='<div id="frameForm">'
+    +'<div class="ff-label">情境（可留空）</div><input id="ffSit" placeholder="例如：考試考壞、被朋友已讀不回">'
+    +'<div class="ff-label">人的觀點（我現在的想法）</div><textarea id="ffHuman" placeholder="例如：我真的很沒用，什麼都做不好……"></textarea>'
+    +'<div class="ff-label">神的觀點（真理）</div><textarea id="ffGod" placeholder="換上神會怎麼看這件事…"></textarea>'
+    +'<span class="xi-help" onclick="frameAskXi(this)">🕊 請小智 幫我想神的觀點</span>'
+    +'<button class="btn" style="margin-top:14px" onclick="saveFrame()">儲存這張卡 ✓</button></div>';
+  setTimeout(function(){try{document.getElementById('ffHuman').focus();}catch(e){}},150);
+}
+function saveFrame(){
+  var sit=document.getElementById('ffSit').value.trim();
+  var human=document.getElementById('ffHuman').value.trim();
+  var god=document.getElementById('ffGod').value.trim();
+  if(human.length<2||god.length<2){toast('請填寫「人的觀點」和「神的觀點」');return;}
+  var a=loadFrames();a.push({sit:sit,human:human,god:god});saveFrames(a);
+  document.getElementById('frameFormWrap').innerHTML='';document.getElementById('frameAddBtn').textContent='＋ 新增一張換觀點卡';
+  renderFrames();toast('已加入你的換觀點卡 🎉');
+}
+function frameAskXi(btn){
+  var sit=document.getElementById('ffSit').value.trim();
+  var human=document.getElementById('ffHuman').value.trim();
+  if(human.length<2){toast('先寫下你現在的想法（人的觀點）');return;}
+  btn.style.pointerEvents='none';var old=btn.textContent;btn.textContent='小智 想想…';
+  var sys='你是「小智」，一位溫柔有智慧、充滿盼望的屬靈教練，陪伴青少年。孩子會給你一個真實的處境與他負面的「人的觀點」。請你用一到兩句，寫出對應的「神的觀點」——把眼光轉向神、充滿盼望與愛，並在括號裡附一處合適的和合本經文出處。只輸出這一兩句話本身，用繁體中文，不要前言、不要加引號。內容必須純淨、適齡、指向耶穌的愛。若孩子透露自我傷害或很深的痛苦，請溫柔鼓勵他一定要告訴信任的大人。';
+  var content='處境：'+(sit||'（未填）')+'\n我的想法（人的觀點）：'+human;
+  var done=function(t){document.getElementById('ffGod').value=t;btn.style.pointerEvents='';btn.textContent=old;};
+  var fb='這件事神都知道，也在其中有祂的美意；祂必與我同在，使萬事互相效力，叫愛神的人得益處（羅八 28）。';
+  fetch(XI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:400,system:sys,messages:[{role:'user',content:content}]})})
+    .then(function(r){return r.json();})
+    .then(function(d){var t=(d&&d.content)?d.content.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('').trim():'';done(t||fb);})
+    .catch(function(){done(fb);});
+}
+
+/* ============ 每日靈修（每日經文 · 間隔重複 · 打卡） ============ */
+var DEVO_KEY='overcomer321_devo';
+var MEM_KEY='overcomer321_memory';
+var BOX_INTERVAL=[0,1,2,4,7,14,30];   /* box 1..6 的複習間隔（天） */
+var DEVO_VERSES=[
+ {r:'羅馬書十二章 2 節',t:'不要效法這個世界，只要心意更新而變化。',m:'換一個觀點，就換一個世界。',c:'今天用神的觀點，重新看一件煩心的事。'},
+ {r:'加拉太書二章 20 節',t:'現在活著的不再是我，乃是基督在我裡面活著。',m:'無己，讓耶穌在你裡面作王。',c:'今天在一件小事上刻意捨己，讓耶穌作主。'},
+ {r:'箴言三章 5 節',t:'你要專心仰賴耶和華，不可倚靠自己的聰明。',m:'用心靠聖靈就開心，用腦靠自己就煩惱。',c:'遇到難題，先禱告再行動。'},
+ {r:'腓立比書四章 6 節',t:'應當一無掛慮，只要凡事藉著禱告，把所要的告訴神。',m:'把煩惱交給神，領受出人意外的平安。',c:'把一件你在擔心的事，禱告交託給神。'},
+ {r:'馬太福音十六章 24 節',t:'若有人要跟從我，就當捨己，背起他的十字架來跟從我。',m:'得勝之路，是捨己的路。',c:'今天為別人放下一次自己的意思。'},
+ {r:'雅各書四章 6 節',t:'神阻擋驕傲的人，賜恩給謙卑的人。',m:'謙卑是復興的鑰匙。',c:'今天主動謙卑一次，不爭辯。'},
+ {r:'以弗所書四章 32 節',t:'要以恩慈相待，彼此饒恕，正如神在基督裡饒恕了你們。',m:'饒恕帶來自由。',c:'為一個你難原諒的人禱告祝福。'},
+ {r:'希伯來書十二章 2 節',t:'仰望為我們信心創始成終的耶穌。',m:'焦點在耶穌，不在環境。',c:'今天分心慌亂時，說「耶穌，我看祢」。'},
+ {r:'詩篇一百三十九篇 14 節',t:'我要稱謝你，因我受造奇妙可畏。',m:'你在神眼中極其寶貴。',c:'今天不與人比較，謝謝神所造的你。'},
+ {r:'帖撒羅尼迦前書五章 18 節',t:'凡事謝恩，因為這是神在基督耶穌裡向你們所定的旨意。',m:'感恩的心最美。',c:'睡前數算三件感謝神的事。'},
+ {r:'哥林多後書五章 17 節',t:'若有人在基督裡，他就是新造的人，舊事已過，都變成新的了。',m:'你是新造的人。',c:'今天做一件「新的你」才會做的好事。'},
+ {r:'馬太福音五章 16 節',t:'你們的光也當這樣照在人前，叫他們看見你們的好行為，便將榮耀歸給你們在天上的父。',m:'讓人透過你看見耶穌。',c:'今天用一個好行為，讓人感受到主的愛。'},
+ {r:'詩篇一百十九篇 11 節',t:'我將你的話藏在心裡，免得我得罪你。',m:'把神的話刻進心版。',c:'背下今天這節經文。'},
+ {r:'約翰福音十三章 34 節',t:'我賜給你們一條新命令，乃是叫你們彼此相愛。',m:'920 的操練：對每個「2」活出愛。',c:'今天對一個「你的 2」表達關心。'},
+ {r:'馬太福音六章 33 節',t:'你們要先求他的國和他的義，這些東西都要加給你們了。',m:'先求神的國。',c:'今天禱告：願祢的國降臨在我的生活。'},
+ {r:'腓立比書二章 3 節',t:'只要存心謙卑，各人看別人比自己強。',m:'謙卑帶動謙卑，達到雙贏。',c:'今天真心稱讚、成全一個人。'},
+ {r:'提摩太後書一章 7 節',t:'神賜給我們，不是膽怯的心，乃是剛強、仁愛、謹守的心。',m:'靠主剛強壯膽。',c:'今天勇敢做一件對的事。'},
+ {r:'提摩太後書二章 22 節',t:'你要逃避少年的私慾，追求公義、信德、仁愛、和平。',m:'逃避勝過硬碰，保守你的心眼。',c:'今天守住你的眼目，遠離試探。'},
+ {r:'以賽亞書四十一章 10 節',t:'不要害怕，因為我與你同在；不要驚惶，因為我是你的神。',m:'神與你同在。',c:'害怕時，默想這節經文。'},
+ {r:'羅馬書八章 28 節',t:'萬事都互相效力，叫愛神的人得益處。',m:'難處中有神的美意。',c:'把一件不順的事，交在神手中謝恩。'},
+ {r:'詩篇二十三篇 1 節',t:'耶和華是我的牧者，我必不致缺乏。',m:'神必看顧你。',c:'今天安靜五分鐘，享受神的同在。'},
+ {r:'馬太福音十一章 28 節',t:'凡勞苦擔重擔的人，可以到我這裡來，我就使你們得安息。',m:'主賜真正的安息。',c:'把你的重擔，今天交給主。'},
+ {r:'加拉太書五章 22 節',t:'聖靈所結的果子，就是仁愛、喜樂、和平、忍耐、恩慈、良善、信實。',m:'結出基督的生命。',c:'今天刻意活出一個聖靈的果子。'},
+ {r:'箴言四章 23 節',t:'你要保守你心，勝過保守一切，因為一生的果效是由心發出。',m:'一生的果效由心發出。',c:'今天留意你的心，拒絕一個負面念頭。'},
+ {r:'歌羅西書三章 2 節',t:'你們要思念上面的事，不要思念地上的事。',m:'天上的觀點。',c:'今天把一件在意的地上事，放在神面前。'},
+ {r:'馬太福音二十八章 19 節',t:'你們要去，使萬民作我的門徒。',m:'神國的繁殖。',c:'為一個還不認識耶穌的朋友禱告。'},
+ {r:'詩篇四十六篇 10 節',t:'你們要休息，要知道我是神。',m:'安靜下來，認識神。',c:'今天停下忙碌，安靜認識神。'},
+ {r:'約翰一書一章 9 節',t:'我們若認自己的罪，神是信實的，必要赦免我們的罪。',m:'神是信實的，樂意赦免。',c:'向神誠實認一件罪，領受赦免。'},
+ {r:'哥林多前書十六章 14 節',t:'凡你們所做的都要憑愛心而做。',m:'凡事出於愛。',c:'今天做每件事，都問：這是出於愛嗎？'},
+ {r:'啟示錄三章 21 節',t:'得勝的，我要賜他在我寶座上與我同坐。',m:'得勝者的永恆盼望。',c:'今天為主忠心，想想永恆的獎賞。'}
+];
+function pad2(n){return (n<10?'0':'')+n;}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function addDaysStr(n){var d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function dayOfYear(){var d=new Date();var s=new Date(d.getFullYear(),0,0);return Math.floor((d-s)/86400000);}
+function todayVerse(){return DEVO_VERSES[dayOfYear()%DEVO_VERSES.length];}
+function loadDevo(){try{var s=localStorage.getItem(DEVO_KEY);if(s)return JSON.parse(s)||{};}catch(e){}return {streak:0,longest:0,lastDone:''};}
+function saveDevo(o){try{localStorage.setItem(DEVO_KEY,JSON.stringify(o));}catch(e){}}
+function loadMemory(){try{var s=localStorage.getItem(MEM_KEY);if(s)return JSON.parse(s)||[];}catch(e){}return [];}
+function saveMemory(a){try{localStorage.setItem(MEM_KEY,JSON.stringify(a));}catch(e){}}
+function dueList(){var m=loadMemory(),t=todayStr(),out=[];for(var i=0;i<m.length;i++){if((m[i].due||t)<=t)out.push(m[i]);}return out;}
+function dueCount(){return dueList().length;}
+function boxLabel(b){var lv=['','🌱 初學','🌱 初學','🌿 熟悉中','🌿 熟悉中','🌟 精熟','👑 刻在心版'];return lv[Math.min(b||1,6)];}
+function addMemory(text,ref){var m=loadMemory();for(var i=0;i<m.length;i++){if(m[i].ref===ref){toast('這節經文已在你的記憶庫了');return;}}m.push({text:text,ref:ref,box:1,due:todayStr(),added:todayStr()});saveMemory(m);toast('已加入記憶庫，開始背誦 📖');}
+function addTodayVerse(){var v=todayVerse();addMemory(v.t,v.r);renderDevo();}
+function delMemory(i){var m=loadMemory();m.splice(i,1);saveMemory(m);renderDevo();}
+
+function devoCard(){
+  var st=loadDevo(),done=st.lastDone===todayStr(),due=dueCount();
+  var sub=done?('連續 '+(st.streak||0)+' 天！明天見'):('點我開始今天的靈修'+(due?(' · '+due+' 節待複習'):''));
+  return '<div class="devo-card" onclick="openDevo()"><div class="devo-flame">'+(done?'🔥':'📖')+'<span>'+(st.streak||0)+'</span></div>'
+    +'<div class="devo-main"><div class="devo-t">每日靈修'+(done?' · 今天已完成 ✓':'')+'</div><div class="devo-s">'+sub+'</div></div><div class="devo-go">▸</div></div>';
+}
+function openDevo(){renderDevo();show('screen-devo');}
+function renderDevo(){
+  var st=loadDevo(),done=st.lastDone===todayStr(),v=todayVerse(),mem=loadMemory(),due=dueCount();
+  document.getElementById('devoStreak').innerHTML='🔥 連續靈修 <b style="color:var(--gold-b)">'+(st.streak||0)+'</b> 天　·　最長 '+(st.longest||0)+' 天';
+  var html='';
+  html+='<div class="devo-block"><div class="devo-h">📖 今日經文</div>'
+    +'<p class="verse" style="margin:6px 0 10px;font-size:17px">'+v.t+'<span class="ref">'+v.r+'</span></p>'
+    +'<div class="devo-med"><b>默想：</b>'+v.m+'</div>'
+    +'<div class="devo-chal">🎯 今日無己小挑戰：'+v.c+'</div>'
+    +'<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><span class="devo-mini" onclick="speak(\''+escapeAttr(v.t+' '+v.r)+'\',this)">🔊 朗讀</span><span class="devo-mini" onclick="addTodayVerse()">＋ 加入背誦</span></div></div>';
+  html+='<div class="devo-block"><div class="devo-h">🧠 經文記憶（間隔重複）</div>';
+  if(mem.length){
+    html+='<p class="devo-med">'+(due?('今天有 <b style="color:var(--gold-b)">'+due+'</b> 節經文要複習——把神的話刻進心版！'):'今天沒有要複習的經文，做得好！')+'</p>';
+    if(due)html+='<button class="btn" style="margin-top:10px" onclick="startReview()">開始複習 '+due+' 節 ▸</button>';
+    html+='<div class="mem-list">';
+    for(var i=0;i<mem.length;i++){var m=mem[i];html+='<div class="mem-item"><div class="mem-ref">'+escapeHtml(m.ref)+'</div><div class="mem-box">'+boxLabel(m.box)+'</div><div class="mem-del" onclick="delMemory('+i+')">✕</div></div>';}
+    html+='</div>';
+  }else{
+    html+='<p class="devo-med">還沒有要背的經文。把「今日經文」加入，或自己新增，開始把神的話藏在心裡（詩一一九 11）。</p>';
+  }
+  html+='<button class="btn ghost small" style="margin-top:12px" onclick="toggleMemAdd()" id="memAddBtn">＋ 自己新增要背的經文</button><div id="memAddWrap"></div></div>';
+  if(done){html+='<div class="devo-done">✓ 今天的靈修完成了！連續 '+(st.streak||0)+' 天，明天再來 🔥</div>';}
+  else{html+='<button class="btn" style="margin-top:6px" onclick="completeDevo()">完成今日靈修 🔥</button>';}
+  document.getElementById('devoBody').innerHTML=html;
+}
+function toggleMemAdd(){
+  var w=document.getElementById('memAddWrap');
+  if(w.innerHTML){w.innerHTML='';document.getElementById('memAddBtn').textContent='＋ 自己新增要背的經文';return;}
+  document.getElementById('memAddBtn').textContent='取消';
+  w.innerHTML='<div style="margin-top:12px"><input id="maRef" placeholder="出處，例如：約翰福音三章 16 節"><textarea id="maText" placeholder="經文內容…"></textarea><button class="btn" style="margin-top:6px" onclick="saveMemAdd()">加入記憶庫 ✓</button></div>';
+}
+function saveMemAdd(){
+  var ref=document.getElementById('maRef').value.trim(),text=document.getElementById('maText').value.trim();
+  if(ref.length<2||text.length<2){toast('請填寫出處與經文');return;}
+  addMemory(text,ref);document.getElementById('memAddWrap').innerHTML='';renderDevo();
+}
+function completeDevo(){
+  var st=loadDevo(),today=todayStr();
+  if(st.lastDone===today){toast('今天已經完成靈修了，明天見！');return;}
+  var y=addDaysStr(-1);
+  st.streak=(st.lastDone===y)?((st.streak||0)+1):1;
+  if(st.streak>(st.longest||0))st.longest=st.streak;
+  st.lastDone=today;saveDevo(st);
+  addUnself(1);
+  renderDevo();
+  toast('今日靈修完成 🔥 連續 '+st.streak+' 天！');
+}
+
+/* 間隔重複複習 */
+var reviewQueue=[],reviewIdx=0,reviewRevealed=false;
+function cloze(text,ratio){var out='';for(var i=0;i<text.length;i++){var ch=text[i];if(/[\u4e00-\u9fff]/.test(ch)&&Math.random()<ratio)out+='＿';else out+=ch;}return out;}
+function startReview(){reviewQueue=dueList();reviewIdx=0;reviewRevealed=false;if(!reviewQueue.length){toast('今天沒有要複習的經文');return;}show('screen-memreview');renderReview();}
+function renderReview(){
+  var body=document.getElementById('memReviewBody');
+  if(reviewIdx>=reviewQueue.length){
+    body.innerHTML='<div class="rev-done"><div style="font-size:48px">🎉</div><h2 class="win-title gold-text" style="font-size:26px">複習完成！</h2><p class="devo-med" style="text-align:center;max-width:280px">你複習了 '+reviewQueue.length+' 節經文，神的話正在刻進你的心版。</p><button class="btn" onclick="openDevo()" style="margin-top:18px">回到靈修 ▸</button></div>';
+    return;
+  }
+  var m=reviewQueue[reviewIdx],prog='第 '+(reviewIdx+1)+' / '+reviewQueue.length+' 節';
+  var shown=reviewRevealed?escapeHtml(m.text):escapeHtml(cloze(m.text,Math.min(0.25+(m.box||1)*0.1,0.72)));
+  body.innerHTML='<div class="rev-top">'+prog+'　·　'+boxLabel(m.box)+'</div>'
+    +'<div class="rev-card"><div class="rev-verse">'+shown+'</div><div class="rev-ref">'+escapeHtml(m.ref)+'</div></div>'
+    +'<div class="rev-actions">'+(reviewRevealed
+      ?'<button class="btn ghost" style="flex:1" onclick="rateReview(false)">😖 忘了</button><button class="btn" style="flex:1" onclick="rateReview(true)">😊 記得</button>'
+      :'<button class="btn" onclick="revealReview()">顯示答案 👀</button>')+'</div>';
+}
+function revealReview(){reviewRevealed=true;renderReview();}
+function rateReview(ok){
+  var cur=reviewQueue[reviewIdx],mem=loadMemory();
+  for(var i=0;i<mem.length;i++){if(mem[i].ref===cur.ref&&mem[i].text===cur.text){
+    mem[i].box=ok?Math.min((mem[i].box||1)+1,6):1;
+    mem[i].due=addDaysStr(BOX_INTERVAL[Math.min(mem[i].box,6)]);break;}}
+  saveMemory(mem);reviewIdx++;reviewRevealed=false;renderReview();
+}
+
+/* ============ 禱告生活（禱告清單 · 應允見證 · 代禱牆） ============ */
+var PRAYER_KEY='overcomer321_prayers';
+var WALL_LOCAL_KEY='overcomer321_wall';
+var WALL_ENDPOINT='';   /* 部署時填：https://<worker>/wall（代禱牆彙整） */
+var SAMPLE_WALL=[
+ {id:'s1',name:'小恩',text:'請為我下週的考試禱告，求神給我平安，不焦慮。',prayers:5,date:'今天'},
+ {id:'s2',name:'阿哲',text:'為我和爸爸的關係禱告，我想學會饒恕與溝通。',prayers:8,date:'昨天'},
+ {id:'s3',name:'小雅',text:'最近心情比較低落，求主的愛環繞我，也求神幫助我願意跟信任的大人聊聊。',prayers:12,date:'2 天前'}
+];
+function loadPrayers(){try{var s=localStorage.getItem(PRAYER_KEY);if(s)return JSON.parse(s)||[];}catch(e){}return [];}
+function savePrayers(a){try{localStorage.setItem(PRAYER_KEY,JSON.stringify(a));}catch(e){}}
+function loadWallLocal(){try{var s=localStorage.getItem(WALL_LOCAL_KEY);if(s){var o=JSON.parse(s);o.posts=o.posts||[];o.prayed=o.prayed||{};return o;}}catch(e){}return {posts:[],prayed:{}};}
+function saveWallLocal(o){try{localStorage.setItem(WALL_LOCAL_KEY,JSON.stringify(o));}catch(e){}}
+
+function openPrayer(tab){window._prTab=tab||'mine';renderPrayer();show('screen-prayer');}
+function renderPrayer(){
+  var tab=window._prTab||'mine';
+  var tabs='<div class="pr-tabs"><div class="pr-tab'+(tab==='mine'?' on':'')+'" onclick="openPrayer(\'mine\')">我的禱告</div><div class="pr-tab'+(tab==='wall'?' on':'')+'" onclick="openPrayer(\'wall\')">代禱牆</div></div>';
+  var body=document.getElementById('prayerBody');
+  if(tab==='mine'){body.innerHTML=tabs+renderMine();}
+  else{body.innerHTML=tabs+'<div id="wallList"><p class="devo-med" style="text-align:center;margin:20px 0">載入代禱牆…</p></div>'+wallForm();getWall(function(w){renderWallList(w);});}
+}
+/* 我的禱告 */
+function renderMine(){
+  var arr=loadPrayers(),praying=[],answered=[];
+  for(var i=0;i<arr.length;i++){(arr[i].status==='answered'?answered:praying).push(i);}
+  var html='<div class="devo-block"><div class="devo-h">🙏 禱告中</div>';
+  if(!praying.length)html+='<p class="devo-med">還沒有禱告事項。寫下你想向神祈求的事，交託給祂（腓四 6）。</p>';
+  for(var p=0;p<praying.length;p++)html+=prayerCard(arr[praying[p]],praying[p]);
+  html+='<div id="prAddWrap"></div><button class="btn ghost small" style="margin-top:10px" id="prAddBtn" onclick="togglePrAdd()">＋ 新增禱告事項</button></div>';
+  html+='<div class="devo-block"><div class="devo-h">✨ 應允見證</div>';
+  if(!answered.length)html+='<p class="devo-med">當神應允了你的禱告，回來這裡標記，數算祂的恩典、堅固你的信心。</p>';
+  for(var a=0;a<answered.length;a++)html+=answeredCard(arr[answered[a]],answered[a]);
+  html+='</div>';
+  return html;
+}
+function prayerCard(m,i){
+  var editing=(window._answerIdx===i);
+  var actions=editing
+    ? '<textarea id="testiIn" placeholder="神怎麼應允了？寫下你的見證…" style="margin-top:8px"></textarea><div class="pr-actions"><span class="pr-btn holy" onclick="confirmAnswer('+i+')">確認應允 ✓</span><span class="pr-btn" onclick="window._answerIdx=-1;renderPrayer()">取消</span></div>'
+    : '<div class="pr-actions"><span class="pr-btn holy" onclick="window._answerIdx='+i+';renderPrayer()">神應允了 ✓</span></div>';
+  return '<div class="pr-card"><div class="pr-del" onclick="delPrayer('+i+')">✕</div><div class="pr-text">'+escapeHtml(m.text)+'</div><div class="pr-meta">禱告中 · '+(m.added||'')+'</div>'+actions+'</div>';
+}
+function answeredCard(m,i){
+  return '<div class="pr-card answered"><div class="pr-del" onclick="delPrayer('+i+')">✕</div><div class="pr-text">'+escapeHtml(m.text)+'</div><div class="pr-meta">✨ 已應允 · '+(m.answered||'')+'</div>'+(m.testimony?'<div class="pr-testimony">'+escapeHtml(m.testimony)+'</div>':'')+'</div>';
+}
+function togglePrAdd(){
+  var w=document.getElementById('prAddWrap');
+  if(w.innerHTML){w.innerHTML='';document.getElementById('prAddBtn').textContent='＋ 新增禱告事項';return;}
+  document.getElementById('prAddBtn').textContent='取消';
+  w.innerHTML='<textarea id="prIn" placeholder="寫下你想禱告的事…例如：求神幫助我勝過拖延" style="margin-top:10px"></textarea><button class="btn" style="margin-top:8px" onclick="addPrayer()">加入禱告清單 ✓</button>';
+}
+function addPrayer(){
+  var t=document.getElementById('prIn').value.trim();if(t.length<2){toast('請寫下禱告事項');return;}
+  var a=loadPrayers();a.unshift({text:t,status:'praying',added:todayStr()});savePrayers(a);
+  renderPrayer();toast('已加入禱告清單 🙏');
+}
+function confirmAnswer(i){
+  var t=(document.getElementById('testiIn')||{}).value||'';
+  var a=loadPrayers();if(!a[i])return;
+  a[i].status='answered';a[i].answered=todayStr();a[i].testimony=t.trim();savePrayers(a);
+  window._answerIdx=-1;renderPrayer();toast('讚美神！又一個應允的見證 ✨');
+}
+function delPrayer(i){var a=loadPrayers();a.splice(i,1);savePrayers(a);renderPrayer();}
+/* 代禱牆 */
+function getWall(cb){
+  if(WALL_ENDPOINT){fetch(WALL_ENDPOINT).then(function(r){return r.json();}).then(function(d){cb((d&&d.wall)?d.wall:loadWallLocal().posts.concat(SAMPLE_WALL));}).catch(function(){cb(loadWallLocal().posts.concat(SAMPLE_WALL));});}
+  else{cb(loadWallLocal().posts.concat(SAMPLE_WALL));}
+}
+function wallForm(){
+  return '<div class="devo-block"><div class="devo-h">＋ 貼上代禱事項</div><textarea id="wallIn" placeholder="寫下你想請大家一起代禱的事…"></textarea><button class="btn" style="margin-top:8px" onclick="postToWall()">貼到代禱牆 🙏</button><p class="devo-med" style="font-size:11.5px;margin-top:8px;color:var(--muted)">提醒：這會分享給團契的其他人一起代禱。</p></div>';
+}
+function renderWallList(w){
+  var lw=loadWallLocal();
+  var html='<div class="devo-block"><div class="devo-h">🙏 一起代禱</div>';
+  if(!w.length)html+='<p class="devo-med">目前沒有代禱事項，你可以第一個貼上。</p>';
+  for(var i=0;i<w.length;i++){var it=w[i],prayed=!!lw.prayed[it.id];
+    var count=(it.prayers||0)+((!WALL_ENDPOINT&&prayed)?1:0);
+    html+='<div class="pr-card"><div class="wall-name">'+escapeHtml(it.name||'弟兄姊妹')+'<span style="font-weight:400;color:var(--muted);font-size:11px"> · '+(it.date||'')+'</span></div><div class="pr-text" style="margin-top:5px">'+escapeHtml(it.text)+'</div><div class="pr-actions"><span class="wall-pray'+(prayed?' done':'')+'" onclick="prayFor(\''+it.id+'\')">🙏 '+(prayed?'已為你禱告':'我為你禱告')+' · '+count+'</span></div></div>';
+  }
+  html+='</div>';
+  var el=document.getElementById('wallList');if(el)el.innerHTML=html;
+}
+function postToWall(){
+  var t=(document.getElementById('wallIn')||{}).value||'';t=t.trim();if(t.length<2){toast('請寫下代禱事項');return;}
+  var name='我';
+  if(WALL_ENDPOINT){
+    fetch(WALL_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,text:t})}).then(function(){toast('已貼上代禱牆 🙏');renderPrayer();}).catch(function(){addWallLocal(name,t);toast('連線失敗，已存在本機 🙏');renderPrayer();});
+  }else{addWallLocal(name,t);toast('已貼上代禱牆 🙏');renderPrayer();}
+}
+function addWallLocal(name,text){var lw=loadWallLocal();lw.posts.unshift({id:'l'+Date.now(),name:name,text:text,prayers:0,date:'剛剛'});saveWallLocal(lw);}
+function prayFor(id){
+  var lw=loadWallLocal();if(lw.prayed[id])return;lw.prayed[id]=true;saveWallLocal(lw);
+  if(WALL_ENDPOINT){var pe=WALL_ENDPOINT.replace(/\/wall$/,'/pray');fetch(pe,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).catch(function(){});}
+  toast('已為他禱告 🙏 願神垂聽');renderPrayer();
+}
+
+/* ============ 920 每日任務 ============ */
+var MY2S_KEY='overcomer321_my2s';
+var S920_KEY='overcomer321_920';
+var TASK_ACTIONS=['為他禱告','真心鼓勵他一句','主動關心、問候他','服事他一次（幫一個忙）','對他說一句感謝','為他做一件小事','放下一個心結、饒恕他','稱讚他一個優點','花時間好好陪伴他','為他的需要向神代求'];
+function load2s(){try{var s=localStorage.getItem(MY2S_KEY);if(s)return JSON.parse(s)||[];}catch(e){}return [];}
+function save2s(a){try{localStorage.setItem(MY2S_KEY,JSON.stringify(a));}catch(e){}}
+function loadS920(){try{var s=localStorage.getItem(S920_KEY);if(s)return JSON.parse(s)||{};}catch(e){}return {streak:0,longest:0,count:0,doneDate:'',taskDate:'',task:null};}
+function saveS920(o){try{localStorage.setItem(S920_KEY,JSON.stringify(o));}catch(e){}}
+function assign920(){var t=load2s();if(!t.length)return null;var seed=dayOfYear();return {targetName:t[seed%t.length].name,action:TASK_ACTIONS[(seed*3+t.length)%TASK_ACTIONS.length]};}
+function ensure920(){var st=loadS920(),today=todayStr();if(st.taskDate!==today){st.task=assign920();st.taskDate=today;saveS920(st);}return st;}
+function openS920(){renderS920();show('screen-920');}
+function renderS920(){
+  var st=ensure920(),two=load2s(),today=todayStr(),done=st.doneDate===today;
+  document.getElementById('s920streak').innerHTML='🤝 連續 <b style="color:var(--gold-b)">'+(st.streak||0)+'</b> 天　·　累計 '+(st.count||0)+' 次愛的行動';
+  var html='';
+  html+='<div class="devo-block"><p class="devo-med" style="margin:0">每個跟你有關係的人，都是你的「2」。今天，對他活出無己的愛，結出聖靈的果子（約十三 34）。</p></div>';
+  if(!two.length){
+    html+='<div class="devo-block"><div class="devo-h">先加入「你的 2」</div><p class="devo-med">寫下你生活中真實的人（家人、同學、朋友），系統每天會給你一個對他們表達愛的小任務。</p></div>';
+  }else{
+    var t=st.task||assign920();
+    html+='<div class="task-card"><div class="devo-h" style="color:var(--holy)">🎯 今天的 920 任務</div><div class="task-target" style="margin-top:6px">對【'+escapeHtml(t.targetName)+'】</div><div class="task-action">'+escapeHtml(t.action)+'</div>'
+      +(done?'<div class="devo-done" style="margin-top:12px">✓ 今天完成了！連續 '+(st.streak||0)+' 天 🤝</div>':'<button class="btn" style="margin-top:14px" onclick="complete920()">我做到了 ✓</button>')+'</div>';
+  }
+  html+='<div class="devo-block"><div class="devo-h">👥 我的 2（'+two.length+' 人）</div>';
+  for(var i=0;i<two.length;i++)html+='<div class="two-item"><div class="two-name">'+escapeHtml(two[i].name)+'</div><div class="mem-del" onclick="del2('+i+')">✕</div></div>';
+  html+='<div id="twoAddWrap"></div><button class="btn ghost small" style="margin-top:10px" id="twoAddBtn" onclick="toggle2Add()">＋ 加入一個人</button></div>';
+  document.getElementById('s920Body').innerHTML=html;
+}
+function toggle2Add(){
+  var w=document.getElementById('twoAddWrap');
+  if(w.innerHTML){w.innerHTML='';document.getElementById('twoAddBtn').textContent='＋ 加入一個人';return;}
+  document.getElementById('twoAddBtn').textContent='取消';
+  w.innerHTML='<div style="margin-top:10px"><input id="twoIn" placeholder="他的名字（例如：媽媽、小明）"><button class="btn" onclick="add2()">加入 ✓</button></div>';
+  setTimeout(function(){try{document.getElementById('twoIn').focus();}catch(e){}},150);
+}
+function add2(){var v=document.getElementById('twoIn').value.trim();if(v.length<1){toast('請輸入名字');return;}var a=load2s();a.push({name:v});save2s(a);var st=loadS920();st.taskDate='';saveS920(st);renderS920();toast('已加入你的 2 🤝');}
+function del2(i){var a=load2s();a.splice(i,1);save2s(a);var st=loadS920();st.taskDate='';saveS920(st);renderS920();}
+function complete920(){
+  var st=loadS920(),today=todayStr();
+  if(st.doneDate===today){toast('今天的 920 任務已完成');return;}
+  var y=addDaysStr(-1);
+  st.streak=(st.doneDate===y)?((st.streak||0)+1):1;
+  if(st.streak>(st.longest||0))st.longest=st.streak;
+  st.doneDate=today;st.count=(st.count||0)+1;saveS920(st);
+  addUnself(1);renderS920();toast('920 任務完成！你對「你的 2」活出了愛 🤝');
+}
+
+/* ============ 235 戰隊 · 合一副本 ============ */
+var SQUAD_KEY='overcomer321_squad';
+var SQUAD_ENDPOINT='';   /* 部署時填：https://<worker>/squad */
+var _squad=null;
+var SAMPLE_SQUAD={name:'得勝戰隊（示範）',code:'',members:[
+ {name:'小恩',role:'2 屬靈同伴',unself:44,fruits:3,stage:'操練·捨己'},
+ {name:'阿哲',role:'3 屬靈父母',unself:58,fruits:5,stage:'無己·合一'},
+ {name:'恩恩',role:'5 五重戰友',unself:74,fruits:7,stage:'得勝雛形'},
+ {name:'小雅',role:'5 五重戰友',unself:16,fruits:1,stage:'重生·初信'}
+]};
+function loadSquad(){try{var s=localStorage.getItem(SQUAD_KEY);if(s)return JSON.parse(s);}catch(e){}return null;}
+function saveSquad(o){try{localStorage.setItem(SQUAD_KEY,JSON.stringify(o));}catch(e){}}
+function mySquadMember(){return {name:'我（本機）',role:'我',unself:state.unself,fruits:state.fruits,stage:stageName(state.unself)};}
+function openSquad(){
+  var sq=loadSquad();
+  if(SQUAD_ENDPOINT&&sq&&sq.code){
+    fetch(SQUAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'contrib',code:sq.code,memberName:sq.myName,unself:state.unself,fruits:state.fruits,stage:stageName(state.unself)})}).catch(function(){});
+    fetch(SQUAD_ENDPOINT+'?code='+encodeURIComponent(sq.code)).then(function(r){return r.json();}).then(function(d){if(d&&d.squad){_squad=d.squad;renderSquad();}}).catch(function(){});
+  }
+  renderSquad();show('screen-squad');
+}
+function renderSquad(){
+  var sq=loadSquad(),members,name,code,real=false;
+  if(_squad&&_squad.members){members=_squad.members.slice();name=_squad.name;code=_squad.code;real=true;}
+  else{members=[mySquadMember()].concat(SAMPLE_SQUAD.members);name=SAMPLE_SQUAD.name;code='';}
+  var sum=0;for(var i=0;i<members.length;i++)sum+=(members[i].unself||0);
+  var unity=members.length?Math.round(sum/members.length):0;
+  var html='';
+  html+='<div class="devo-block"><div class="devo-h">⚔ 合一副本'+(real?'':'（示範）')+'</div>'
+    +'<p class="devo-med">無己才能合一，無己才能得勝。全隊一起成長，副本才會通關——別忘了幫助軟弱的肢體！</p>'
+    +'<div class="meter" style="margin-top:12px;height:12px"><i style="width:'+unity+'%"></i></div>'
+    +'<div class="meter-label" style="text-align:left">合一進度（全隊平均無己值） '+unity+'%'+(unity>=90?' · 🎉 通關！':'')+'</div></div>';
+  html+='<div class="devo-block"><div class="devo-h">'+escapeHtml(name)+(code?' · 代碼 '+escapeHtml(code):'')+'</div>';
+  for(var m=0;m<members.length;m++){var mem=members[m],uv=mem.unself||0;
+    html+='<div class="squad-mem"><div class="squad-av">'+heroSVG(uv,6-Math.floor(uv/15),{fruits:0})+'</div>'
+      +'<div class="squad-info"><div class="squad-nm">'+escapeHtml(mem.name)+' <span class="squad-role">'+escapeHtml(mem.role||'')+'</span></div>'
+      +'<div class="squad-meta">'+escapeHtml(mem.stage||stageName(uv))+' · 無己值 '+uv+'% · 果子 '+(mem.fruits||0)+'/9</div>'
+      +'<div class="meter" style="height:6px;margin-top:5px"><i style="width:'+uv+'%"></i></div></div></div>';
+  }
+  html+='</div>';
+  html+='<div class="devo-block"><div class="devo-h">235 的團隊</div><p class="devo-med">2 屬靈同伴、3 屬靈父母兒女、5 五重職份戰友——彼此建造、一起爭戰，建立神的國（傳四 12）。</p>';
+  if(SQUAD_ENDPOINT){
+    html+='<div id="squadCtrl" style="margin-top:10px"><button class="btn ghost small" onclick="squadForm(\'create\')">建立新戰隊</button> <button class="btn ghost small" onclick="squadForm(\'join\')">用代碼加入</button></div>';
+  }else{
+    html+='<p class="devo-med" style="font-size:12px;color:var(--muted);margin-top:8px">目前顯示的是示範戰隊。連上後端（設定 SQUAD_ENDPOINT）後，即可建立或加入真實戰隊，與戰友一起成長、打合一副本。</p>';
+  }
+  html+='</div>';
+  document.getElementById('squadBody').innerHTML=html;
+}
+function squadForm(kind){
+  var c=document.getElementById('squadCtrl');
+  if(kind==='create')c.innerHTML='<input id="sqName" placeholder="戰隊名字"><input id="sqMe" placeholder="你的名字"><button class="btn" onclick="squadCreate()">建立 ✓</button>';
+  else c.innerHTML='<input id="sqCode" placeholder="戰隊代碼"><input id="sqMe2" placeholder="你的名字"><button class="btn" onclick="squadJoin()">加入 ✓</button>';
+}
+function squadCreate(){
+  var nm=document.getElementById('sqName').value.trim(),me=document.getElementById('sqMe').value.trim();
+  if(!nm||!me){toast('請填寫戰隊名字與你的名字');return;}
+  fetch(SQUAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'create',name:nm,memberName:me,unself:state.unself,fruits:state.fruits,stage:stageName(state.unself)})})
+   .then(function(r){return r.json();}).then(function(d){if(d&&d.squad){saveSquad({code:d.squad.code,name:d.squad.name,myName:me});_squad=d.squad;renderSquad();toast('戰隊已建立！代碼：'+d.squad.code);}else toast('建立失敗');}).catch(function(){toast('連線失敗');});
+}
+function squadJoin(){
+  var code=document.getElementById('sqCode').value.trim().toUpperCase(),me=document.getElementById('sqMe2').value.trim();
+  if(!code||!me){toast('請填寫代碼與你的名字');return;}
+  fetch(SQUAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'join',code:code,memberName:me,unself:state.unself,fruits:state.fruits,stage:stageName(state.unself)})})
+   .then(function(r){return r.json();}).then(function(d){if(d&&d.squad){saveSquad({code:code,name:d.squad.name,myName:me});_squad=d.squad;renderSquad();toast('已加入戰隊 🤝');}else toast('找不到這個戰隊');}).catch(function(){toast('連線失敗');});
+}
+
+/* ============ 得勝者之後的路：屬靈父母 · 繁殖 ============ */
+var DISCIPLE_KEY='overcomer321_disciples';
+var MENTOR_KEY='overcomer321_mentor';
+var MENTOR_ACTIONS=['為你的門徒禱告','關心他最近的近況','陪他走一課、一起讀經','把你得勝的一個見證分享給他','鼓勵他不要放棄','為他慶祝一個小進步','教他一個你學會的真理','邀請他一起靈修或禱告'];
+function loadDisciples(){try{var s=localStorage.getItem(DISCIPLE_KEY);if(s)return JSON.parse(s)||[];}catch(e){}return [];}
+function saveDisciples(a){try{localStorage.setItem(DISCIPLE_KEY,JSON.stringify(a));}catch(e){}}
+function loadMentor(){try{var s=localStorage.getItem(MENTOR_KEY);if(s)return JSON.parse(s)||{};}catch(e){}return {streak:0,longest:0,count:0,doneDate:'',taskDate:'',task:null,commissioned:false};}
+function saveMentor(o){try{localStorage.setItem(MENTOR_KEY,JSON.stringify(o));}catch(e){}}
+function assignMentor(){var d=loadDisciples();if(!d.length)return null;var seed=dayOfYear();return {targetName:d[seed%d.length].name,action:MENTOR_ACTIONS[(seed*5+d.length)%MENTOR_ACTIONS.length]};}
+function ensureMentorTask(){var mt=loadMentor(),today=todayStr();if(mt.taskDate!==today){mt.task=assignMentor();mt.taskDate=today;saveMentor(mt);}return mt;}
+function commissionMentor(){var mt=loadMentor();mt.commissioned=true;saveMentor(mt);openMentor();}
+function openMentor(){renderMentor();show('screen-mentor');}
+function renderMentor(){
+  var done=allDone(),mt=ensureMentorTask(),disc=loadDisciples(),today=todayStr();
+  var html='';
+  if(done||mt.commissioned){
+    html+='<div class="commission-card"><div class="devo-h">✦ 你被差遣了</div><p class="devo-med">你已走完五重之地，成為得勝者。現在，神差遣你成為<b>屬靈父母</b>，去帶領更年幼的門徒——把生命傳下去，讓終點成為新的起點。</p><p class="verse" style="font-size:14px;margin-top:10px">你在許多見證人面前聽見我所教訓的，也要交託那忠心能教導別人的人。<span class="ref">提摩太後書二章 2 節</span></p></div>';
+  }else{
+    var total=0,dn=0;for(var i=0;i<WORLD.length;i++){total+=WORLD[i].lessons.length;dn+=landDoneCount(i);}
+    html+='<div class="devo-block"><div class="devo-h">🎯 邁向差遣</div><p class="devo-med">走完五重之地、成為得勝者，你就能被正式差遣成為屬靈父母，帶領門徒。你可以先預備你的門徒名單。</p><div class="meter" style="margin-top:10px"><i style="width:'+Math.round(dn/total*100)+'%"></i></div><div class="meter-label" style="text-align:left">得勝進度 '+dn+' / '+total+' 課</div></div>';
+  }
+  if(disc.length){
+    var t=mt.task||assignMentor(),d2=mt.doneDate===today;
+    html+='<div class="task-card"><div class="devo-h" style="color:var(--holy)">👑 今日導師任務</div><div class="task-target" style="margin-top:6px">對門徒【'+escapeHtml(t.targetName)+'】</div><div class="task-action">'+escapeHtml(t.action)+'</div>'+(d2?'<div class="devo-done" style="margin-top:12px">✓ 今天完成了！連續 '+(mt.streak||0)+' 天 👑</div>':'<button class="btn" style="margin-top:14px" onclick="completeMentor()">我做到了 ✓</button>')+'</div>';
+  }
+  html+='<div class="devo-block"><div class="devo-h">👶 我的門徒（'+disc.length+' 位）</div>';
+  if(!disc.length)html+='<p class="devo-med">還沒有門徒。寫下一個你想帶領、陪伴成長的更年幼或更新的朋友，使他也作主的門徒（太廿八 19）。</p>';
+  for(var j=0;j<disc.length;j++){var dd=disc[j];
+    var badge=dd.status==='overcomer'?'<span class="squad-role" style="color:var(--gold-b);border-color:rgba(245,195,59,.5)">✦ 已成為得勝者</span>':'<span class="squad-role">陪伴成長中</span>';
+    html+='<div class="two-item"><div class="two-name">'+escapeHtml(dd.name)+' '+badge+(dd.note?'<div style="font-size:11px;color:var(--muted);margin-top:2px">'+escapeHtml(dd.note)+'</div>':'')+'</div>'+(dd.status!=='overcomer'?'<span class="pr-btn" onclick="graduateDisciple('+j+')">畢業 ✦</span>':'')+'<div class="mem-del" onclick="delDisciple('+j+')">✕</div></div>';
+  }
+  html+='<div id="discAddWrap"></div><button class="btn ghost small" style="margin-top:10px" id="discAddBtn" onclick="toggleDiscAdd()">＋ 加入一位門徒</button></div>';
+  var grads=0;for(var g=0;g<disc.length;g++)if(disc[g].status==='overcomer')grads++;
+  html+='<div class="devo-block"><div class="devo-h">🌱 繁殖見證</div><p class="devo-med">你已帶領 <b style="color:var(--gold-b)">'+grads+'</b> 位門徒成為得勝者。門徒成為門徒的老師，生命就這樣繁殖下去，成就大使命，直到主再來。'+(mt.count?'<br>累計 '+mt.count+' 次導師關懷行動 · 連續 '+(mt.streak||0)+' 天。':'')+'</p></div>';
+  document.getElementById('mentorBody').innerHTML=html;
+}
+function toggleDiscAdd(){
+  var w=document.getElementById('discAddWrap');
+  if(w.innerHTML){w.innerHTML='';document.getElementById('discAddBtn').textContent='＋ 加入一位門徒';return;}
+  document.getElementById('discAddBtn').textContent='取消';
+  w.innerHTML='<div style="margin-top:10px"><input id="discName" placeholder="門徒的名字"><input id="discNote" placeholder="備註（可留空，例如：剛信主的學弟）"><button class="btn" onclick="addDisciple()">加入 ✓</button></div>';
+  setTimeout(function(){try{document.getElementById('discName').focus();}catch(e){}},150);
+}
+function addDisciple(){var nm=document.getElementById('discName').value.trim();if(nm.length<1){toast('請輸入名字');return;}var note=document.getElementById('discNote').value.trim();var a=loadDisciples();a.push({name:nm,note:note,status:'growing',added:todayStr()});saveDisciples(a);var mt=loadMentor();mt.taskDate='';saveMentor(mt);renderMentor();toast('已加入你的門徒 👶');}
+function delDisciple(i){var a=loadDisciples();a.splice(i,1);saveDisciples(a);var mt=loadMentor();mt.taskDate='';saveMentor(mt);renderMentor();}
+function graduateDisciple(i){var a=loadDisciples();if(!a[i])return;a[i].status='overcomer';saveDisciples(a);renderMentor();toast('🎉 你的門徒也成為得勝者了！門徒成為門徒的老師，繁殖的循環開始了！');}
+function completeMentor(){
+  var mt=loadMentor(),today=todayStr();
+  if(mt.doneDate===today){toast('今天的導師任務已完成');return;}
+  var y=addDaysStr(-1);
+  mt.streak=(mt.doneDate===y)?((mt.streak||0)+1):1;
+  if(mt.streak>(mt.longest||0))mt.longest=mt.streak;
+  mt.doneDate=today;mt.count=(mt.count||0)+1;saveMentor(mt);
+  addUnself(1);renderMentor();toast('導師任務完成！你正在把生命傳下去 👑');
+}
+
+/* ============ 初始化 ============ */
+(function(){var box=document.getElementById('stars'),h='';for(var i=0;i<46;i++){var x=Math.random()*100,y=Math.random()*70,d=(Math.random()*3+2).toFixed(1),dl=(Math.random()*3).toFixed(1);h+='<div class="star" style="left:'+x+'%;top:'+y+'%;animation-duration:'+d+'s;animation-delay:'+dl+'s"></div>';}box.innerHTML=h;})();
+document.getElementById('emblem').innerHTML='<img class="emblem-img" src="icon-192.png" onerror="this.onerror=null;this.parentNode.innerHTML=emblemSVG();" alt="得勝者">';
+/* 還原存檔 */
+(function(){var sv=loadSave();if(!sv)return;var any=false;if(sv.done)for(var i=0;i<sv.done.length;i++)for(var j=0;j<sv.done[i].length;j++)if(sv.done[i][j])any=true;if(sv.unself>0||any){state.unself=sv.unself||0;state.chainsLeft=(typeof sv.chainsLeft==='number')?sv.chainsLeft:6;state.fruits=sv.fruits||0;state.streak=sv.streak||0;if(sv.done)state.done=reconcileDone(sv.done);show('screen-map');syncMap();}})();
+/* 註冊 Service Worker（離線）；在 Claude 預覽中會安全略過 */
+if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(function(){});}catch(e){}}
+</script>
+</body>
+</html>
