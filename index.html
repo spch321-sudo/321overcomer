@@ -8,9 +8,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="得勝者">
+<meta name="apple-mobile-web-app-title" content="321得勝者">
 <link rel="apple-touch-icon" href="icon-180.png">
-<title>得勝者 · 無己覺醒 · 觀念之城</title>
+<title>321得勝者 · 無己覺醒</title>
 <style>
 :root{
   --void:#0B0821; --night:#151033; --royal:#2A1F5C; --royal2:#43307F;
@@ -1631,7 +1631,7 @@ function pickVoice(){
 /* ===== 雲哲真人語音（Azure Neural TTS，經 Cloudflare Worker 代理）=====
    部署到 GitHub Pages 時，把 TTS_PROXY 改成你的 Worker 網址；
    留空則自動使用裝置內建的中文語音（優先雲哲）。金鑰只放在 Worker，不寫在這裡。 */
-var TTS_PROXY='';  /* 例：'https://yunjhe-tts.spch321.workers.dev' */
+var TTS_PROXY='https://azure-tts.spch321.workers.dev';  /* 雲哲真人語音（Azure TTS Worker）— 與晨讀321共用 */
 var _ttsAudio=null,_ttsUrl=null,_ttsBtn=null;
 function stopTTS(){
   try{if(window.speechSynthesis)window.speechSynthesis.cancel();}catch(e){}
@@ -1659,7 +1659,7 @@ function fetchAzure(text,btn){
     }else{var b2=_ttsBtn;stopTTS();speakLocal(text,b2);}  /* 代理失敗→退回裝置語音 */
   };
   xhr.onerror=function(){var b3=_ttsBtn;stopTTS();speakLocal(text,b3);};
-  try{xhr.send(JSON.stringify({text:text}));}catch(e){var b4=_ttsBtn;stopTTS();speakLocal(text,b4);}
+  try{xhr.send(JSON.stringify({voice:'zh-TW-YunJheNeural',rate:'+0%',sil:140,silc:140,sile:260,text:text}));}catch(e){var b4=_ttsBtn;stopTTS();speakLocal(text,b4);}
 }
 function speak(text,btn){
   stopTTS();
@@ -1681,7 +1681,7 @@ function speakBubble(btn){
   t=t.replace('🔊 朗讀','');
   speak(t,btn);
 }
-var XI_ENDPOINT='https://api.anthropic.com/v1/messages'; /* 部署到 GitHub Pages 時，改成你的 Cloudflare Worker 代理網址 */
+var XI_ENDPOINT='https://xiaozhi-proxy.spch321.workers.dev'; /* 小智 AI 代理（Cloudflare Worker）— 與晨讀321共用 */
 function distressHit(t){var kw=['自殺','想死','不想活','活不下去','撐不下去','自殘','割腕','傷害自己','結束生命','沒有意義','好想消失','不想活了','被虐','被打','霸凌','被欺負','沒人愛我','都是我的錯'];for(var i=0;i<kw.length;i++)if(t.indexOf(kw[i])>=0)return true;return false;}
 function xiSafety(){
   return '小智 真的很在乎你，也很心疼你剛剛說的。這些感受太重了，請不要自己一個人扛。'
