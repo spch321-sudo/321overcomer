@@ -1,7 +1,7 @@
 /* 得勝者 · 五重之地 — Service Worker（離線快取）
    國度321空中團契
    更新內容時，把下面的版本號 +1（例如 v1 -> v2），使用者下次開啟就會自動更新。 */
-var CACHE = 'overcomer321-v4';
+var CACHE = 'overcomer321-v5';
 var ASSETS = [
   './',
   'index.html',
@@ -18,8 +18,9 @@ var ASSETS = [
   'medal-live.png',
   'medal-rel.png',
   'medal-king.png',
-  'coread.js?v=4',
-  'peerjs.min.js?v=4'
+  'coread.js?v=5',
+  'peerjs.min.js?v=5',
+  'xk321.js?v=5'
 ];
 
 self.addEventListener('install', function (e) {
@@ -38,7 +39,7 @@ self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(keys.map(function (k) {
-        if (k !== CACHE) return caches.delete(k);
+        if (k.indexOf('overcomer321-') === 0 && k !== CACHE) return caches.delete(k);
       }));
     }).then(function () {
       return self.clients.claim();
