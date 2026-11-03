@@ -596,6 +596,8 @@ function start() {
   try { new MutationObserver(function () { schedScan(); }).observe(root, { childList: true, subtree: true }); } catch (e) { }
   if (window.speechSynthesis) try { speechSynthesis.getVoices(); } catch (e) { }
 }
-window.XK = { open: openChat, close: closeChat, say: sayText, stop: stopSpeak, readPage: readPage, marks: openMarks, scan: scan, state: S, cfg: C };
+window.XK = { open: openChat, close: closeChat, say: sayText, stop: stopSpeak, readPage: readPage, marks: openMarks, scan: scan, state: S, cfg: C,
+  /* XZM 掛鉤（xzm.js preset.xk 用）：只提供內部函式的存取，不改任何行為 */
+  x: { speak: startSpeak, spk: function () { return spk; }, save: save, paint: paintBlock, cur: function () { return cur; } } };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
