@@ -5,10 +5,10 @@
      clients.claim，通知所有頁面；背景中的舊頁面直接帶到新版
    ‧ fetch：HTML／JS／JSON／CSS 網路優先（no-cache），離線才用快取；圖片等快取優先；
      version.json 永遠 no-store；影音與 Range 請求不攔截；範圍外（其他 App）與跨網域不碰 */
-var VER = 'v6-up1103';
+var VER = 'v6-up1103-xz1103';
 var PFX = 'ovc321-';
 var V = PFX + VER;
-var SHELL = ["./", "./index.html", "./manifest.json", "./hero.jpeg", "./icon-192.png", "./icon-512.png", "./icon-180.png", "./apple-touch-icon.png", "./icon-192-maskable.png", "./icon-512-maskable.png", "./medal-idea.png", "./medal-life.png", "./medal-live.png", "./medal-rel.png", "./medal-king.png", "./coread.js?v=5", "./peerjs.min.js?v=5", "./xk321.js?v=5", "./upd321.js"];
+var SHELL = ["./", "./index.html", "./manifest.json", "./hero.jpeg", "./icon-192.png", "./icon-512.png", "./icon-180.png", "./apple-touch-icon.png", "./icon-192-maskable.png", "./icon-512-maskable.png", "./medal-idea.png", "./medal-life.png", "./medal-live.png", "./medal-rel.png", "./medal-king.png", "./coread.js?v=5-xz1103", "./peerjs.min.js?v=5", "./xz2.js?v=xz1103", "./xk321.js?v=5-xz1103", "./upd321.js"];
 var HOME = 'index.html';
 
 function mine(k) { return k.indexOf(PFX) === 0 || k.indexOf("overcomer321-v5") === 0; }

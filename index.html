@@ -616,6 +616,12 @@ button.spk{font:inherit;font-size:14px;background:rgba(89,227,214,.08);margin-le
 #app.theme-pink .ver-chip{background:rgba(255,255,255,.46);border-color:rgba(150,100,60,.28)}
 #app.theme-pink .devo-mini{border-color:rgba(31,143,134,.4)}
 </style>
+<style id="xz2full">
+/* 小智最新功能（-xz1103）：XZ2 區塊接本 App 深色配色；小智頁（xk321）為滿版，回答對象固定為青少年 */
+#xiLenRow,#screen-hero .xz2s{--xz2-acc:#2A8F87;--xz2-card:rgba(255,255,255,.06);--xz2-line:rgba(89,227,214,.4);--xz2-soft:rgba(255,255,255,.06);--xz2-ink:#ECE3CC;--xz2-mut:#9A93C4;--xz2-fs:14px}
+#xiLenRow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}
+#screen-hero .xz2host{margin:18px auto 0;max-width:420px;border-top-color:rgba(89,227,214,.25)!important;color:#ECE3CC}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1726,7 +1732,8 @@ function s_review(){
     +'<textarea id="reflect" placeholder="'+R.ph+'" oninput="onReflect()"></textarea>'
     +'<div class="coach-cta" id="coachCta" disabled onclick="callXiaoI()"><div class="xi-orb">'+xiOrbSVG()+'</div>'
     +'<div class="cc-t"><b>請小智 陪我看看</b><span>聖靈引導的屬靈教練，會回應你的反思</span></div><div class="cc-go">▸</div></div>'
-    +'<div class="xi-len" id="xiLenRow">'+xiLenHtml()+'</div>'+'<div id="chatBox"></div>';
+    +'<div class="xi-len" id="xiLenRow"></div>'+'<div id="chatBox"></div>';
+  xiLenMount();
   footBtn('寫好了 ▸','nextStep()',true);
 }
 function onReflect(){
@@ -1877,10 +1884,8 @@ var _xiPool=[
   '你能這樣想，真的長大了。焦點放在耶穌，不放在自己、別人或環境，心就會慢慢有平安。<span class="q">現在你心裡，多了一點什麼感覺呢？</span>'
 ];
 function xiFallbackFollow(){return _xiPool[(window._xiTurns||1)%_xiPool.length];}
-var XI_LENS=[['簡短','請控制在 2 到 3 句話內，輕鬆口語。',500],['適中','請控制在 4 到 6 句話內。',1000],['詳細','可以多說一些（約 8 到 12 句），仍要親切易懂，最後留一個提問。',1600]];
-function xiLen(){var n=1;try{n=parseInt(localStorage.getItem('overcomer321_xilen'),10);}catch(e){}return(n>=0&&n<=2)?n:1;}
-function xiLenHtml(){var n=xiLen(),s='<span class="xl-t">小智回答長度</span>';for(var i=0;i<3;i++)s+='<button type="button" class="xl-b'+(i===n?' on':'')+'" onclick="setXiLen('+i+')">'+XI_LENS[i][0]+'</button>';return s;}
-function setXiLen(i){try{localStorage.setItem('overcomer321_xilen',String(i));}catch(e){}var r=document.getElementById('xiLenRow');if(r)r.innerHTML=xiLenHtml();}
+function xiLenHtml(){return '';}
+function xiLenMount(){var r=document.getElementById('xiLenRow');if(!r||!window.XZ2)return;try{XZ2.lenBar(r);var b=document.createElement('button');b.type='button';b.className='xz2-chip';b.setAttribute('data-xz2pf','');b.setAttribute('onclick',"XZ2.act('pf')");b.textContent='👤 我的資料';r.appendChild(b);}catch(e){}}
 function askXiaoIMessages(history){
   var Ls=L();
   var sys='你是「小智」，國度321空中團契《得勝者·無己覺醒》遊戲裡的屬靈成長教練，是聖靈引導的化身，溫柔、有智慧、充滿盼望，像一位親切的大哥哥或大姐姐。你正在陪伴一位青少年做屬靈反思與對話。\n\n'
@@ -1888,8 +1893,9 @@ function askXiaoIMessages(history){
     +'【321理念，請自然融入，不要生硬說教】焦點在耶穌，不在自己、不在別人、不在環境；改變觀點就改變觀念，改變觀念就改變生命；無己（放下以自我為中心）才能讓耶穌在我們裡面作王；用心靠聖靈就開心，用腦靠自己就煩惱；一切榮耀歸給神。\n\n'
     +'【回應格式，務必遵守】只輸出 HTML 片段，不要用 markdown、不要加「嗨」之類的開場問候。第一次回應可依「先同理肯定→引用一句和合本繁體經文→溫柔提問」的順序；之後的回合就像自然的對話，簡短回應（2-3 句即可），需要時才引用經文。經文一律用 <span class="ref">經文（出處）</span> 包住，提問一律用 <span class="q">…</span> 包住。全部用繁體中文，親切自然，不要太長。\n\n'
     +'【安全守則】對方是青少年，內容務必純淨、適齡、充滿愛與盼望。絕不批評或論斷。若他透露自我傷害、想不開、被欺負或很深的痛苦，請溫柔而堅定地鼓勵他一定要告訴他信任的大人、牧者或家人，不要獨自承擔；絕不提供醫療、藥物或任何危險的具體方法。永遠把他指向耶穌和神的愛。';
-  var _xl=XI_LENS[xiLen()];sys+='\n\n【回答長度】'+_xl[1];
-  var body={model:'claude-sonnet-4-6',max_tokens:_xl[2],system:sys,messages:history};
+  /* 回答對象固定為青少年（本遊戲角色）；讀者資料、回答長度（五段）由 XZ2 提供，只送一次 */
+  sys+=XZ2.sysTail();
+  var body={model:'claude-sonnet-4-6',max_tokens:XZ2.maxTokens(),system:sys,messages:history};
   var last=history[history.length-1];var lastText=(last&&last.role==='user')?last.content:'';
   return fetch(XI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
     .then(function(r){return r.json();})
@@ -5706,15 +5712,16 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
   window.VPICK321 = { pick: pick, card: card, lang: lang, detect: detect, refs: function (t) { return toc().then(function () { return refs(t); }); } };
 })();
 </script>
-<script>window.XK_CFG={key:'ovc321',name:'321得勝者',brand:'#59E3D6',root:'#app',blocks:'#stepBody .verse,#stepBody .lead,#stepBody .q-desc,#stepBody .rf-text,#winVerse,#devoBody p,#devoBody .verse',
+<script>window.XK_CFG={fixedAud:'teen',legacyLen:function(){try{var n=parseInt(localStorage.getItem('overcomer321_xilen'),10);return n===0?'brief':n===2?'full':n===1?'mid':''}catch(e){return ''}},xzSet:{sel:'#screen-hero'},key:'ovc321',name:'321得勝者',brand:'#59E3D6',root:'#app',blocks:'#stepBody .verse,#stepBody .lead,#stepBody .q-desc,#stepBody .rf-text,#winVerse,#devoBody p,#devoBody .verse',
 ctx:function(){var n=document.getElementById('stepName'),t=document.getElementById('stepNo');try{var l=L();return '本課：'+l.title+'；核心經文：'+l.verse.t+'（'+l.verse.r+'）'}catch(e){return ''}},
 sys:'你是「小智」，國度321空中團契《得勝者·無己覺醒》遊戲裡的屬靈成長夥伴，是聖靈引導的化身，溫柔、有智慧、充滿盼望，像一位親切的大哥哥或大姐姐，對象多半是青少年。協助他理解各課主題（把觀點從自己轉向神、無己、九果、鎖鏈與得勝）、預備每日靈修、禱告與操練。以321理念自然回應：焦點在耶穌，不在自己、別人或環境；改變觀點就改變觀念，改變觀念就改變生命；無己才能讓耶穌作王。內容務必純淨、適齡、充滿愛與盼望，不批評論斷；若他透露自我傷害、想不開、被欺負或很深的痛苦，要溫柔而堅定地鼓勵他告訴信任的大人、牧者或輔導。引用聖經一律用和合本；回答簡短口語，一律用繁體中文。',
 quick:['「無己」到底是什麼意思？','我很容易生氣，怎麼把眼光轉向耶穌？','請給我一段今天可以默想的經文','怎麼為我的好朋友禱告？','怎麼開始每天親近神？','我覺得自己沒用，神怎麼看我？']};</script>
-<script src="xk321.js?v=5"></script>
-<script>var APPVER='v6-up1103';</script>
-<script src="coread.js?v=5"></script>
-<script>var APPVER="v6-up1103";window.UPD321_VER=APPVER;window.UPD321_PFX=["ovc321-", "overcomer321-v5"];window.UPD321_BUSY=function(){var s=document.querySelector(".screen.on");return !!s&&!/^screen-(title|map|hero|medals|dash|habits|rewards|frames|devo)$/.test(s.id);};</script>
-<script src="upd321.js?v=v6-up1103"></script>
+<script src="xz2.js?v=xz1103"></script>
+<script src="xk321.js?v=5-xz1103"></script>
+<script>var APPVER='v6-up1103-xz1103';</script>
+<script src="coread.js?v=5-xz1103"></script>
+<script>var APPVER="v6-up1103-xz1103";window.UPD321_VER=APPVER;window.UPD321_PFX=["ovc321-", "overcomer321-v5"];window.UPD321_BUSY=function(){var s=document.querySelector(".screen.on");return !!s&&!/^screen-(title|map|hero|medals|dash|habits|rewards|frames|devo)$/.test(s.id);};</script>
+<script src="upd321.js?v=v6-up1103-xz1103"></script>
 <script>UPD321.mountWhen("#screen-hero","end");</script>
 </body>
 </html>
