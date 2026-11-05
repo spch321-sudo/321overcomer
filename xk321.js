@@ -12,7 +12,7 @@
 if (window.XK) return;
 var C = window.XK_CFG || {};
 var SVC = { xz: 'https://xiaozhi-proxy.spch321.workers.dev', tts: 'https://azure-tts.spch321.workers.dev', model: 'claude-sonnet-4-6' };
-var PACK = {"audT":"小智的回答對象","auds":"🧑 成人|🧒 青少年|🧸 兒童|🌱 慕道友|👴 長輩|👩‍👧 單親|🙋 單身|👨‍👩‍👧 父母|💑 夫妻|⛪ 牧者","audNow":"回答對象：{0}　▾","audSet":"小智會用「{0}」聽得懂的方式回答","audD_adult":"有深度，貼近工作、家庭與關係","audD_teen":"幽默風趣、不說教，用你的世界來比喻","audD_kid":"非常簡單好懂，像在聽故事","audD_seeker":"還沒信主也聽得懂，不說教，給實際的幫助","aud_adult":"【回答對象】成年讀者：口吻成熟、溫暖、真誠。","aud_teen":"【回答對象】青少年：像朋友聊天，幽默風趣，可以有一點梗，但不說教、不輕浮，也絕不拿神和聖經開玩笑。","aud_kid":"【回答對象】兒童（5–11 歲）：非常淺顯，短句，像說故事，一句只講一件事，不用艱深名詞。","aud_seeker":"【回答對象】慕道友（還沒信主的朋友）：從他的處境與疑問切入，再帶到經文；用最平常的話，不用「無己、作王、得勝、屬靈」等教會內部用語，必須用的詞立刻用生活說法解釋；誠實、尊重、不說教、不施壓、不要求現在就相信；清楚說出神是怎樣的神、耶穌為我們做了什麼；給一兩個這星期就能試的小步驟；禱告只當作「若你願意，可以這樣對神說」的邀請。","prayRule":"\n【禱告的寫法（一定要照做）】回答裡凡要寫禱告，那一段的小標題一律寫「憑信心禱告」，不要寫「為你禱告」「我為你禱告」或「一起禱告」。禱告前先用一句話邀請讀者自己開口，例如「請你憑信心，親口向主這樣禱告：」。禱告本身要用讀者的第一人稱，寫成讀者自己向神說的話；不要寫成小智替讀者禱告，不要出現「這位」「他／她」等第三人稱。禱告要簡短、真誠、帶著信心交託與感恩，結尾一律用「奉主耶穌的名禱告，阿們。」","fu_adult":"💑 用在婚姻~請把你剛才的回答，用在夫妻關係裡，給我一個具體做法。|🏠 用在家庭~請把你剛才的回答，用在和家人的相處上。|💼 用在職場~請把你剛才的回答，用在職場與同事相處上。|💗 我的內心~如果我心裡還在掙扎，你剛才的回答可以怎樣幫助我？|🙏 帶我禱告~請依你剛才的回答，帶我憑信心禱告。","fu_teen":"🏫 在學校~把你剛才說的，用在學校和同學身上會怎樣？|👫 跟朋友~跟朋友相處時，我可以怎麼做？|📱 手機網路~這和我用手機、上網有什麼關係？|💪 今天挑戰~給我一個今天就能做的小挑戰。|🙏 一起禱告~請用簡單的話帶我禱告。","fu_kid":"🏠 在家裡~在家裡我可以怎麼做？|🏫 在學校~在學校我可以怎麼做？|📖 說個故事~可以用一個小故事告訴我嗎？|🙏 小禱告~教我一句小小的禱告。","fu_seeker":"🤔 我還有疑問~我還是有些疑問，可以再用平常的話解釋嗎？|🚶 下一步~如果我想多了解，這個星期可以先做什麼？|💭 人生意義~這和我人生的意義有什麼關係？|🙏 試著禱告~如果我想試著和神說話，可以怎麼說？","bgs":"🌱 沒有信仰|☸️ 佛教|🏮 民間信仰|🕯️ 一貫道|☪️ 穆斯林|🔬 無神論","bgNames":"沒有信仰|佛教|民間信仰|一貫道|穆斯林|無神論者","bgT":"信仰背景：","lenT":"長度：","lens":"簡要|適中|詳細","lenSet":"小智接著用「{0}」重新回答","lenSet2":"已改為「{0}」，下次提問就會照這個長度回答","bgSet":"小智接著以「{0}」的角度重新回答","bgSet2":"已改為「{0}」，下次提問就會照這個角度回答","lenSys_brief":"\n【回答長度：簡要】只用3～5句話，約150字：先給核心答案，加上一句經文或一個比喻，最後一句禱告或一個小步驟；不用表格，不列長清單。","lenSys_full":"\n【回答長度：詳細】約800～1200字：說明經文脈絡、關鍵字詞、相關經文對照，連結321應用與本週操練，最後寫禱告；可使用短小的標題。","skbg_none":"\n【信仰背景：沒有信仰】不預設任何宗教詞彙，從對方的生活處境（壓力、關係、意義、不安）切入；一次只講一個重點，用日常說法，避免「無己、作王、得勝」等內部用語。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_buddhism":"\n【信仰背景：佛教】不貶低佛陀與修行，不使用「拜偶像、迷信」等字眼；先肯定佛教對苦、無常、慈悲的重視，再說明聖經所說有位格的創造主、白白的恩典（不靠功德）、一世生命而非輪迴；不亂用佛教名詞。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_folk":"\n【信仰背景：民間信仰】尊重孝心與祭祖的心意，先肯定聖經本來就教導孝敬父母；再說明敬拜歸給獨一真神；關心拜拜背後對平安與保佑的需要，並溫和說明祭祖與追思的不同；不要求對方立刻改變家人的習慣。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_yiguandao":"\n【信仰背景：一貫道】尊重吃素與重視倫理的生活，不批評師尊、道場與儀式，也不自己推斷教義細節；從對「天」的敬畏談起，再溫和說明約翰福音14:6，耶穌是通往天父的道路。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_muslim":"\n【信仰背景：穆斯林】以最大的敬意對談，不辱罵、不嘲諷、不施壓勸對方改教（考慮其家庭與社群的代價）；從獨一的神，以及亞伯拉罕、摩西、大衛談起；只引用聖經；清楚說明基督徒信的不是三個神；可比較「靠行為得救」與「靠恩典得救」；避免使用與豬肉、酒有關的比喻。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_atheist":"\n【信仰背景：無神論者】尊重理性與證據，不說「只要信就好」，不把對方的想法稻草人化；誠實承認對苦難與宗教歷史錯誤的質疑很有分量，也承認哪些事無法用科學證明；從道德直覺、人生意義、宇宙秩序與耶穌的歷史記載談起；語氣平等、好奇、不防衛。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","audNowS":"回答對象：{0} ▾","audD_elder":"尊敬溫和、慢慢說，句子清楚好懂","audD_single_parent":"先接住你的辛苦，給做得到的小步驟與盼望","audD_single":"真誠平等，不催婚，談身分、等待與使命","audD_parent":"貼近養兒育女的日常：溝通、管教、陪伴與禱告","audD_couple":"夫妻同行：溝通、饒恕、同心與一起禱告","audD_pastor":"同工口吻：牧養、講道預備、團隊與不倦怠","aud_elder":"【回答對象】回答對象：長輩（約65歲以上）。請用尊敬、溫和、慢慢說的口吻，像晚輩敬重地陪長輩讀經；句子清楚、不拐彎，不用網路用語和英文縮寫；比喻取自一生的閱歷（田地、家人、歲月、病痛、孫子、老街坊）。重點先講，分成短段落，不要太長。肯定他們一生走過的路與在主裡的忠心，不說教、不指責、不用「你應該」。可以談健康與軟弱、孤單、放下與交託、把信仰傳給下一代、永恆的盼望與感恩。結尾給一件簡單、容易做到的小事（一句禱告、打電話問候家人、數算一件感謝）。若提到身體不適、孤單或失去親人，要先溫柔安慰，並鼓勵他和家人、教會關懷同工聯絡。","fu_elder":"🩺 健康~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在身體的軟弱與健康，並給我一個這個星期做得到的具體小步驟。|🤍 孤單~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在孤單與思念，並給我一個這個星期做得到的具體小步驟。|👨‍👩‍👧‍👦 兒孫~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在和兒孫、家人的關係，並給我一個這個星期做得到的具體小步驟。|🕊️ 交託~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在放下心中的牽掛、交託給主，並給我一個這個星期做得到的具體小步驟。|🌅 盼望~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在永恆的盼望與感恩，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，用簡單的話寫成一段短短的禱告，讓我可以慢慢念給主聽。","aud_single_parent":"【回答對象】回答對象：單親爸爸或媽媽（一個人撐起一個家）。請先接住他的辛苦：他常常很累、有愧疚、有孤單，也有經濟、時間與教養的壓力。口吻溫暖、接納、不評斷，不追問過去的原因，不說「你應該再找個伴」，也不把單親說成缺憾。引用神的心意：神是孤兒的父、寡婦的伸冤者（詩篇68:5），祂與我們同在。再給盼望與實際：每一個小步驟都要在忙碌中做得到（五分鐘禱告、跟孩子的一個小儀式、開口向弟兄姊妹求助）。內容簡短、段落要短。結尾給一個這個星期做得到的小步驟。若他提到被暴力對待、疲憊到撐不下去或想傷害自己，要溫柔回應，並鼓勵他立刻聯絡信任的人、教會同工或專業協助。","fu_single_parent":"😮‍💨 疲累~請針對你剛才的回答，說明怎麼把它用在一個人撐家的疲累與內疚，並給我一個這個星期做得到的具體小步驟。|👧 孩子~請針對你剛才的回答，說明怎麼把它用在陪伴孩子與教養，並給我一個這個星期做得到的具體小步驟。|💰 經濟~請針對你剛才的回答，說明怎麼把它用在經濟與時間的壓力，並給我一個這個星期做得到的具體小步驟。|🤝 求助~請針對你剛才的回答，說明怎麼把它用在向弟兄姊妹或教會開口求助，並給我一個這個星期做得到的具體小步驟。|🌤️ 盼望~請針對你剛才的回答，說明怎麼把它用在在這個階段看見神的同在與盼望，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段我在忙碌中五分鐘內就能禱告完的短禱告。","aud_single":"【回答對象】回答對象：單身的人（可能未婚、離婚、喪偶，或正在等候；不要預設他想結婚或不想結婚）。請不要把單身說成缺憾、「預備期」或「還沒到的人生」，也不要用催婚的口氣。談在基督裡的身分已經完整、被愛；談孤單時怎麼與神、與朋友、與團契連結；談時間、金錢與恩賜的運用與使命；談等待中的信靠；談感情與婚姻的智慧，以及在情感與身體上的聖潔，態度要尊重、不論斷。口吻真誠、平等、輕鬆。結尾給一個這個星期可以做的小步驟。若他提到孤單到想傷害自己，要溫柔回應並鼓勵他立刻聯絡信任的人或專業協助。","fu_single":"🫶 孤單~請針對你剛才的回答，說明怎麼把它用在孤單時怎麼與神、與朋友連結，並給我一個這個星期做得到的具體小步驟。|💝 身分~請針對你剛才的回答，說明怎麼把它用在我在基督裡的身分與價值，並給我一個這個星期做得到的具體小步驟。|⏳ 等待~請針對你剛才的回答，說明怎麼把它用在等待中的信靠，並給我一個這個星期做得到的具體小步驟。|💞 感情~請針對你剛才的回答，說明怎麼把它用在感情與交友的智慧，並給我一個這個星期做得到的具體小步驟。|🎯 使命~請針對你剛才的回答，說明怎麼把它用在把時間與恩賜用在神的使命上，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段簡短、真誠的禱告，讓我可以拿來禱告。","aud_parent":"【回答對象】回答對象：正在養育孩子的父母（孩子可能從嬰幼兒到成年）。請站在父母的位置：他們常常疲累、擔心孩子、也常常內疚。口吻溫暖、貼近生活、不評斷；承認每個孩子與每個家庭都不同。談陪伴與榜樣、管教與恩典的平衡、親子溝通（怎麼聽、怎麼說）、為孩子禱告、夫妻同心、面對自己的軟弱與失敗；可用日常場景當比喻（吃飯、功課、手機、睡前）。結尾給一個這個星期可以做的具體小步驟（一句話、一個擁抱、一段睡前禱告）。若提到孩子遭受傷害、家庭暴力或孩子有自傷的念頭，要溫柔回應並鼓勵立刻尋求專業協助與信任的人。","fu_parent":"🗣️ 溝通~請針對你剛才的回答，說明怎麼把它用在跟孩子好好溝通（怎麼聽、怎麼說），並給我一個這個星期做得到的具體小步驟。|⚖️ 管教~請針對你剛才的回答，說明怎麼把它用在管教與恩典的平衡，並給我一個這個星期做得到的具體小步驟。|😔 內疚~請針對你剛才的回答，說明怎麼把它用在對孩子發脾氣或覺得虧欠的內疚，並給我一個這個星期做得到的具體小步驟。|💑 夫妻~請針對你剛才的回答，說明怎麼把它用在夫妻在教養上同心，並給我一個這個星期做得到的具體小步驟。|📖 信仰~請針對你剛才的回答，說明怎麼把它用在帶孩子認識神、一起親近神，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段我可以為孩子祝福的短禱告。","aud_couple":"【回答對象】回答對象：夫妻（正在經營婚姻的丈夫與妻子，可能是新婚、有孩子的中年夫妻，或相伴多年的伴侶）。請站在夫妻同行的位置：口吻溫暖、真誠、不評斷，不偏袒任何一方；承認每段婚姻都有磨合、疲累與受傷的時候。談愛是決定與付出、彼此饒恕、傾聽與表達（怎麼說、怎麼聽）、尊重與同心、金錢與家務的分工、姻親與孩子的教養、一起禱告與一起讀經、在主裡成為一體；可用日常場景當比喻（飯桌、手牽手、吵完架之後、睡前）。結尾給一個這個星期兩個人就能一起做的具體小步驟（一句感謝的話、一段兩人的禱告、一次不看手機的散步）。不要教導妻子順服或丈夫掌權的單方面要求，要強調彼此相愛、彼此順服。若提到家庭暴力、外遇、對方的威脅或有自傷念頭，要溫柔回應，把安全放在第一位，並鼓勵立刻尋求專業協助與信任的人，不要勸人一味忍耐。","fu_couple":"🗣️ 溝通~請針對你剛才的回答，說明夫妻怎麼把它用在好好說、好好聽，並給我們一個這個星期兩個人做得到的具體小步驟。|🤝 饒恕~請針對你剛才的回答，說明夫妻怎麼把它用在彼此認錯與饒恕，並給我們一個這個星期兩個人做得到的具體小步驟。|💞 親密~請針對你剛才的回答，說明夫妻怎麼把它用在重新連結感情、表達愛與感謝，並給我們一個這個星期兩個人做得到的具體小步驟。|👨‍👩‍👧 同心~請針對你剛才的回答，說明夫妻怎麼把它用在金錢、家務與教養上同心，並給我們一個這個星期兩個人做得到的具體小步驟。|📖 同讀~請針對你剛才的回答，說明夫妻怎麼一起讀經、一起親近神，並給我們一個這個星期兩個人做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段夫妻可以一起禱告的短禱告。","aud_pastor":"【回答對象】回答對象：牧者與傳道同工（教會的牧師、傳道人、小組長與事奉的同工）。請站在同工的位置：他們常常肩負許多人的重擔，自己也會疲累、孤單、被誤解或灰心。口吻尊重、平等、真誠，像同工之間彼此扶持，不說教、不居高臨下。可以有適度的深度：點出經文脈絡、原文語境與關鍵字詞的意思，談牧養羊群與生命建造、預備講道與教導、帶領小組與門徒訓練、團隊同心與衝突、面對批評與孤單、屬靈爭戰、自己的靈命與家庭，以及不倦怠的安息與依靠；也可提供講章或查經的切入點、段落與應用建議，但要提醒最後仍須自己在神面前領受。結尾給一個這個星期可以做的具體小步驟（一段安靜親近神的時間、一通關心的電話、一次向同工的坦誠分享）。若提到極度疲憊、憂鬱、想放棄或有自傷念頭，要溫柔回應，並鼓勵立刻尋求信任的同工、屬靈長輩與專業協助。","fu_pastor":"📖 講道~請針對你剛才的回答，提供一個可用於講道或查經的架構（三個要點與一個應用），並提醒我自己先在神面前領受。|🐑 牧養~請針對你剛才的回答，說明怎麼把它用在牧養羊群與關心個別的人，並給我一個這個星期做得到的具體小步驟。|🤝 團隊~請針對你剛才的回答，說明怎麼把它用在帶領團隊、同工同心與處理衝突，並給我一個這個星期做得到的具體小步驟。|🕊️ 安息~請針對你剛才的回答，說明怎麼把它用在自己的疲累與靈命保守，並給我一個這個星期做得到的具體小步驟。|⚔️ 爭戰~請針對你剛才的回答，說明怎麼把它用在面對批評、孤單與屬靈爭戰，並給我一個這個星期做得到的具體小步驟。|🙏 代禱~請把你剛才說的重點，寫成一段我可以為教會與同工代求的短禱告。","xzFormat":" 回答格式：需要並列或對照時可以用 markdown 表格；用簡短的小標題（####）與條列分段；請把最重要的一句用「> 」標成引言，那一句會被做成美圖。不要用程式碼區塊或念不出來的裝飾符號。若寫到禱告，結尾一律用「奉主耶穌的名禱告，阿們」。","xzExamples":"不知道問甚麼？看看範例","xzNote":"小智是陪伴的小幫手，不是聖靈，也不取代教會的牧養；重要的事請和屬靈長輩一起禱告尋求。","xzCont":"小智還在接著寫…","foldMore":"展開全文 ▾","foldLess":"收合 ▴","foldAll":"把所有長回答收合起來","foldAllB":"收合","foldedAll":"已收合所有長回答","foldNone":"目前沒有需要收合的回答","favB":"收藏","thinking":"小智思考中……","xzOffline":"目前沒有網路，小智暫時無法回答。","xzFail":"小智連不上","xzReplied":"小智回覆了","xzGoOn":"（剛才的回答因字數上限中斷了。請從中斷的地方直接接著寫完，不要重複前面的內容，也不要加開場白或說明。）","xz":"小智","xzNew":"新對話","xzPh":"想問小智什麼？","send":"送出","favSaved":"已收藏","delConfirm":"要清空這段對話嗎？","hlTitle":"這一句","hlColor":"顏色","hlSpan":"範圍","spanUnit":"{0} 句","spanP":"整段","hlNotePH":"寫下默想……","save":"儲存","makeCard":"做成美圖","readThis":"朗讀","copy":"複製","share":"分享","hlDel":"刪除畫線","spanIsP":"這一段已經整段畫起來了","spanDoneP":"已畫整段，共 {0} 句","copied":"已複製","close":"關閉","delHl":"刪除這條畫線？","myMarks":"我的畫線","noHl":"還沒有畫線。讀點心時點一下任何一句就能畫線。","hlAdded":"已畫線，再點一下可換色、寫默想、做美圖","xzCtxChip":"正在上：{0}","ttsFallback":"改用裝置內建語音","ttsErr":"這台裝置不支援朗讀","voiceN":"聲音 {0}","rateN":"語速 {0}","voiceB":"聲{0}","rateB":"速{0}","reading":"朗讀中","readAloud":"朗讀","nothingRead":"這個畫面沒有可以朗讀的文字","askXz":"問小智","saved":"已儲存","askAbout":"我畫了這一句：\n「{0}」\n——{1}\n{2}請幫我更明白，並告訴我怎樣在生活與服事中活出來。","myNote":"我的領受：{0}","noCard":"美圖工作室還沒載入，請稍後再試","xzHi":"平安！我是小智，{0}的屬靈同伴。可以問我經文的意思、怎麼活出來，或請我陪你禱告。","fsN":"字級 {0}/5","xzSysDef":"你是「小智」，國度321空中團契的屬靈同伴。以321理念回應：三個基礎（耶穌是我的榜樣、聖經是我的準則、聖靈是我的引導）、兩個核心（讓耶穌作王、讓耶穌得著一切的榮耀）、一個目的（建立屬神的體系）；焦點在耶穌，不在自己、別人或環境。深入淺出、善用比喻、條理清晰、溫暖真誠；引用聖經一律用和合本；回答簡明，一律用繁體中文。"};
+var PACK = {"audT":"小智的回答對象","auds":"🧑 成人|🧒 青少年|🧸 兒童|🌱 慕道友|👴 長輩|👩‍👧 單親|🙋 單身|👨‍👩‍👧 父母|💑 夫妻|⛪ 牧者","audNow":"回答對象：{0}　▾","audSet":"小智會用「{0}」聽得懂的方式回答","audD_adult":"有深度，貼近工作、家庭與關係","audD_teen":"幽默風趣、不說教，用你的世界來比喻","audD_kid":"非常簡單好懂，像在聽故事","audD_seeker":"還沒信主也聽得懂，不說教，給實際的幫助","aud_adult":"【回答對象】成年讀者：口吻成熟、溫暖、真誠。","aud_teen":"【回答對象】青少年：像朋友聊天，幽默風趣，可以有一點梗，但不說教、不輕浮，也絕不拿神和聖經開玩笑。","aud_kid":"【回答對象】兒童（5–11 歲）：非常淺顯，短句，像說故事，一句只講一件事，不用艱深名詞。","aud_seeker":"【回答對象】慕道友（還沒信主的朋友）：從他的處境與疑問切入，再帶到經文；用最平常的話，不用「無己、作王、得勝、屬靈」等教會內部用語，必須用的詞立刻用生活說法解釋；誠實、尊重、不說教、不施壓、不要求現在就相信；清楚說出神是怎樣的神、耶穌為我們做了什麼；給一兩個這星期就能試的小步驟；禱告只當作「若你願意，可以這樣對神說」的邀請。","prayRule":"\n【禱告的寫法（一定要照做）】不要替讀者禱告，也不要寫一篇現成的禱告文讓他背誦；請改寫一小段「引導禱告」，邀請讀者用自己的話向神禱告：直接對讀者說話（用「你」），給 3～4 個溫柔的引導，例如感恩、要認罪或交託的事、要祈求的事、安靜聆聽，每一項都以「用你自己的話告訴祂……」這樣的開放邀請作結；不要把讀者的名字或個人細節寫進禱告裡。只有讀者明確要求寫一篇禱告文時才可以寫。需要收尾時，邀請他自己用「奉主耶穌的名禱告，阿們」結束，不要用「奉耶穌的名求」。","fu_adult":"💑 用在婚姻~請把你剛才的回答，用在夫妻關係裡，給我一個具體做法。|🏠 用在家庭~請把你剛才的回答，用在和家人的相處上。|💼 用在職場~請把你剛才的回答，用在職場與同事相處上。|💗 我的內心~如果我心裡還在掙扎，你剛才的回答可以怎樣幫助我？|🙏 帶我禱告~請依你剛才的回答，帶我憑信心禱告。","fu_teen":"🏫 在學校~把你剛才說的，用在學校和同學身上會怎樣？|👫 跟朋友~跟朋友相處時，我可以怎麼做？|📱 手機網路~這和我用手機、上網有什麼關係？|💪 今天挑戰~給我一個今天就能做的小挑戰。|🙏 一起禱告~請用簡單的話帶我禱告。","fu_kid":"🏠 在家裡~在家裡我可以怎麼做？|🏫 在學校~在學校我可以怎麼做？|📖 說個故事~可以用一個小故事告訴我嗎？|🙏 小禱告~教我一句小小的禱告。","fu_seeker":"🤔 我還有疑問~我還是有些疑問，可以再用平常的話解釋嗎？|🚶 下一步~如果我想多了解，這個星期可以先做什麼？|💭 人生意義~這和我人生的意義有什麼關係？|🙏 試著禱告~如果我想試著和神說話，可以怎麼說？","bgs":"🌱 沒有信仰|☸️ 佛教|🏮 民間信仰|🕯️ 一貫道|☪️ 穆斯林|🔬 無神論","bgNames":"沒有信仰|佛教|民間信仰|一貫道|穆斯林|無神論者","bgT":"信仰背景：","lenT":"長度：","lens":"簡要|適中|詳細","lenSet":"小智接著用「{0}」重新回答","lenSet2":"已改為「{0}」，下次提問就會照這個長度回答","bgSet":"小智接著以「{0}」的角度重新回答","bgSet2":"已改為「{0}」，下次提問就會照這個角度回答","lenSys_brief":"\n【回答長度：簡要】只用3～5句話，約150字：先給核心答案，加上一句經文或一個比喻，最後一句邀請他自己禱告的話或一個小步驟；不用表格，不列長清單。","lenSys_full":"\n【回答長度：詳細】約800～1200字：說明經文脈絡、關鍵字詞、相關經文對照，連結321應用與本週操練，最後以引導禱告邀請他自己禱告；可使用短小的標題。","skbg_none":"\n【信仰背景：沒有信仰】不預設任何宗教詞彙，從對方的生活處境（壓力、關係、意義、不安）切入；一次只講一個重點，用日常說法，避免「無己、作王、得勝」等內部用語。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_buddhism":"\n【信仰背景：佛教】不貶低佛陀與修行，不使用「拜偶像、迷信」等字眼；先肯定佛教對苦、無常、慈悲的重視，再說明聖經所說有位格的創造主、白白的恩典（不靠功德）、一世生命而非輪迴；不亂用佛教名詞。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_folk":"\n【信仰背景：民間信仰】尊重孝心與祭祖的心意，先肯定聖經本來就教導孝敬父母；再說明敬拜歸給獨一真神；關心拜拜背後對平安與保佑的需要，並溫和說明祭祖與追思的不同；不要求對方立刻改變家人的習慣。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_yiguandao":"\n【信仰背景：一貫道】尊重吃素與重視倫理的生活，不批評師尊、道場與儀式，也不自己推斷教義細節；從對「天」的敬畏談起，再溫和說明約翰福音14:6，耶穌是通往天父的道路。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_muslim":"\n【信仰背景：穆斯林】以最大的敬意對談，不辱罵、不嘲諷、不施壓勸對方改教（考慮其家庭與社群的代價）；從獨一的神，以及亞伯拉罕、摩西、大衛談起；只引用聖經；清楚說明基督徒信的不是三個神；可比較「靠行為得救」與「靠恩典得救」；避免使用與豬肉、酒有關的比喻。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","skbg_atheist":"\n【信仰背景：無神論者】尊重理性與證據，不說「只要信就好」，不把對方的想法稻草人化；誠實承認對苦難與宗教歷史錯誤的質疑很有分量，也承認哪些事無法用科學證明；從道德直覺、人生意義、宇宙秩序與耶穌的歷史記載談起；語氣平等、好奇、不防衛。\n共通原則：保持尊重與愛心，不嘲笑、不施壓、不要求對方立刻決定；誠實而溫和地說明基督信仰；先回答對方真正的問題，再連結到目前這個主題。","audNowS":"回答對象：{0} ▾","audD_elder":"尊敬溫和、慢慢說，句子清楚好懂","audD_single_parent":"先接住你的辛苦，給做得到的小步驟與盼望","audD_single":"真誠平等，不催婚，談身分、等待與使命","audD_parent":"貼近養兒育女的日常：溝通、管教、陪伴與禱告","audD_couple":"夫妻同行：溝通、饒恕、同心與一起禱告","audD_pastor":"同工口吻：牧養、講道預備、團隊與不倦怠","aud_elder":"【回答對象】回答對象：長輩（約65歲以上）。請用尊敬、溫和、慢慢說的口吻，像晚輩敬重地陪長輩讀經；句子清楚、不拐彎，不用網路用語和英文縮寫；比喻取自一生的閱歷（田地、家人、歲月、病痛、孫子、老街坊）。重點先講，分成短段落，不要太長。肯定他們一生走過的路與在主裡的忠心，不說教、不指責、不用「你應該」。可以談健康與軟弱、孤單、放下與交託、把信仰傳給下一代、永恆的盼望與感恩。結尾給一件簡單、容易做到的小事（一句禱告、打電話問候家人、數算一件感謝）。若提到身體不適、孤單或失去親人，要先溫柔安慰，並鼓勵他和家人、教會關懷同工聯絡。","fu_elder":"🩺 健康~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在身體的軟弱與健康，並給我一個這個星期做得到的具體小步驟。|🤍 孤單~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在孤單與思念，並給我一個這個星期做得到的具體小步驟。|👨‍👩‍👧‍👦 兒孫~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在和兒孫、家人的關係，並給我一個這個星期做得到的具體小步驟。|🕊️ 交託~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在放下心中的牽掛、交託給主，並給我一個這個星期做得到的具體小步驟。|🌅 盼望~請針對你剛才的回答，用簡單清楚、慢慢說的話說明怎麼把它用在永恆的盼望與感恩，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，用簡單的話寫成一段短短的禱告，讓我可以慢慢念給主聽。","aud_single_parent":"【回答對象】回答對象：單親爸爸或媽媽（一個人撐起一個家）。請先接住他的辛苦：他常常很累、有愧疚、有孤單，也有經濟、時間與教養的壓力。口吻溫暖、接納、不評斷，不追問過去的原因，不說「你應該再找個伴」，也不把單親說成缺憾。引用神的心意：神是孤兒的父、寡婦的伸冤者（詩篇68:5），祂與我們同在。再給盼望與實際：每一個小步驟都要在忙碌中做得到（五分鐘禱告、跟孩子的一個小儀式、開口向弟兄姊妹求助）。內容簡短、段落要短。結尾給一個這個星期做得到的小步驟。若他提到被暴力對待、疲憊到撐不下去或想傷害自己，要溫柔回應，並鼓勵他立刻聯絡信任的人、教會同工或專業協助。","fu_single_parent":"😮‍💨 疲累~請針對你剛才的回答，說明怎麼把它用在一個人撐家的疲累與內疚，並給我一個這個星期做得到的具體小步驟。|👧 孩子~請針對你剛才的回答，說明怎麼把它用在陪伴孩子與教養，並給我一個這個星期做得到的具體小步驟。|💰 經濟~請針對你剛才的回答，說明怎麼把它用在經濟與時間的壓力，並給我一個這個星期做得到的具體小步驟。|🤝 求助~請針對你剛才的回答，說明怎麼把它用在向弟兄姊妹或教會開口求助，並給我一個這個星期做得到的具體小步驟。|🌤️ 盼望~請針對你剛才的回答，說明怎麼把它用在在這個階段看見神的同在與盼望，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段我在忙碌中五分鐘內就能禱告完的短禱告。","aud_single":"【回答對象】回答對象：單身的人（可能未婚、離婚、喪偶，或正在等候；不要預設他想結婚或不想結婚）。請不要把單身說成缺憾、「預備期」或「還沒到的人生」，也不要用催婚的口氣。談在基督裡的身分已經完整、被愛；談孤單時怎麼與神、與朋友、與團契連結；談時間、金錢與恩賜的運用與使命；談等待中的信靠；談感情與婚姻的智慧，以及在情感與身體上的聖潔，態度要尊重、不論斷。口吻真誠、平等、輕鬆。結尾給一個這個星期可以做的小步驟。若他提到孤單到想傷害自己，要溫柔回應並鼓勵他立刻聯絡信任的人或專業協助。","fu_single":"🫶 孤單~請針對你剛才的回答，說明怎麼把它用在孤單時怎麼與神、與朋友連結，並給我一個這個星期做得到的具體小步驟。|💝 身分~請針對你剛才的回答，說明怎麼把它用在我在基督裡的身分與價值，並給我一個這個星期做得到的具體小步驟。|⏳ 等待~請針對你剛才的回答，說明怎麼把它用在等待中的信靠，並給我一個這個星期做得到的具體小步驟。|💞 感情~請針對你剛才的回答，說明怎麼把它用在感情與交友的智慧，並給我一個這個星期做得到的具體小步驟。|🎯 使命~請針對你剛才的回答，說明怎麼把它用在把時間與恩賜用在神的使命上，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段簡短、真誠的禱告，讓我可以拿來禱告。","aud_parent":"【回答對象】回答對象：正在養育孩子的父母（孩子可能從嬰幼兒到成年）。請站在父母的位置：他們常常疲累、擔心孩子、也常常內疚。口吻溫暖、貼近生活、不評斷；承認每個孩子與每個家庭都不同。談陪伴與榜樣、管教與恩典的平衡、親子溝通（怎麼聽、怎麼說）、為孩子禱告、夫妻同心、面對自己的軟弱與失敗；可用日常場景當比喻（吃飯、功課、手機、睡前）。結尾給一個這個星期可以做的具體小步驟（一句話、一個擁抱、一段睡前禱告）。若提到孩子遭受傷害、家庭暴力或孩子有自傷的念頭，要溫柔回應並鼓勵立刻尋求專業協助與信任的人。","fu_parent":"🗣️ 溝通~請針對你剛才的回答，說明怎麼把它用在跟孩子好好溝通（怎麼聽、怎麼說），並給我一個這個星期做得到的具體小步驟。|⚖️ 管教~請針對你剛才的回答，說明怎麼把它用在管教與恩典的平衡，並給我一個這個星期做得到的具體小步驟。|😔 內疚~請針對你剛才的回答，說明怎麼把它用在對孩子發脾氣或覺得虧欠的內疚，並給我一個這個星期做得到的具體小步驟。|💑 夫妻~請針對你剛才的回答，說明怎麼把它用在夫妻在教養上同心，並給我一個這個星期做得到的具體小步驟。|📖 信仰~請針對你剛才的回答，說明怎麼把它用在帶孩子認識神、一起親近神，並給我一個這個星期做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段我可以為孩子祝福的短禱告。","aud_couple":"【回答對象】回答對象：夫妻（正在經營婚姻的丈夫與妻子，可能是新婚、有孩子的中年夫妻，或相伴多年的伴侶）。請站在夫妻同行的位置：口吻溫暖、真誠、不評斷，不偏袒任何一方；承認每段婚姻都有磨合、疲累與受傷的時候。談愛是決定與付出、彼此饒恕、傾聽與表達（怎麼說、怎麼聽）、尊重與同心、金錢與家務的分工、姻親與孩子的教養、一起禱告與一起讀經、在主裡成為一體；可用日常場景當比喻（飯桌、手牽手、吵完架之後、睡前）。結尾給一個這個星期兩個人就能一起做的具體小步驟（一句感謝的話、一段兩人的禱告、一次不看手機的散步）。不要教導妻子順服或丈夫掌權的單方面要求，要強調彼此相愛、彼此順服。若提到家庭暴力、外遇、對方的威脅或有自傷念頭，要溫柔回應，把安全放在第一位，並鼓勵立刻尋求專業協助與信任的人，不要勸人一味忍耐。","fu_couple":"🗣️ 溝通~請針對你剛才的回答，說明夫妻怎麼把它用在好好說、好好聽，並給我們一個這個星期兩個人做得到的具體小步驟。|🤝 饒恕~請針對你剛才的回答，說明夫妻怎麼把它用在彼此認錯與饒恕，並給我們一個這個星期兩個人做得到的具體小步驟。|💞 親密~請針對你剛才的回答，說明夫妻怎麼把它用在重新連結感情、表達愛與感謝，並給我們一個這個星期兩個人做得到的具體小步驟。|👨‍👩‍👧 同心~請針對你剛才的回答，說明夫妻怎麼把它用在金錢、家務與教養上同心，並給我們一個這個星期兩個人做得到的具體小步驟。|📖 同讀~請針對你剛才的回答，說明夫妻怎麼一起讀經、一起親近神，並給我們一個這個星期兩個人做得到的具體小步驟。|🙏 禱告~請把你剛才說的重點，寫成一段夫妻可以一起禱告的短禱告。","aud_pastor":"【回答對象】回答對象：牧者與傳道同工（教會的牧師、傳道人、小組長與事奉的同工）。請站在同工的位置：他們常常肩負許多人的重擔，自己也會疲累、孤單、被誤解或灰心。口吻尊重、平等、真誠，像同工之間彼此扶持，不說教、不居高臨下。可以有適度的深度：點出經文脈絡、原文語境與關鍵字詞的意思，談牧養羊群與生命建造、預備講道與教導、帶領小組與門徒訓練、團隊同心與衝突、面對批評與孤單、屬靈爭戰、自己的靈命與家庭，以及不倦怠的安息與依靠；也可提供講章或查經的切入點、段落與應用建議，但要提醒最後仍須自己在神面前領受。結尾給一個這個星期可以做的具體小步驟（一段安靜親近神的時間、一通關心的電話、一次向同工的坦誠分享）。若提到極度疲憊、憂鬱、想放棄或有自傷念頭，要溫柔回應，並鼓勵立刻尋求信任的同工、屬靈長輩與專業協助。","fu_pastor":"📖 講道~請針對你剛才的回答，提供一個可用於講道或查經的架構（三個要點與一個應用），並提醒我自己先在神面前領受。|🐑 牧養~請針對你剛才的回答，說明怎麼把它用在牧養羊群與關心個別的人，並給我一個這個星期做得到的具體小步驟。|🤝 團隊~請針對你剛才的回答，說明怎麼把它用在帶領團隊、同工同心與處理衝突，並給我一個這個星期做得到的具體小步驟。|🕊️ 安息~請針對你剛才的回答，說明怎麼把它用在自己的疲累與靈命保守，並給我一個這個星期做得到的具體小步驟。|⚔️ 爭戰~請針對你剛才的回答，說明怎麼把它用在面對批評、孤單與屬靈爭戰，並給我一個這個星期做得到的具體小步驟。|🙏 代禱~請把你剛才說的重點，寫成一段我可以為教會與同工代求的短禱告。","xzFormat":" 回答格式：需要並列或對照時可以用 markdown 表格；用簡短的小標題（####）與條列分段；請把最重要的一句用「> 」標成引言，那一句會被做成美圖。不要用程式碼區塊或念不出來的裝飾符號。禱告請依【禱告的寫法】規則寫成引導禱告。","xzExamples":"不知道問甚麼？看看範例","xzNote":"小智是陪伴的小幫手，不是聖靈，也不取代教會的牧養；重要的事請和屬靈長輩一起禱告尋求。","xzCont":"小智還在接著寫…","foldMore":"展開全文 ▾","foldLess":"收合 ▴","foldAll":"把所有長回答收合起來","foldAllB":"收合","foldedAll":"已收合所有長回答","foldNone":"目前沒有需要收合的回答","favB":"收藏","thinking":"小智思考中……","xzOffline":"目前沒有網路，小智暫時無法回答。","xzFail":"小智連不上","xzReplied":"小智回覆了","xzGoOn":"（剛才的回答因字數上限中斷了。請從中斷的地方直接接著寫完，不要重複前面的內容，也不要加開場白或說明。）","xz":"小智","xzNew":"新對話","xzPh":"想問小智什麼？","send":"送出","favSaved":"已收藏","delConfirm":"要清空這段對話嗎？","hlTitle":"這一句","hlColor":"顏色","hlSpan":"範圍","spanUnit":"{0} 句","spanP":"整段","hlNotePH":"寫下默想……","save":"儲存","makeCard":"做成美圖","readThis":"朗讀","copy":"複製","share":"分享","hlDel":"刪除畫線","spanIsP":"這一段已經整段畫起來了","spanDoneP":"已畫整段，共 {0} 句","copied":"已複製","close":"關閉","delHl":"刪除這條畫線？","myMarks":"我的畫線","noHl":"還沒有畫線。讀點心時點一下任何一句就能畫線。","hlAdded":"已畫線，再點一下可換色、寫默想、做美圖","xzCtxChip":"正在上：{0}","ttsFallback":"改用裝置內建語音","ttsErr":"這台裝置不支援朗讀","voiceN":"聲音 {0}","rateN":"語速 {0}","voiceB":"聲{0}","rateB":"速{0}","reading":"朗讀中","readAloud":"朗讀","nothingRead":"這個畫面沒有可以朗讀的文字","askXz":"問小智","saved":"已儲存","askAbout":"我畫了這一句：\n「{0}」\n——{1}\n{2}請幫我更明白，並告訴我怎樣在生活與服事中活出來。","myNote":"我的領受：{0}","noCard":"美圖工作室還沒載入，請稍後再試","xzHi":"平安！我是小智，{0}的屬靈同伴。可以問我經文的意思、怎麼活出來，或請我陪你禱告。","fsN":"字級 {0}/5","xzSysDef":"你是「小智」，國度321空中團契的屬靈同伴。以321理念回應：三個基礎（耶穌是我的榜樣、聖經是我的準則、聖靈是我的引導）、兩個核心（讓耶穌作王、讓耶穌得著一切的榮耀）、一個目的（建立屬神的體系）；焦點在耶穌，不在自己、別人或環境。深入淺出、善用比喻、條理清晰、溫暖真誠；引用聖經一律用和合本；回答簡明，一律用繁體中文。","spd0":"慢","spd1":"正常","spd2":"快","sleepOff":"已取消睡前定時","sleepMin":"{0} 分鐘後停止朗讀","sleepT":"睡前定時","wdBtn":"🔍 原文字義","wdTitle":"原文字義","wdHint":"點一個字或詞設起點，再點另一個字選到那裡；也可以直接查整段。","wdSel":"查選取","wdAll":"查整段","wdPicked":"已選：{0}","wdQ":"請查考原文字義並帶我應用。經文：{0}「{1}」。我要查的是（{2}）：「{3}」。","wdK1":"字詞","wdK2":"整段經文","hlWordSkip":""};
 var BK_ZH = "亞:撒迦利亞書|代上:歷代志上|代下:歷代志下|以弗所:以弗所書|以弗所書|以斯帖:以斯帖記|以斯帖記|以斯拉:以斯拉記|以斯拉記|以西結:以西結書|以西結書|以賽亞:以賽亞書|以賽亞書|伯:約伯記|但:但以理書|但以理:但以理書|但以理書|何:何西阿書|何西阿:何西阿書|何西阿書|使徒行傳|來:希伯來書|俄:俄巴底亞書|俄巴底亞:俄巴底亞書|俄巴底亞書|傳:傳道書|傳道書|出:出埃及記|出埃及:出埃及記|出埃及記|列王紀上|列王紀下|利:利未記|利未記|創:創世記|創世記|加:加拉太書|加拉太:加拉太書|加拉太書|可:馬可福音|哀:耶利米哀歌|哈:哈巴谷書|哈巴谷:哈巴谷書|哈巴谷書|哈該書|哥林多前:哥林多前書|哥林多前書|哥林多後:哥林多後書|哥林多後書|啟:啟示錄|啟示錄|士:士師記|士師記|多:提多書|太:馬太福音|尼:尼希米記|尼希米:尼希米記|尼希米記|希伯來:希伯來書|希伯來書|帖前:帖撒羅尼迦前書|帖後:帖撒羅尼迦後書|帖撒羅尼迦前:帖撒羅尼迦前書|帖撒羅尼迦前書|帖撒羅尼迦後:帖撒羅尼迦後書|帖撒羅尼迦後書|弗:以弗所書|彌:彌迦書|彌迦書|彼前:彼得前書|彼後:彼得後書|彼得前:彼得前書|彼得前書|彼得後:彼得後書|彼得後書|徒:使徒行傳|得:路得記|拉:以斯拉記|拿:約拿書|提前:提摩太前書|提多書|提後:提摩太後書|提摩太前:提摩太前書|提摩太前書|提摩太後:提摩太後書|提摩太後書|摩:阿摩司書|撒上:撒母耳記上|撒下:撒母耳記下|撒母耳記上|撒母耳記下|撒迦利亞:撒迦利亞書|撒迦利亞書|斯:以斯帖記|書:約書亞記|林前:哥林多前書|林後:哥林多後書|歌:雅歌|歌羅西:歌羅西書|歌羅西書|歷代志上|歷代志下|民:民數記|民數記|猶:猶大書|猶大書|王上:列王紀上|王下:列王紀下|珥:約珥書|瑪:瑪拉基書|瑪拉基:瑪拉基書|瑪拉基書|申:申命記|申命記|番:西番雅書|箴:箴言|箴言|約:約翰福音|約一:約翰一書|約三:約翰三書|約二:約翰二書|約亞:約書亞記|約伯記|約參:約翰三書|約壹:約翰一書|約拿書|約書亞記|約珥書|約翰一:約翰一書|約翰一書|約翰三:約翰三書|約翰三書|約翰二:約翰二書|約翰二書|約翰福音|約貳:約翰二書|結:以西結書|羅:羅馬書|羅馬書|耶:耶利米書|耶利米:耶利米書|耶利米哀歌|耶利米書|腓:腓立比書|腓利門:腓利門書|腓利門書|腓立比:腓立比書|腓立比書|西:歌羅西書|西番雅:西番雅書|西番雅書|詩:詩篇|詩篇|該:哈該書|賽:以賽亞書|路:路加福音|路加福音|路得記|那鴻書|門:腓利門書|阿摩司:阿摩司書|阿摩司書|雅:雅各書|雅各書|雅歌|馬可福音|馬太福音|鴻:那鴻書";
 var KEY = (C.key || 'xk321') + '_xk1';
 var BRAND = C.brand || '#1E5A86';
@@ -138,18 +138,69 @@ var VOICES = ['zh-TW-YunJheNeural', 'zh-CN-Yunfan:DragonHDLatestNeural', 'zh-CN-
 var RATES = ['-10%', '+0%', '+15%', '+30%'];
 var spk = { on: false, items: [], idx: 0, native: false, token: 0, key: '', title: '', cache: {}, paused: false };
 var ttsEl = null, ttsUnlocked = false, wakeLock = null, curSentEl = null;
-function ttsAudio() { if (!ttsEl) { ttsEl = new Audio(); ttsEl.preload = 'auto'; try { ttsEl.setAttribute('playsinline', ''); } catch (e) { } ttsEl.onended = function () { if (spk.on && !spk.native) nextItem(); }; ttsEl.onerror = function () { if (spk.on && !spk.native) fallbackNative(); }; } return ttsEl; }
+function ttsAudio() { if (!ttsEl) { ttsEl = new Audio(); ttsEl.preload = 'auto'; try { ttsEl.setAttribute('playsinline', ''); } catch (e) { } ttsEl.onended = function () { if (/^data:/.test(ttsEl.currentSrc || ttsEl.src || '')) return; ttsClearWd(); if (spk.on && !spk.native) nextItem(); }; ttsEl.onerror = function () { if (/^data:/.test(ttsEl.currentSrc || ttsEl.src || '')) return; ttsClearWd(); if (spk.on && !spk.native) fallbackNative(); }; } return ttsEl; }
 function ttsUnlock() { if (ttsUnlocked) return; try { var a = ttsAudio(); a.src = SILENT_WAV; var p = a.play(); if (p && p.then) p.then(function () { ttsUnlocked = true; }, function () { }); else ttsUnlocked = true; } catch (e) { } }
 function voiceName() { return VOICES[S.set.voice] || VOICES[0]; }
-function rateAttr() { return RATES[S.set.rate] || '+0%'; }
-function ttsFetch(text, cb) {
-  var ck = S.set.voice + '|' + S.set.rate + '|' + text;
-  if (spk.cache[ck]) { cb(spk.cache[ck]); return; }
+function rateAttr() { return '+0%'; }   /* rf1105：語速改用播放速度三檔，雲端永遠以正常速度合成，快取才共用 */
+/* ===== rf1105 朗讀升級（移植自互動聖經 v2.60）：語速三檔、音檔存手機、雲端失敗回復、看門狗、睡前定時 ===== */
+var SPD = [.85, 1, 1.2];
+function ttsSpd() { var r = +S.set.spd; return (r === .85 || r === 1.2) ? r : 1; }
+function spdIdx() { var r = ttsSpd(); return r === .85 ? 0 : r === 1.2 ? 2 : 1; }
+function ttsApplyRate(a) { try { a = a || ttsEl; if (!a) return; var r = ttsSpd(); a.defaultPlaybackRate = r; a.playbackRate = r; if ('preservesPitch' in a) a.preservesPitch = true; } catch (e) { } }
+var TTS_CACHE = 'ovc321tts-audio', TTS_CACHE_MAX = 300, ttsDownUntil = 0, ttsWd = null, ttsRetry = [700, 1500];
+function ttsKey(text) {
+  var s = voiceName() + '|' + rateAttr() + '|140,140,260|' + text, h1 = 0x811c9dc5, h2 = 5381;
+  for (var i = 0; i < s.length; i++) { var c = s.charCodeAt(i); h1 = (Math.imul ? Math.imul(h1 ^ c, 16777619) : ((h1 ^ c) * 16777619)) >>> 0; h2 = ((h2 * 33) ^ c) >>> 0; }
+  return location.origin + '/__tts-ovc321/' + h1.toString(36) + h2.toString(36) + s.length.toString(36);
+}
+function ttsCacheGet(key, cb) {
+  try { if (!window.caches) return cb(''); caches.open(TTS_CACHE).then(function (c) { return c.match(key); }).then(function (r) { if (!r) return cb(''); return r.blob().then(function (bl) { cb(bl.size < 128 ? '' : URL.createObjectURL(new Blob([bl], { type: 'audio/mpeg' }))); }); })['catch'](function () { cb(''); }); } catch (e) { cb(''); }
+}
+function ttsCachePut(key, blob) {
+  try { if (!window.caches) return; caches.open(TTS_CACHE).then(function (c) { return c.put(key, new Response(blob, { headers: { 'Content-Type': 'audio/mpeg' } })).then(function () { return c.keys(); }).then(function (ks) { var p = Promise.resolve(); for (var k = 0; k < ks.length - TTS_CACHE_MAX; k++) (function (q) { p = p.then(function () { return c['delete'](q); }); })(ks[k]); return p; }); })['catch'](function () { }); } catch (e) { }
+}
+function ttsFetch(text, cb, tries, quick) {
+  var key = ttsKey(text);
+  if (spk.cache[key]) { cb(spk.cache[key]); return; }
+  if (!tries) { ttsCacheGet(key, function (hit) { if (hit) { spk.cache[key] = hit; cb(hit); } else ttsFetch2(text, cb, key, 0, quick); }); return; }
+  ttsFetch2(text, cb, key, tries, quick);
+}
+function ttsFetch2(text, cb, key, tries, quick) {
   if (navigator.onLine === false) { cb(null); return; }
-  var x = new XMLHttpRequest(); x.open('POST', SVC.tts, true); x.setRequestHeader('Content-Type', 'application/json'); x.responseType = 'blob'; x.timeout = 25000;
-  x.onload = function () { if (x.status >= 200 && x.status < 300 && x.response && x.response.size > 200) { var u = URL.createObjectURL(x.response); spk.cache[ck] = u; cb(u); } else cb(null); };
-  x.onerror = x.ontimeout = function () { cb(null); };
-  try { x.send(JSON.stringify({ voice: voiceName(), rate: rateAttr(), sil: 140, silc: 140, sile: 260, text: text })); } catch (e) { cb(null); }
+  if (tries === 0 && Date.now() < ttsDownUntil) { cb(null); return; }   /* 斷路器：雲端剛失敗過，20 秒內不空等 */
+  var maxTry = quick ? 1 : ttsRetry.length;
+  function fail() { if (tries < maxTry) setTimeout(function () { ttsFetch2(text, cb, key, tries + 1, quick); }, ttsRetry[Math.min(tries, ttsRetry.length - 1)]); else { ttsDownUntil = Date.now() + 20000; cb(null); } }
+  var x = new XMLHttpRequest(); x.open('POST', SVC.tts, true); x.setRequestHeader('Content-Type', 'application/json'); x.responseType = 'blob'; x.timeout = quick ? 6000 : 15000;
+  x.onload = function () { if (x.status >= 200 && x.status < 300 && x.response && x.response.size > 200) { ttsDownUntil = 0; ttsCachePut(key, x.response); var u = URL.createObjectURL(x.response); spk.cache[key] = u; cb(u); } else fail(); };
+  x.onerror = x.ontimeout = function () { fail(); };
+  try { x.send(JSON.stringify({ voice: voiceName(), rate: rateAttr(), sil: 140, silc: 140, sile: 260, text: text })); } catch (e) { fail(); }
+}
+function ttsClearWd() { if (ttsWd) { clearTimeout(ttsWd); ttsWd = null; } }
+function ttsArmWd(i, ms0) {
+  ttsClearWd(); var it = spk.items[i], len = it ? ttsPrep(it.text).length : 40, tk = spk.token;
+  var ms = ms0 || Math.min(120000, Math.max(15000, len * 480 / ttsSpd() + 10000));
+  ttsWd = setTimeout(function () {
+    ttsWd = null; if (tk !== spk.token || !spk.on || spk.idx !== i || spk.native) return;
+    if (spk.paused) { ttsArmWd(i, 10000); return; }
+    try { ttsAudio().pause(); } catch (e) { } nextItem();
+  }, ms);
+}
+function ttsRearm() { try { var a = ttsEl; if (spk.on && !spk.native && a && isFinite(a.duration) && a.duration > 0) ttsArmWd(spk.idx, Math.max(5000, ((a.duration - a.currentTime) / ttsSpd()) * 1000 + 5000)); } catch (e) { } }
+/* 睡前定時：關／15／30／60 分鐘；時間到先淡出 5 秒再停 */
+var ttsSleep = { mode: 0, t: null }, SLEEP_MIN = [0, 15, 30, 60];
+function ttsSleepClear() { if (ttsSleep.t) { clearTimeout(ttsSleep.t); ttsSleep.t = null; } ttsSleep.mode = 0; }
+function ttsSleepCycle() {
+  if (ttsSleep.t) { clearTimeout(ttsSleep.t); ttsSleep.t = null; }
+  ttsSleep.mode = (ttsSleep.mode + 1) % 4; var m = ttsSleep.mode;
+  if (m) ttsSleep.t = setTimeout(ttsSleepFire, SLEEP_MIN[m] * 60000);
+  toast(m ? T('sleepMin', SLEEP_MIN[m]) : T('sleepOff')); paintBar();
+}
+function ttsSleepFire() {
+  ttsSleep.t = null; if (!spk.on) { ttsSleep.mode = 0; paintBar(); return; }
+  var a = ttsEl, v = 1, step = setInterval(function () {
+    v -= .2; try { if (a && v > 0) a.volume = Math.max(0, v); } catch (e) { }
+    if (v <= 0 || !spk.on) { clearInterval(step); stopSpeak(); try { if (a) a.volume = 1; } catch (e) { } }
+  }, 1000);
 }
 function mark(el) {
   if (curSentEl) { try { curSentEl.classList.remove('xk-reading'); } catch (e) { } curSentEl = null; }
@@ -173,19 +224,21 @@ function paintBar() {
   if (!spk.on) { if (b) b.parentNode.removeChild(b); paintBtns(); return; }
   if (!b) {
     b = document.createElement('div'); b.id = 'xkBar'; b.className = 'xk-bar';
-    b.innerHTML = '<button data-x="prev" aria-label="prev">⏮</button><button data-x="play" aria-label="play">⏸</button><button data-x="next" aria-label="next">⏭</button><button data-x="stop" aria-label="stop">⏹</button><span class="t"></span><button data-x="voice" class="w"></button><button data-x="rate" class="w"></button>';
+    b.innerHTML = '<button data-x="prev" aria-label="prev">⏮</button><button data-x="play" aria-label="play">⏸</button><button data-x="next" aria-label="next">⏭</button><button data-x="stop" aria-label="stop">⏹</button><span class="t"></span><button data-x="voice" class="w"></button><button data-x="rate" class="w"></button><button data-x="sleep" class="w" aria-label="sleep"></button>';
     document.body.appendChild(b);
     b.onclick = function (e) {
       var n = e.target.closest ? e.target.closest('button') : null; if (!n) return; var a = n.getAttribute('data-x');
       if (a === 'play') toggleSpeak(); else if (a === 'stop') stopSpeak(); else if (a === 'next') skip(1); else if (a === 'prev') skip(-1);
       else if (a === 'voice') { S.set.voice = (S.set.voice + 1) % VOICES.length; save(); toast(T('voiceN', S.set.voice + 1)); restartItem(); }
-      else if (a === 'rate') { S.set.rate = (S.set.rate + 1) % RATES.length; save(); toast(T('rateN', RATES[S.set.rate])); restartItem(); }
+      else if (a === 'rate') { S.set.spd = SPD[(spdIdx() + 1) % 3]; save(); toast(T('rateN', T('spd' + spdIdx()))); if (spk.native) restartItem(); else { ttsApplyRate(); ttsRearm(); } paintBar(); }
+      else if (a === 'sleep') ttsSleepCycle();
     };
   }
   b.querySelector('[data-x=play]').textContent = spk.paused ? '▶' : '⏸';
   b.querySelector('.t').textContent = (spk.title ? spk.title + '　' : '') + (spk.items.length > 1 ? (spk.idx + 1) + '/' + spk.items.length : '');
   b.querySelector('[data-x=voice]').textContent = T('voiceB', S.set.voice + 1);
-  b.querySelector('[data-x=rate]').textContent = T('rateB', RATES[S.set.rate]);
+  b.querySelector('[data-x=rate]').textContent = T('rateB', T('spd' + spdIdx()));
+  b.querySelector('[data-x=sleep]').textContent = '\u23F2' + (ttsSleep.mode ? SLEEP_MIN[ttsSleep.mode] : '');
   paintBtns();
 }
 function paintBtns() {
@@ -193,14 +246,14 @@ function paintBtns() {
   var f = $('#xkFabRead'); if (f) f.classList.toggle('on', spk.on && spk.key === 'page');
 }
 function stopSpeak() {
-  spk.token++; spk.on = false; spk.paused = false; spk.items = []; mark(null);
+  ttsClearWd(); ttsSleepClear(); spk.token++; spk.on = false; spk.paused = false; spk.items = []; mark(null);
   try { if (ttsEl) { ttsEl.pause(); } } catch (e) { } try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { }
   lockOff(); try { if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'; } catch (e) { } paintBar();
 }
 function startSpeak(items, key, title, from) {
   stopSpeak(); ttsUnlock();
   items = items.filter(function (it) { return it && trim(it.text); }); if (!items.length) { toast(T('nothingRead')); return; }
-  spk.on = true; spk.items = items; spk.idx = from || 0; spk.key = key; spk.title = title || ''; spk.native = false; spk.paused = false; spk.token++;
+  ttsDownUntil = 0; spk.first = from || 0; spk.failed = false; spk.on = true; spk.items = items; spk.idx = from || 0; spk.key = key; spk.title = title || ''; spk.native = false; spk.paused = false; spk.token++;
   lockOn(); setMedia(); paintBar(); playItem();
 }
 function playItem() {
@@ -212,16 +265,17 @@ function playItem() {
   if (spk.native) { speakNative(text, tk); return; }
   ttsFetch(text, function (u) {
     if (tk !== spk.token || !spk.on) return;
-    if (!u) { spk.native = true; toast(T('ttsFallback')); speakNative(text, tk); return; }
-    try { var a = ttsAudio(); a.src = u; var p = a.play(); if (p && p.catch) p.catch(function () { if (tk === spk.token) { spk.native = true; speakNative(text, tk); } }); try { navigator.mediaSession.playbackState = 'playing'; } catch (e) { } } catch (e) { spk.native = true; speakNative(text, tk); }
-    var nx = spk.items[spk.idx + 1]; if (nx) { var nt = ttsPrep(nx.text); if (nt) ttsFetch(nt, function () { }); }
-  });
+    if (!u) { spk.failed = true; spk.native = true; toast(T('ttsFallback')); speakNative(text, tk); return; }
+    spk.failed = false;
+    try { var a = ttsAudio(); a.src = u; ttsApplyRate(a); var wi = spk.idx; ttsArmWd(wi); a.onloadedmetadata = a.ondurationchange = function () { if (spk.on && spk.idx === wi && isFinite(a.duration) && a.duration > 0) ttsArmWd(wi, (a.duration / ttsSpd()) * 1000 + 5000); }; var p = a.play(); if (p && p.catch) p.catch(function () { if (tk === spk.token) { spk.native = true; speakNative(text, tk); } }); try { navigator.mediaSession.playbackState = 'playing'; } catch (e) { } } catch (e) { spk.native = true; speakNative(text, tk); }
+    var nx = spk.items[spk.idx + 1]; if (nx) { var nt = ttsPrep(nx.text); if (nt) ttsFetch(nt, function () { }, 0, false); }
+  }, 0, spk.idx === spk.first || spk.failed);
 }
 function speakNative(text, tk) {
   if (!window.speechSynthesis) { stopSpeak(); toast(T('ttsErr')); return; }
   try {
     speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text); u.lang = 'zh-TW'; u.rate = 1 + (S.set.rate - 1) * 0.15;
+    var u = new SpeechSynthesisUtterance(text); u.lang = 'zh-TW'; u.rate = ttsSpd();
     var vs = speechSynthesis.getVoices() || [], v = null; for (var i = 0; i < vs.length; i++) if (/zh[-_]TW/i.test(vs[i].lang)) { v = vs[i]; break; } if (!v) for (i = 0; i < vs.length; i++) if (/^zh/i.test(vs[i].lang)) { v = vs[i]; break; }
     if (v) u.voice = v;
     u.onend = function () { if (tk === spk.token && spk.on) nextItem(); }; u.onerror = function () { if (tk === spk.token && spk.on) nextItem(); };
@@ -230,14 +284,14 @@ function speakNative(text, tk) {
 }
 function fallbackNative() { var tk = spk.token; spk.native = true; var it = spk.items[spk.idx]; if (it) speakNative(ttsPrep(it.text), tk); }
 function nextItem() { if (!spk.on) return; spk.idx++; playItem(); }
-function skip(d) { if (!spk.on) return; var n = spk.idx + d; if (n < 0) n = 0; if (n >= spk.items.length) { stopSpeak(); return; } spk.token++; try { ttsAudio().pause(); if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { } spk.idx = n; playItem(); }
-function restartItem() { if (!spk.on) return; spk.token++; try { ttsAudio().pause(); if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { } playItem(); }
+function skip(d) { if (!spk.on) return; var n = spk.idx + d; if (n < 0) n = 0; if (n >= spk.items.length) { stopSpeak(); return; } spk.token++; ttsClearWd(); try { ttsAudio().pause(); if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { } spk.idx = n; playItem(); }
+function restartItem() { if (!spk.on) return; spk.token++; ttsClearWd(); try { ttsAudio().pause(); if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { } playItem(); }
 function toggleSpeak() {
   if (!spk.on) return;
   spk.paused = !spk.paused;
   try {
     if (spk.native) { if (spk.paused) speechSynthesis.pause(); else speechSynthesis.resume(); }
-    else { var a = ttsAudio(); if (spk.paused) a.pause(); else a.play(); }
+    else { var a = ttsAudio(); if (spk.paused) { a.pause(); ttsClearWd(); } else { a.play(); ttsRearm(); } }
     navigator.mediaSession.playbackState = spk.paused ? 'paused' : 'playing';
   } catch (e) { }
   paintBar();
@@ -344,7 +398,7 @@ function openSheet(hd) {
     '<div class="xk-row"><span class="xk-lab">' + esc(T('hlSpan')) + '</span><div class="xk-span"><button data-a="sp" data-d="-1">－</button><b id="xkNum">' + esc(T('spanUnit', h.sp || 1)) + '</b><button data-a="sp" data-d="1">＋</button><button data-a="sp" data-d="p" class="w">' + esc(T('spanP')) + '</button></div></div>' +
     '<textarea class="xk-ta" id="xkNote" placeholder="' + esc(T('hlNotePH')) + '">' + esc(h.n || '') + '</textarea>' +
     '<div class="xk-acts"><button class="pri" data-a="save">' + esc(T('save')) + '</button><button data-a="ask">💬 ' + esc(T('askXz')) + '</button></div>' +
-    '<div class="xk-acts2"><button class="gold" data-a="card">🖼 ' + esc(T('makeCard')) + '</button><button data-a="read">🔊 ' + esc(T('readThis')) + '</button><button data-a="copy">⧉ ' + esc(T('copy')) + '</button><button data-a="share">↗ ' + esc(T('share')) + '</button><button class="bad" data-a="del">' + esc(T('hlDel')) + '</button><button data-a="close">' + esc(T('close')) + '</button></div></div>';
+    '<div class="xk-acts2"><button class="gold" data-a="card">🖼 ' + esc(T('makeCard')) + '</button><button data-a="read">🔊 ' + esc(T('readThis')) + '</button>' + (isVerseSpan(hd.span) ? '<button data-a="word">' + esc(T('wdBtn')) + '</button>' : '') + '<button data-a="copy">⧉ ' + esc(T('copy')) + '</button><button data-a="share">↗ ' + esc(T('share')) + '</button><button class="bad" data-a="del">' + esc(T('hlDel')) + '</button><button data-a="close">' + esc(T('close')) + '</button></div></div>';
   document.body.appendChild(m);
   m.onclick = function (e) {
     if (e.target === m) { grabNote(); closeSheet(); return; }
@@ -355,10 +409,41 @@ function openSheet(hd) {
     else if (a === 'ask') { grabNote(); var t = hlText(cur), r = cur.h.ref || ctxTitle(), nn = cur.h.n; closeSheet(); openChat(T('askAbout', t, r, nn ? T('myNote', nn) + '\n' : ''), { t: t, ref: r }); }
     else if (a === 'card') { grabNote(); var o = { text: hlText(cur), ref: cur.h.ref || ctxTitle() || appName(), note: cur.h.n || '', plain: true }; closeSheet(); openCard(o); }
     else if (a === 'read') { var t2 = hlText(cur), sp0 = cur.span; closeSheet(); sayText(t2, 'hl:' + cur.k, cur.h.ref || appName(), null); }
+    else if (a === 'word') { grabNote(); var wh = cur; openWordSheet(wh); }
     else if (a === 'copy') { grabNote(); copyText(shareOf(cur)); }
     else if (a === 'share') { grabNote(); shareText(shareOf(cur)); }
     else if (a === 'del') { if (confirm(T('delHl'))) { var b = blockOf(cur.span); delete S.hl[cur.k]; save(); closeSheet(); paintBlock(b); } }
     else if (a === 'close') { grabNote(); closeSheet(); }
+  };
+}
+/* ---------- rf1105 原文字義：選字面板（移植自互動聖經 v2.64） ---------- */
+var wd = null;
+function isVerseSpan(sp) { try { return !!(C.verse && sp && sp.closest && sp.closest(C.verse)); } catch (e) { return false; } }
+function wdTokens(t) {
+  var out = [], cjk = /[一-鿿㐀-䶿぀-ヿ가-힯]/, re = /[一-鿿㐀-䶿぀-ヿ가-힯]|[A-Za-z0-9À-ɏ'’\-]+|[^\s]/g, m;
+  while ((m = re.exec(t))) { var w = m[0]; out.push({ w: w, ok: cjk.test(w) || /[A-Za-z0-9]/.test(w) }); }
+  return out;
+}
+function wdRange() { var lo = Math.min(wd.a, wd.b < 0 ? wd.a : wd.b), hi = Math.max(wd.a, wd.b < 0 ? wd.a : wd.b); return [lo, hi]; }
+function wdSelText() { if (!wd || wd.a < 0) return ''; var r = wdRange(), o = ''; for (var i = r[0]; i <= r[1]; i++) o += wd.toks[i].w; return trim(o.replace(/^[^\w一-鿿]+|[^\w一-鿿]+$/g, '')); }
+function wdPaint() {
+  var box = $('#wdBox'); if (!box || !wd) return; var h = '', r = wd.a >= 0 ? wdRange() : [-1, -2];
+  wd.toks.forEach(function (k, i) { if (!k.ok) { h += esc(k.w); return; } h += '<span class="wdc' + (wd.a >= 0 && i >= r[0] && i <= r[1] ? ' on' : '') + '" data-a="wdtok" data-i="' + i + '">' + esc(k.w) + '</span>'; });
+  box.innerHTML = h; var sel = wdSelText(), b = $('#wdSel'); if (b) b.disabled = !sel; var pk = $('#wdPick'); if (pk) pk.textContent = sel ? T('wdPicked', sel) : '';
+}
+function openWordSheet(hd) {
+  var h = hd.h, t = hlText(hd), ref = (C.verseRef && C.verseRef(hd.span)) || h.ref || ctxTitle() || appName();
+  closeSheet(); wd = { t: t, ref: ref, toks: wdTokens(t), a: -1, b: -1 };
+  var m = document.createElement('div'); m.className = 'xk-sheet';
+  m.innerHTML = '<div class="xk-card"><div class="xk-st">' + esc(T('wdTitle')) + '<span>' + esc(ref) + '</span></div><p class="xk-sm" style="margin:6px 0 10px">' + esc(T('wdHint')) + '</p><div class="wd-verse" id="wdBox"></div><div class="xk-sm" id="wdPick" style="min-height:20px;margin:8px 0"></div>' +
+    '<div class="xk-acts"><button class="pri" id="wdSel" data-a="wdgo" data-m="sel" disabled>' + esc(T('wdSel')) + '</button><button data-a="wdgo" data-m="all">' + esc(T('wdAll')) + '</button></div><div class="xk-acts2"><button data-a="close">' + esc(T('close')) + '</button></div></div>';
+  document.body.appendChild(m); wdPaint();
+  m.onclick = function (e) {
+    if (e.target === m) { closeSheet(); return; }
+    var n = e.target.closest ? e.target.closest('[data-a]') : null; if (!n || !wd) return; var a = n.getAttribute('data-a');
+    if (a === 'wdtok') { var wi = +n.getAttribute('data-i'); if (wd.a < 0 || wd.b >= 0) { wd.a = wi; wd.b = -1; } else wd.b = wi; wdPaint(); }
+    else if (a === 'wdgo') { var all = n.getAttribute('data-m') === 'all', tgt = all ? wd.t : wdSelText(); if (!tgt) return; var w = wd; closeSheet(); openChat(T('wdQ', w.ref, w.t, T(all ? 'wdK2' : 'wdK1'), tgt), { t: w.t, ref: w.ref, word: true }); }
+    else if (a === 'close') closeSheet();
   };
 }
 function shareOf(hd) { return '「' + hlText(hd) + '」\n—— ' + (hd.h.ref || ctxTitle() || appName()) + (hd.h.n ? '\n\n' + hd.h.n : '') + '\n\n' + appName() + ' · 國度321空中團契'; }
@@ -401,11 +486,17 @@ function bgIdx() { var i = BG_KEYS.indexOf(S.set.skbg); return i < 0 ? 0 : i; }
 function audSys() { return T('aud_' + AUD_KEYS[audIdx()]); }
 function lenSys() { var k = LEN_KEYS[lenIdx()]; return k === 'mid' ? '' : T('lenSys_' + k); }
 function bgSys() { return AUD_KEYS[audIdx()] === 'seeker' ? T('skbg_' + BG_KEYS[bgIdx()]) : ''; }
-function sysPrompt() {
+function sysPrompt(word) {
   var s = (C.sys || T('xzSysDef')) + (XZ.ctx ? '\n\n' + XZ.ctx : '');
   var ct = ctxTitle(); if (ct && !XZ.ctx) s += '\n\n讀者目前在：' + ct + '。';
-  return s + T('xzFormat') + '\n' + audSys() + XZ2.sysTail() + T('prayRule');
+  return s + T('xzFormat') + '\n' + audSys() + XZ2.sysTail() + T('prayRule') + honestSys() + (word ? wordSys() : '');
 }
+/* ===== rf1105：小智的誠實、危機與原文字義（移植自互動聖經 v2.59–v2.64） ===== */
+function honestSys() { return ' 原則：（1）誠實：絕不編造經文、引言、原文字義或歷史；不確定就直說「我不確定」，並請讀者回到經文。引用經文只用你確定的經文，並一定寫出出處（書名 章:節）。（2）遇到基督徒之間有不同看法的議題，簡短公平地說明，不把單一立場說成唯一答案。（3）你是 AI 陪伴，不是牧者、醫生或律師；涉及醫療、法律、受虐或嚴重情緒的事，鼓勵讀者找信任的牧者、專業人員或當地緊急服務。（4）若讀者提到自殺、自傷、受虐或立即的危險：先用平靜關懷的語氣回應，不說教、不長篇引經，鼓勵他現在就聯絡當地緊急服務或求助專線，以及身邊可信任的人，並溫柔地陪著他。'; }
+function wordSys() { return ' 原文字義：當讀者問某個字、詞或句的原文字義時，用簡短小標題依序回答：①原文——背後的希伯來文／希臘文、拼音與基本字義；若和合本這個詞對應不只一個原文字，請分別說明；②在這節的用法——詞性或字根意思，以及放在這節上下文怎麼理解；③聖經其他用法——只寫你確定的一兩處，附出處；④應用——從321角度（無己、讓耶穌作王、被聖靈引導）帶出，並給一個今天可以操練的小步驟。務必誠實：不確定的就標明不確定，絕不編造 Strong 編號或字義；最後用一行提醒讀者對照可靠的原文工具書（如 Strong\'s、BDAG、HALOT）。篇幅精練。'; }
+var CRISIS_RE = /自殺|自杀|輕生|轻生|不想活|想死|結束生命|结束生命|了結自己|了结自己|活不下去|傷害自己|伤害自己|割腕|跳樓|跳楼|suicid|kill myself|end my life|want to die|self[- ]?harm|hurt myself/i;
+function crisisHit(x) { return CRISIS_RE.test(String(x || '')); }
+function crisisCard() { return '💛 **你現在不是一個人。** 我聽見你了，謝謝你願意說出來。\n\n如果你有傷害自己的念頭，或覺得撐不下去，請現在就找一個人陪你：\n\n- 緊急危險：**119**（救護）／**110**（警察）\n- 24 小時安心專線：**1925**（依舊愛我）\n- 生命線：**1995**\n- 張老師：**1980**\n- 身邊信任的牧者、家人或朋友，請現在就打給他\n\n神與你同在，祂看顧你。我也會在這裡陪你，你想說什麼都可以。'; }
 function extractReply(d) { if (!d) return ''; if (typeof d === 'string') return d; var t = ''; if (d.content && d.content.length) { for (var i = 0; i < d.content.length; i++) if (d.content[i].type === 'text' || d.content[i].text) t += d.content[i].text || ''; if (t) return t; } return d.reply || d.text || d.message || (d.choices && d.choices[0] && d.choices[0].message ? d.choices[0].message.content : '') || ''; }
 function isFav(t) { for (var i = 0; i < S.fav.length; i++) if (S.fav[i].text === t) return true; return false; }
 function msgLong(m) { return m && m.role !== 'user' && mdStrip(m.text || '').length > 200; }
@@ -471,9 +562,10 @@ function ajax(url, payload, cb) {
 function sendChat(text) {
   text = trim(text); if (!text || chatBusy) return; var inp = $('#xkIn'); if (inp) inp.value = '';
   if (navigator.onLine === false) { S.chat.push({ role: 'user', text: text, ts: now() }); S.chat.push({ role: 'ai', text: T('xzOffline'), ts: now() }); save(); paintChat(); return; }
-  S.chat.push({ role: 'user', text: text, src: chatCtx, ts: now() }); var src = chatCtx; chatCtx = null;
+  S.chat.push({ role: 'user', text: text, src: chatCtx, ts: now() }); var src = chatCtx; chatCtx = null; var wordQ = !!(src && src.word);
+  if (crisisHit(text)) S.chat.push({ role: 'ai', text: crisisCard(), ok: true, crisis: true, ts: now() });
   S.chat.push({ role: 'ai', text: '', wait: true, src: src }); if (S.chat.length > 60) S.chat = S.chat.slice(-60); chatBusy = true; XZ.opt = false; XZ.qsOpen = false; XZ.audOpen = false; try { XZ2.collapse(); } catch (e) { } paintOpts(); paintChat();
-  var msgs = []; S.chat.forEach(function (m) { if (!m.wait && m.text) msgs.push({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text }); }); msgs = msgs.slice(-12);
+  var msgs = []; S.chat.forEach(function (m) { if (!m.wait && m.text && !m.crisis) msgs.push({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text }); }); msgs = msgs.slice(-12);
   while (msgs.length && msgs[0].role !== 'user') msgs.shift();
   var acc = '', last = S.chat[S.chat.length - 1];
   function done(r, st) {
@@ -482,7 +574,7 @@ function sendChat(text) {
   }
   (function round(k) {
     var ms = msgs.slice(); if (k) { ms.push({ role: 'assistant', content: acc }); ms.push({ role: 'user', content: T('xzGoOn') }); }
-    var payload = { model: SVC.model, max_tokens: XZ2.maxTokens(), system: sysPrompt(), messages: ms };
+    var payload = { model: SVC.model, max_tokens: XZ2.maxTokens(), system: sysPrompt(wordQ), messages: ms };
     (function attempt(n) {
       ajax(SVC.xz, payload, function (st, txt) {
         var r = '', d = null;
@@ -567,6 +659,9 @@ function css() {
   s2.textContent = '.xk-chat .xz2c{--xz2-acc:' + BRAND + ';--xz2-card:#fff;--xz2-line:#CFC7B2;--xz2-soft:#fff;--xz2-ink:#23211C;--xz2-mut:#6B6255;--xz2-fs:14px;margin:0 0 10px}.xz2s{--xz2-acc:' + BRAND + ';--xz2-fs:15px}.xk-chat .msg{overflow-wrap:anywhere}' +
     (C.fixedAud ? '.xz2c [data-xz2audtog],.xz2c .xz2-panel,.xz2s .xz2-row:first-child{display:none!important}' : '');
   document.head.appendChild(s2);
+  var s3 = document.createElement('style'); s3.id = 'xkWdCss';
+  s3.textContent = '.wd-verse{font-size:19px;line-height:2.1;padding:10px 12px;border-radius:12px;background:rgba(128,128,128,.12);max-height:38vh;overflow:auto;word-break:break-word;color:inherit}.wdc{display:inline-block;padding:0 1px;border-bottom:2px dotted ' + BRAND + ';cursor:pointer;border-radius:4px}.wdc.on{background:rgba(224,176,64,.38);border-bottom-color:#B07D1A}.xk-sheet .xk-acts button:disabled{opacity:.45}@media(max-width:360px){.xk-bar{gap:4px;padding:5px 8px}.xk-bar button{min-width:30px;padding:0 5px}}';
+  document.head.appendChild(s3);
 }
 document.addEventListener('click', function (e) {
   var t = e.target; if (!t || !t.closest) return;

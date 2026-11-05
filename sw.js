@@ -5,10 +5,11 @@
      clients.claim，通知所有頁面；背景中的舊頁面直接帶到新版
    ‧ fetch：HTML／JS／JSON／CSS 網路優先（no-cache），離線才用快取；圖片等快取優先；
      version.json 永遠 no-store；影音與 Range 請求不攔截；範圍外（其他 App）與跨網域不碰 */
-var VER = 'v6-up1103-xz1103-xzm1103';
+var VER = 'v6-up1103-xz1103-xzm1103-rf1105';
 var PFX = 'ovc321-';
 var V = PFX + VER;
-var SHELL = ["./", "./index.html", "./manifest.json", "./hero.jpeg", "./icon-192.png", "./icon-512.png", "./icon-180.png", "./apple-touch-icon.png", "./icon-192-maskable.png", "./icon-512-maskable.png", "./medal-idea.png", "./medal-life.png", "./medal-live.png", "./medal-rel.png", "./medal-king.png", "./coread.js?v=5-xz1103-xzm1103", "./peerjs.min.js?v=5", "./xz2.js?v=xz1103", "./xzm.js?v=xzm1103", "./xk321.js?v=5-xz1103-xzm1103", "./upd321.js"];
+var SHELL_WAIT = 1000;
+var SHELL = ["./", "./index.html", "./manifest.json", "./hero.jpeg", "./icon-192.png", "./icon-512.png", "./icon-180.png", "./apple-touch-icon.png", "./icon-192-maskable.png", "./icon-512-maskable.png", "./medal-idea.png", "./medal-life.png", "./medal-live.png", "./medal-rel.png", "./medal-king.png", "./coread.js?v=5-xz1103-xzm1103", "./peerjs.min.js?v=5", "./xz2.js?v=xz1103-rf1105", "./xzm.js?v=xzm1103", "./xk321.js?v=5-xz1103-xzm1103", "./upd321.js"];
 var HOME = 'index.html';
 
 function mine(k) { return k.indexOf(PFX) === 0 || k.indexOf("overcomer321-v5") === 0; }
@@ -63,15 +64,18 @@ self.addEventListener('fetch', function (e) {
   var nav = r.mode === 'navigate' || /\.html$/.test(p) || /\/$/.test(p);
   if (nav || /\.(json|js|css|webmanifest)$/.test(p)) {
     var key = keyOf(u.href);
-    e.respondWith(fetch(u.origin + p + u.search, { cache: 'no-cache', credentials: 'same-origin' }).then(function (resp) {
-      if (resp && resp.ok) { var cp = resp.clone(); caches.open(V).then(function (c) { c.put(key, cp); }); }
-      return resp;
-    })['catch'](function () {
-      return caches.match(key).then(function (h) {
-        if (h) return h;
-        return caches.match(r, { ignoreSearch: true }).then(function (h2) {
-          return h2 || (nav ? caches.match(u.origin + scope + HOME) : undefined);
-        });
+    /* rf1105：網路優先，但慢網路（超過 1 秒還沒回）就先用快取開，網路那份繼續下載並更新快取；只有導覽請求才可退回首頁 */
+    e.respondWith(new Promise(function (resolve) {
+      var done = false, tm = null;
+      function fromCache() { return caches.match(key).then(function (h) { return h || caches.match(r, { ignoreSearch: true }).then(function (h2) { return h2 || (nav ? caches.match(HOMEkey) : null); }); }); }
+      var net = fetch(u.origin + p + u.search, { cache: 'no-cache', credentials: 'same-origin' }).then(function (resp) {
+        if (resp && resp.ok) { var cp = resp.clone(); caches.open(V).then(function (c) { c.put(key, cp); }); }
+        return resp;
+      });
+      tm = setTimeout(function () { fromCache().then(function (h) { if (h && !done) { done = true; resolve(h); } }); }, SHELL_WAIT);
+      net.then(function (resp) { clearTimeout(tm); if (!done) { done = true; resolve(resp); } }, function () {
+        clearTimeout(tm); if (done) return;
+        fromCache().then(function (h) { done = true; resolve(h || new Response('', { status: 504 })); });
       });
     }));
     return;
